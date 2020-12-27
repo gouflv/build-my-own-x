@@ -1,3 +1,5 @@
+export const nativeRoot = window || global
+
 /**
  * get object toString type tag: [object `Class`]
  */

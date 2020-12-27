@@ -1,4 +1,4 @@
-import { toStringTag } from '../utils'
+import { nativeRoot, toStringTag } from '../utils'
 
 /**
  * isUndefined
@@ -31,6 +31,14 @@ export const isBoolean = val =>
  * isNumber
  */
 export const isNumber = val => typeof val === 'number'
+
+/**
+ * isFinite
+ */
+export const isFinite = val => isNumber(val) && nativeRoot.isFinite(val)
+
+const isStringObject = val =>
+  isObjectLike(val) && toStringTag(val) === '[object String]'
 
 /**
  * isString

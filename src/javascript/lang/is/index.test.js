@@ -2,6 +2,7 @@ import {
   isUndefined,
   isNull,
   isBoolean,
+  isFinite as _isFinite,
   isObjectLike,
   isNumber,
   isString
@@ -49,6 +50,7 @@ describe('Test `is`', () => {
     expect(isBoolean([])).not.toBeTruthy()
     expect(isBoolean(true)).toBeTruthy()
     expect(isBoolean(false)).toBeTruthy()
+    expect(isBoolean(Boolean(true))).toBeTruthy()
     expect(isBoolean(new Boolean(true))).toBeTruthy()
     expect(isBoolean(new Boolean(false))).toBeTruthy()
   })
@@ -66,6 +68,19 @@ describe('Test `is`', () => {
     expect(isNumber([])).not.toBeTruthy()
   })
 
+  it('isFinite', () => {
+    expect(_isFinite()).not.toBeTruthy()
+    expect(_isFinite(null)).not.toBeTruthy()
+    expect(_isFinite(1)).toBeTruthy()
+    expect(_isFinite(Number.MAX_VALUE)).toBeTruthy()
+    expect(_isFinite(Infinity)).not.toBeTruthy()
+    expect(_isFinite(-Infinity)).not.toBeTruthy()
+    expect(_isFinite(NaN)).not.toBeTruthy()
+    expect(_isFinite('3')).not.toBeTruthy()
+    expect(_isFinite({})).not.toBeTruthy()
+    expect(_isFinite([])).not.toBeTruthy()
+  })
+
   it('isString', () => {
     expect(isString()).not.toBeTruthy()
     expect(isString(null)).not.toBeTruthy()
@@ -77,4 +92,6 @@ describe('Test `is`', () => {
     expect(isString(String('foo'))).toBeTruthy()
     expect(isString(new String('foo'))).toBeTruthy()
   })
+
+  it('isObject', () => {})
 })
