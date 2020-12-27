@@ -8,7 +8,8 @@ import {
   isString,
   isPlainObject,
   isArguments,
-  isError
+  isError,
+  isFunction
 } from '.'
 
 describe('Test `is`', () => {
@@ -17,7 +18,7 @@ describe('Test `is`', () => {
     expect(isUndefined(void 0)).toBeTruthy()
     expect(isUndefined(null)).not.toBeTruthy()
     expect(isUndefined(1)).not.toBeTruthy()
-    expect(isUndefined('1')).not.toBeTruthy()
+    expect(isUndefined('foo')).not.toBeTruthy()
     expect(isUndefined(true)).not.toBeTruthy()
     expect(isUndefined([1])).not.toBeTruthy()
     expect(isUndefined({})).not.toBeTruthy()
@@ -27,7 +28,7 @@ describe('Test `is`', () => {
     expect(isNull()).not.toBeTruthy()
     expect(isNull(null)).toBeTruthy()
     expect(isNull(1)).not.toBeTruthy()
-    expect(isNull('1')).not.toBeTruthy()
+    expect(isNull('foo')).not.toBeTruthy()
     expect(isNull(true)).not.toBeTruthy()
     expect(isNull([1])).not.toBeTruthy()
     expect(isNull({})).not.toBeTruthy()
@@ -40,7 +41,7 @@ describe('Test `is`', () => {
     expect(isObjectLike(1)).not.toBeTruthy()
     expect(isObjectLike('foo')).not.toBeTruthy()
     expect(isObjectLike({})).toBeTruthy()
-    expect(isObjectLike([])).toBeTruthy()
+    expect(isObjectLike([1, 2, 3])).toBeTruthy()
     expect(isObjectLike(function () {})).not.toBeTruthy()
 
     function foo() {
@@ -55,7 +56,7 @@ describe('Test `is`', () => {
     expect(isBoolean(1)).not.toBeTruthy()
     expect(isBoolean('foo')).not.toBeTruthy()
     expect(isBoolean({})).not.toBeTruthy()
-    expect(isBoolean([])).not.toBeTruthy()
+    expect(isBoolean([1, 2, 3])).not.toBeTruthy()
     expect(isBoolean(true)).toBeTruthy()
     expect(isBoolean(false)).toBeTruthy()
     expect(isBoolean(Boolean(true))).toBeTruthy()
@@ -73,7 +74,7 @@ describe('Test `is`', () => {
     expect(isNumber(NaN)).toBeTruthy()
     expect(isNumber('3')).not.toBeTruthy()
     expect(isNumber({})).not.toBeTruthy()
-    expect(isNumber([])).not.toBeTruthy()
+    expect(isNumber([1, 2, 3])).not.toBeTruthy()
   })
 
   it('isFinite', () => {
@@ -86,7 +87,7 @@ describe('Test `is`', () => {
     expect(_isFinite(NaN)).not.toBeTruthy()
     expect(_isFinite('3')).not.toBeTruthy()
     expect(_isFinite({})).not.toBeTruthy()
-    expect(_isFinite([])).not.toBeTruthy()
+    expect(_isFinite([1, 2, 3])).not.toBeTruthy()
   })
 
   it('isString', () => {
@@ -96,7 +97,7 @@ describe('Test `is`', () => {
     expect(isString(1)).not.toBeTruthy()
     expect(isString('foo')).toBeTruthy()
     expect(isString({})).not.toBeTruthy()
-    expect(isString([])).not.toBeTruthy()
+    expect(isString([1, 2, 3])).not.toBeTruthy()
     expect(isString(String('foo'))).toBeTruthy()
     expect(isString(new String('foo'))).toBeTruthy()
   })
@@ -110,7 +111,7 @@ describe('Test `is`', () => {
     expect(isPlainObject(true)).not.toBeTruthy()
     expect(isPlainObject(1)).not.toBeTruthy()
     expect(isPlainObject('foo')).not.toBeTruthy()
-    expect(isPlainObject([])).not.toBeTruthy()
+    expect(isPlainObject([1, 2, 3])).not.toBeTruthy()
 
     function Foo() {
       this.a = 1
@@ -130,7 +131,7 @@ describe('Test `is`', () => {
     expect(isArguments(true)).not.toBeTruthy()
     expect(isArguments(1)).not.toBeTruthy()
     expect(isArguments('foo')).not.toBeTruthy()
-    expect(isArguments([])).not.toBeTruthy()
+    expect(isArguments([1, 2, 3])).not.toBeTruthy()
     expect(isArguments({})).not.toBeTruthy()
 
     function foo() {
@@ -145,9 +146,22 @@ describe('Test `is`', () => {
     expect(isError(true)).not.toBeTruthy()
     expect(isError(1)).not.toBeTruthy()
     expect(isError('foo')).not.toBeTruthy()
-    expect(isError([])).not.toBeTruthy()
+    expect(isError([1, 2, 3])).not.toBeTruthy()
     expect(isError({})).not.toBeTruthy()
     expect(isError(new Error())).toBeTruthy()
     expect(isError(Error)).not.toBeTruthy()
+  })
+
+  it('isFunction', () => {
+    expect(isFunction()).not.toBeTruthy()
+    expect(isFunction(null)).not.toBeTruthy()
+    expect(isFunction(true)).not.toBeTruthy()
+    expect(isFunction(1)).not.toBeTruthy()
+    expect(isFunction('foo')).not.toBeTruthy()
+    expect(isFunction([1, 2, 3])).not.toBeTruthy()
+    expect(isFunction({})).not.toBeTruthy()
+
+    expect(isFunction(() => {})).toBeTruthy()
+    expect(isFunction(async () => {})).toBeTruthy()
   })
 })

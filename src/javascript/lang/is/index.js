@@ -78,3 +78,8 @@ export const isArguments = val =>
  */
 export const isError = val =>
   isObjectLike(val) && toStringTag(val) === '[object Error]'
+
+/**
+ * isFunction
+ */
+export const isFunction = val => typeof val === 'function'
