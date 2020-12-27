@@ -6,7 +6,8 @@ import {
   isObjectLike,
   isNumber,
   isString,
-  isPlainObject
+  isPlainObject,
+  isArguments
 } from '.'
 
 describe('Test `is`', () => {
@@ -40,6 +41,11 @@ describe('Test `is`', () => {
     expect(isObjectLike({})).toBeTruthy()
     expect(isObjectLike([])).toBeTruthy()
     expect(isObjectLike(function () {})).not.toBeTruthy()
+
+    function foo() {
+      expect(isObjectLike(arguments)).toBeTruthy()
+    }
+    foo()
   })
 
   it('isBoolean', () => {
@@ -115,5 +121,20 @@ describe('Test `is`', () => {
     expect(isPlainObject(Object.create({ a: 1 }))).not.toBeTruthy()
     expect(isPlainObject(Object.create(Object.prototype))).toBeTruthy()
     expect(isPlainObject(new Foo())).not.toBeTruthy()
+  })
+
+  it('isArguments', () => {
+    expect(isArguments()).not.toBeTruthy()
+    expect(isArguments(null)).not.toBeTruthy()
+    expect(isArguments(true)).not.toBeTruthy()
+    expect(isArguments(1)).not.toBeTruthy()
+    expect(isArguments('foo')).not.toBeTruthy()
+    expect(isArguments([])).not.toBeTruthy()
+    expect(isArguments({})).not.toBeTruthy()
+
+    function foo() {
+      expect(isArguments(arguments)).toBeTruthy()
+    }
+    foo()
   })
 })

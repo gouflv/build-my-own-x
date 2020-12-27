@@ -59,7 +59,16 @@ export const isObject = isObjectLike
 export const isPlainObject = val => {
   // check is object
   if (!isObjectLike(val) || toStringTag(val) !== '[object Object]') return false
+
   // check is create by Object.create(null)
   if (Object.getPrototypeOf(val) === null) return true
+
+  // @see https://github.com/bevry/typechecker/blob/f57a045/source/index.ts#L36
   return val.__proto__ === Object.prototype
 }
+
+/**
+ * isArguments
+ */
+export const isArguments = val =>
+  isObjectLike(val) && toStringTag(val) === '[object Arguments]'
