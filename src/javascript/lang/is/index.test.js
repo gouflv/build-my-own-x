@@ -75,5 +75,6 @@ describe('Test `is`', () => {
     expect(isString({})).not.toBeTruthy()
     expect(isString([])).not.toBeTruthy()
     expect(isString(String('foo'))).toBeTruthy()
+    expect(isString(new String('foo'))).toBeTruthy()
   })
 })

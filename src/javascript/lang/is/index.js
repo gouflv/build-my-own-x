@@ -35,4 +35,4 @@ export const isNumber = val => typeof val === 'number'
 /**
  * isString
  */
-export const isString = val => typeof val === 'string'
+export const isString = val => typeof val === 'string' || isStringObject(val)
