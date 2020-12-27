@@ -1,0 +1,20 @@
+{
+  "name": "build-my-own",
+  "version": "1.0.0",
+  "description": "一些前端轮子",
+  "scripts": {
+    "test": "jest",
+    "test:w": "jest --watch",
+    "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand"
+  },
+  "author": "gouflv",
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "@babel/preset-typescript": "^7.12.7",
+    "@types/jest": "^26.0.19",
+    "babel-jest": "^26.6.3",
+    "jest": "^26.6.3",
+    "prettier": "^2.2.1"
+  }
+}
