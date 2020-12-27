@@ -72,3 +72,9 @@ export const isPlainObject = val => {
  */
 export const isArguments = val =>
   isObjectLike(val) && toStringTag(val) === '[object Arguments]'
+
+/**
+ * isError
+ */
+export const isError = val =>
+  isObjectLike(val) && toStringTag(val) === '[object Error]'

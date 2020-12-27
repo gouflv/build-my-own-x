@@ -7,7 +7,8 @@ import {
   isNumber,
   isString,
   isPlainObject,
-  isArguments
+  isArguments,
+  isError
 } from '.'
 
 describe('Test `is`', () => {
@@ -136,5 +137,17 @@ describe('Test `is`', () => {
       expect(isArguments(arguments)).toBeTruthy()
     }
     foo()
+  })
+
+  it('isError', () => {
+    expect(isError()).not.toBeTruthy()
+    expect(isError(null)).not.toBeTruthy()
+    expect(isError(true)).not.toBeTruthy()
+    expect(isError(1)).not.toBeTruthy()
+    expect(isError('foo')).not.toBeTruthy()
+    expect(isError([])).not.toBeTruthy()
+    expect(isError({})).not.toBeTruthy()
+    expect(isError(new Error())).toBeTruthy()
+    expect(isError(Error)).not.toBeTruthy()
   })
 })
