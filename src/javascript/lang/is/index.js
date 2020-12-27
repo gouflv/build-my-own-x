@@ -64,6 +64,7 @@ export const isPlainObject = val => {
   if (Object.getPrototypeOf(val) === null) return true
 
   // @see https://github.com/bevry/typechecker/blob/f57a045/source/index.ts#L36
+  // Ugly, but test passing
   return val.__proto__ === Object.prototype
 }
 
