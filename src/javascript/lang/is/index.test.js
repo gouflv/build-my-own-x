@@ -5,7 +5,8 @@ import {
   isFinite as _isFinite,
   isObjectLike,
   isNumber,
-  isString
+  isString,
+  isPlainObject
 } from '.'
 
 describe('Test `is`', () => {
@@ -93,5 +94,25 @@ describe('Test `is`', () => {
     expect(isString(new String('foo'))).toBeTruthy()
   })
 
+  // equal to isObjectLike
   it('isObject', () => {})
+
+  // [[prototype]] == object || null
+  it('isPlainObject', () => {
+    expect(isPlainObject()).not.toBeTruthy()
+    expect(isPlainObject(null)).not.toBeTruthy()
+    expect(isPlainObject(true)).not.toBeTruthy()
+    expect(isPlainObject(1)).not.toBeTruthy()
+    expect(isPlainObject('foo')).not.toBeTruthy()
+    expect(isPlainObject([])).not.toBeTruthy()
+
+    function Foo() {
+      this.a = 1
+    }
+    expect(isPlainObject({})).toBeTruthy()
+    expect(isPlainObject(new Object())).toBeTruthy()
+    expect(isPlainObject(Object.create(null))).toBeTruthy()
+    expect(isPlainObject(Object.create({ a: 1 }))).not.toBeTruthy()
+    expect(isPlainObject(new Foo())).not.toBeTruthy()
+  })
 })

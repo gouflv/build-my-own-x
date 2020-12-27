@@ -1,4 +1,4 @@
-import { nativeRoot, toStringTag } from '../utils'
+import { hasOwn, nativeRoot, toStringTag } from '../utils'
 
 /**
  * isUndefined
@@ -37,6 +37,9 @@ export const isNumber = val => typeof val === 'number'
  */
 export const isFinite = val => isNumber(val) && nativeRoot.isFinite(val)
 
+/**
+ * check String object
+ */
 const isStringObject = val =>
   isObjectLike(val) && toStringTag(val) === '[object String]'
 
@@ -44,3 +47,19 @@ const isStringObject = val =>
  * isString
  */
 export const isString = val => typeof val === 'string' || isStringObject(val)
+
+/**
+ * isObjectLike
+ */
+export const isObject = isObjectLike
+
+/**
+ * isPlainObject
+ */
+export const isPlainObject = val => {
+  // check is object
+  if (!isObjectLike(val) || toStringTag(val) !== '[object Object]') return false
+  // check is create by Object.create(null)
+  if (Object.getPrototypeOf(val) === null) return true
+  return val.__proto__ === Object.prototype
+}
