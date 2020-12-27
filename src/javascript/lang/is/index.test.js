@@ -94,10 +94,9 @@ describe('Test `is`', () => {
     expect(isString(new String('foo'))).toBeTruthy()
   })
 
-  // equal to isObjectLike
+  // see isObjectLike
   it('isObject', () => {})
 
-  // [[prototype]] == object || null
   it('isPlainObject', () => {
     expect(isPlainObject()).not.toBeTruthy()
     expect(isPlainObject(null)).not.toBeTruthy()
@@ -112,7 +111,9 @@ describe('Test `is`', () => {
     expect(isPlainObject({})).toBeTruthy()
     expect(isPlainObject(new Object())).toBeTruthy()
     expect(isPlainObject(Object.create(null))).toBeTruthy()
+    expect(isPlainObject(Object.create({}))).not.toBeTruthy()
     expect(isPlainObject(Object.create({ a: 1 }))).not.toBeTruthy()
+    expect(isPlainObject(Object.create(Object.prototype))).toBeTruthy()
     expect(isPlainObject(new Foo())).not.toBeTruthy()
   })
 })
