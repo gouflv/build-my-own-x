@@ -9,7 +9,8 @@ import {
   isPlainObject,
   isArguments,
   isError,
-  isFunction
+  isFunction,
+  isArrayLike
 } from '.'
 
 describe('Test `is`', () => {
@@ -163,5 +164,17 @@ describe('Test `is`', () => {
 
     expect(isFunction(() => {})).toBeTruthy()
     expect(isFunction(async () => {})).toBeTruthy()
+  })
+
+  it('isArrayLike', () => {
+    expect(isArrayLike(function foo(a) {})).not.toBeTruthy()
+    expect(isArrayLike('foo')).toBeTruthy()
+    expect(isArrayLike({ length: 1 })).toBeTruthy()
+    expect(isArrayLike({ length: '1' })).not.toBeTruthy()
+    expect(isArrayLike({ length: Infinity })).not.toBeTruthy()
+    function foo() {
+      expect(isArrayLike(arguments)).toBeTruthy()
+    }
+    foo()
   })
 })

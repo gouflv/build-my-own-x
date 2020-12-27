@@ -83,3 +83,15 @@ export const isError = val =>
  * isFunction
  */
 export const isFunction = val => typeof val === 'function'
+
+/**
+ * isArrayLike
+ */
+export const isArrayLike = val => {
+  if (isFunction(val)) return false
+  return (
+    isNumber(val.length) &&
+    val.length > -1 &&
+    val.length < Number.MAX_SAFE_INTEGER
+  )
+}
