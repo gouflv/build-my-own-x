@@ -93,6 +93,11 @@ export const isArrayLike = val => {
   return (
     isNumber(val.length) &&
     val.length > -1 &&
-    val.length < Number.MAX_SAFE_INTEGER
+    val.length <= Number.MAX_SAFE_INTEGER
   )
 }
+
+/**
+ * isArray
+ */
+export const isArray = val => Array.isArray(val)
