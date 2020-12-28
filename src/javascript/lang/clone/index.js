@@ -1,4 +1,11 @@
-import { isArray, isBoolean, isNumber, isObjectLike, isString } from '../is'
+import {
+  isArguments,
+  isArray,
+  isBoolean,
+  isNumber,
+  isObjectLike,
+  isString
+} from '../is'
 import { toStringTag } from '../utils'
 
 export const clone = val => {
@@ -11,10 +18,9 @@ export const clone = val => {
   if (isString(val)) return new String(val)
 
   // TODO: optimize performance
-  if (isArray(val)) return [...val]
+  if (isArray(val) || isArguments(val)) return [...val]
 
-  if (isObjectLike(val) && toStringTag(val) === '[object Date]')
-    return new Date(val.getTime())
+  if (toStringTag(val) === '[object Date]') return new Date(val.getTime())
 
   const target = Object.create(Object.getPrototypeOf(val))
 

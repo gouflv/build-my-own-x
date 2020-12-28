@@ -26,23 +26,25 @@ describe('Test clone', () => {
   })
 
   it('clone string', () => {
-    expect(clone('foo') === 'foo').toBeTruthy()
+    expect(clone('foo')).toBe('foo')
     expect(clone(new String('foo')).valueOf()).toBe('foo')
   })
 
   it('clone array', () => {
-    const d = [1, '2', { foo: 3 }]
-    const cloned = clone(d)
-    expect(cloned !== d).toBeTruthy()
-    expect(cloned[0] === d[0]).toBeTruthy()
-    expect(cloned[1] === d[1]).toBeTruthy()
-    expect(cloned[2] === d[2]).toBeTruthy()
+    const o = [1, '2', { foo: 3 }]
+    const cloned = clone(o)
+    expect(cloned !== o).toBeTruthy()
+    expect(cloned[0] === o[0]).toBeTruthy()
+    expect(cloned[1] === o[1]).toBeTruthy()
+    expect(cloned[2] === o[2]).toBeTruthy()
   })
 
-  it('clone date', () => {
-    const d = new Date()
-    expect(clone(d) !== d).toBeTruthy()
-    expect(clone(d).getTime() === d.getTime()).toBeTruthy()
+  it('clone arguments', () => {
+    function cloneArguments() {
+      return clone(arguments)
+    }
+    expect(cloneArguments()).toStrictEqual([])
+    expect(cloneArguments(1, 2, 3)).toStrictEqual([1, 2, 3])
   })
 
   it('clone object', () => {
@@ -68,5 +70,11 @@ describe('Test clone', () => {
     const o = new Foo()
     expect(clone(o) !== o).toBeTruthy()
     expect(clone(o) instanceof Foo).toBeTruthy()
+  })
+
+  it('clone date', () => {
+    const o = new Date()
+    expect(clone(o) !== o).toBeTruthy()
+    expect(clone(o).getTime() === o.getTime()).toBeTruthy()
   })
 })
