@@ -68,13 +68,32 @@ describe('Test clone', () => {
   it('clone Class instance', () => {
     function Foo() {}
     const o = new Foo()
-    expect(clone(o) !== o).toBeTruthy()
-    expect(clone(o) instanceof Foo).toBeTruthy()
+    const cloned = clone(o)
+    expect(cloned !== o).toBeTruthy()
+    expect(cloned instanceof Foo).toBeTruthy()
   })
 
-  it('clone date', () => {
+  it('clone Date', () => {
     const o = new Date()
     expect(clone(o) !== o).toBeTruthy()
     expect(clone(o).getTime() === o.getTime()).toBeTruthy()
   })
+
+  it('clone Set', () => {
+    const obj = { a: 1 }
+    const o = new Set([1, '2', obj])
+
+    const cloned = clone(o)
+    expect(cloned !== o).toBeTruthy()
+    expect(cloned.has(1)).toBeTruthy()
+    expect(cloned.has('2')).toBeTruthy()
+    expect(cloned.has(obj)).toBeTruthy()
+  })
+
+  // it('clone Map', () => {
+  //   const o = new Map()
+  //   const cloned = clone(o)
+  //   expect(cloned !== o).toBeTruthy()
+  //   expect(cloned.has(1)).toBeTruthy()
+  // })
 })
