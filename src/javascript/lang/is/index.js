@@ -28,9 +28,15 @@ export const isBoolean = val =>
   val === true || val === false || isBooleanObject(val)
 
 /**
+ * check Number object
+ */
+const isNumberObject = val =>
+  isObjectLike(val) && toStringTag(val) === '[object Number]'
+
+/**
  * isNumber
  */
-export const isNumber = val => typeof val === 'number'
+export const isNumber = val => typeof val === 'number' || isNumberObject(val)
 
 /**
  * isFinite

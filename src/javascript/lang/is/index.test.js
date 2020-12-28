@@ -73,6 +73,8 @@ describe('Test `is`', () => {
     expect(isNumber(Infinity)).toBeTruthy()
     expect(isNumber(-Infinity)).toBeTruthy()
     expect(isNumber(NaN)).toBeTruthy()
+    expect(isNumber(1)).toBeTruthy()
+    expect(isNumber(new Number(1))).toBeTruthy()
     expect(isNumber('3')).not.toBeTruthy()
     expect(isNumber({})).not.toBeTruthy()
     expect(isNumber([1, 2, 3])).not.toBeTruthy()
