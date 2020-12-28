@@ -15,5 +15,7 @@ export const clone = val => {
   if (isObjectLike(val) && toStringTag(val) === '[object Date]')
     return new Date(val.getTime())
 
-  return Object.assign({}, val)
+  const target = Object.create(Object.getPrototypeOf(val))
+
+  return Object.assign(target, val)
 }

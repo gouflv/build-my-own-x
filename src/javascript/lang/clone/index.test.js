@@ -46,14 +46,24 @@ describe('Test clone', () => {
   })
 
   it('clone object', () => {
-    const o = { a: 1, b: {} }
-    const cloned = clone(o)
-    expect(cloned !== o).toBeTruthy()
-    expect(cloned.a === o.a).toBeTruthy()
-    expect(cloned.b === o.b).toBeTruthy()
+    function staticExpect() {
+      expect(cloned !== o).toBeTruthy()
+      expect(cloned.a === o.a).toBeTruthy()
+      expect(cloned.b === o.b).toBeTruthy()
+    }
+
+    let o, cloned
+
+    o = { a: 1, b: {} }
+    cloned = clone(o)
+    staticExpect()
+
+    o = Object.create(null)
+    cloned = clone(o)
+    staticExpect()
   })
 
-  it('clone instance', () => {
+  it('clone Class instance', () => {
     function Foo() {}
     const o = new Foo()
     expect(clone(o) !== o).toBeTruthy()
