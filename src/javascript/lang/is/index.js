@@ -106,4 +106,5 @@ export const isArrayLike = val => {
 /**
  * isArray
  */
-export const isArray = val => Array.isArray(val)
+export const isArray = val =>
+  Array.isArray ? Array.isArray(val) : toStringTag(val) === '[object Array]'
