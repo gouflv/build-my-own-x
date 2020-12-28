@@ -10,6 +10,7 @@ export const clone = val => {
 
   if (isString(val)) return new String(val)
 
+  // TODO: optimize performance
   if (isArray(val)) return [...val]
 
   if (isObjectLike(val) && toStringTag(val) === '[object Date]')
