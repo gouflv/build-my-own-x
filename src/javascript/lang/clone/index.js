@@ -8,7 +8,7 @@ import {
 } from '../is'
 import { toStringTag } from '../utils'
 
-export const clone = val => {
+const baseClone = (val, deep) => {
   if (!isObjectLike(val)) return val
 
   if (isBoolean(val)) return new Boolean(val)
@@ -43,5 +43,15 @@ export const clone = val => {
 
   const target = Object.create(Object.getPrototypeOf(val))
 
-  return Object.assign(target, val)
+  for (const key in val) {
+    if (!Object.getPrototypeOf(val) || val.hasOwnProperty(key)) {
+      target[key] = deep ? baseClone(val[key], true) : val[key]
+    }
+  }
+
+  return target
 }
+
+export const clone = val => baseClone(val)
+
+export const cloneDeep = val => baseClone(val, true)

@@ -1,4 +1,4 @@
-import { clone } from '.'
+import { clone, cloneDeep } from '.'
 
 describe('Test clone', () => {
   it('clone should be defined', () => {
@@ -47,22 +47,33 @@ describe('Test clone', () => {
     expect(cloneArguments(1, 2, 3)).toStrictEqual([1, 2, 3])
   })
 
-  it('clone object', () => {
+  describe('clone object', () => {
     function staticExpect() {
-      expect(cloned !== o).toBeTruthy()
-      expect(cloned.a === o.a).toBeTruthy()
-      expect(cloned.b === o.b).toBeTruthy()
+      expect(cloned).not.toBe(o)
+      expect(cloned.a).toBe(o.a)
+      expect(cloned.b).toBe(o.b)
+      expect(cloned.c).toBe(o.c)
     }
 
     let o, cloned
+    beforeEach(() => {
+      o = { a: 1, b: { foo: 'bar' }, c: [1, 2, 3] }
+    })
 
-    o = { a: 1, b: {} }
-    cloned = clone(o)
-    staticExpect()
+    it('clone object with [[proto]]', () => {
+      cloned = clone(o)
+      staticExpect()
+    })
 
-    o = Object.create(null)
-    cloned = clone(o)
-    staticExpect()
+    it('clone object without [[proto]]', () => {
+      const npo = Object.create(null)
+      npo.a = o.a
+      npo.b = o.b
+      npo.c = o.c
+
+      cloned = clone(npo)
+      staticExpect()
+    })
   })
 
   it('clone Class instance', () => {
@@ -97,9 +108,53 @@ describe('Test clone', () => {
     o.set('obj', obj)
 
     const cloned = clone(o)
-    console.log(cloned)
     expect(cloned !== o).toBeTruthy()
     expect(cloned.get('foo')).toBe('bar')
     expect(cloned.get('obj')).toBe(obj)
+  })
+
+  it('cloneDeep string', () => {
+    expect(cloneDeep('foo')).toBe('foo')
+    expect(cloneDeep(new String('foo')).valueOf()).toBe('foo')
+  })
+
+  it('cloneDeep array', () => {
+    const o = [1, '2', { foo: 3 }]
+    const cloned = cloneDeep(o)
+    expect(cloned !== o).toBeTruthy()
+    expect(cloned[0] === o[0]).toBeTruthy()
+    expect(cloned[1] === o[1]).toBeTruthy()
+    expect(cloned[2] === o[2]).toBeTruthy()
+  })
+
+  describe('cloneDeep object', () => {
+    function staticExpect() {
+      expect(cloned).not.toBe(o)
+      expect(cloned.a).toBe(o.a)
+      expect(cloned.b).not.toBe(o.b)
+      expect(cloned.c).not.toBe(o.c)
+      expect(cloned.b.foo).not.toBe(o.b.foo)
+      expect(cloned.b.foo.bar).toBe(o.b.foo.bar)
+    }
+
+    let o, cloned
+    beforeEach(() => {
+      o = { a: 1, b: { foo: { bar: 'baz' } }, c: [1, 2, 3] }
+    })
+
+    it('cloneDeep object with [[proto]]', () => {
+      cloned = cloneDeep(o)
+      staticExpect()
+    })
+
+    it('cloneDepp object without [[proto]]', () => {
+      const npo = Object.create(null)
+      npo.a = o.a
+      npo.b = o.b
+      npo.c = o.c
+
+      cloned = cloneDeep(npo)
+      staticExpect()
+    })
   })
 })
