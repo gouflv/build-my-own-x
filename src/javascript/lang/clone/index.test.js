@@ -58,6 +58,7 @@ describe('Test clone', () => {
     let o, cloned
     beforeEach(() => {
       o = { a: 1, b: { foo: 'bar' }, c: [1, 2, 3] }
+      cloned = null
     })
 
     it('clone object with [[proto]]', () => {
@@ -138,13 +139,14 @@ describe('Test clone', () => {
       expect(cloned.a).toBe(o.a)
       expect(cloned.b).not.toBe(o.b)
       expect(cloned.c).not.toBe(o.c)
-      expect(cloned.b.foo).not.toBe(o.b.foo)
-      expect(cloned.b.foo.bar).toBe(o.b.foo.bar)
+      expect(cloned.b.obj).not.toBe(o.b.obj)
+      expect(cloned.b.obj).toStrictEqual({ bar: 'baz' })
     }
 
     let o, cloned
     beforeEach(() => {
-      o = { a: 1, b: { foo: { bar: 'baz' } }, c: [1, 2, 3] }
+      o = { a: 1, b: { obj: { bar: 'baz' } }, c: [1, 2, 3] }
+      cloned = null
     })
 
     it('cloneDeep object with [[proto]]', () => {
@@ -160,6 +162,16 @@ describe('Test clone', () => {
 
       cloned = cloneDeep(npo)
       staticExpect()
+    })
+
+    it('cloneDeep object with circular ref', () => {
+      o.b.arr = o.c
+      o.d = o.b.obj
+
+      cloned = cloneDeep(o)
+      staticExpect()
+      expect(cloned.b.arr).toBe(o.c)
+      expect(cloned.d).toBe(o.b.obj)
     })
   })
 })
