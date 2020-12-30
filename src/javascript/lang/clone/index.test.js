@@ -113,6 +113,11 @@ describe('Test clone', () => {
     expect(cloned.get('obj')).toBe(obj)
   })
 
+  it('clone function', () => {
+    function foo() {}
+    expect(clone(foo)).toBe(foo)
+  })
+
   it('cloneDeep string', () => {
     expect(cloneDeep('foo')).toBe('foo')
     expect(cloneDeep(new String('foo')).valueOf()).toBe('foo')
