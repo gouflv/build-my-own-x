@@ -32,6 +32,15 @@ export const clone = val => {
     return result
   }
 
+  // Map
+  if (toStringTag(val) === '[object Map]') {
+    const result = new Map()
+    val.forEach((val, key) => {
+      result.set(key, val)
+    })
+    return result
+  }
+
   const target = Object.create(Object.getPrototypeOf(val))
 
   return Object.assign(target, val)

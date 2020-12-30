@@ -90,10 +90,16 @@ describe('Test clone', () => {
     expect(cloned.has(obj)).toBeTruthy()
   })
 
-  // it('clone Map', () => {
-  //   const o = new Map()
-  //   const cloned = clone(o)
-  //   expect(cloned !== o).toBeTruthy()
-  //   expect(cloned.has(1)).toBeTruthy()
-  // })
+  it('clone Map', () => {
+    const obj = { a: 1 }
+    const o = new Map()
+    o.set('foo', 'bar')
+    o.set('obj', obj)
+
+    const cloned = clone(o)
+    console.log(cloned)
+    expect(cloned !== o).toBeTruthy()
+    expect(cloned.get('foo')).toBe('bar')
+    expect(cloned.get('obj')).toBe(obj)
+  })
 })
