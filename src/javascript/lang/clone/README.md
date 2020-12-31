@@ -56,6 +56,8 @@ lodash 对 `clone` 的定义
 
 3. 关于缓存对象 `OC`
    
-   `lodash` 的缓存实现是 `Map`, 这里替换成了性能更好的 `WeakMap`
+   `lodash` 的缓存实现是 `Map`, 这里替换成了性能和`GC`更友好的 `WeakMap`
 
-EOF
+## 参考
+- [Stackoverflow: deep clone with circular references](https://stackoverflow.com/questions/40291987/javascript-deep-clone-object-with-circular-references)
+- [Understanding WeakMap](https://blog.bitsrc.io/understanding-weakmaps-in-javascript-6e323d9eec81)
