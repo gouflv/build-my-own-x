@@ -54,4 +54,8 @@ lodash 对 `clone` 的定义
          V[ownProp] = N 
          ```
 
+3. 关于缓存对象 `OC`
+   
+   `lodash` 的缓存实现是 `Map`, 这里替换成了性能更好的 `WeakMap`
+
 EOF

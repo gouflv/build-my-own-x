@@ -41,7 +41,7 @@ const baseClone = (val, deep, objCache) => {
     return result
   }
 
-  objCache = objCache || new Map()
+  objCache = objCache || new WeakMap
 
   const target = Object.create(Object.getPrototypeOf(val))
 
@@ -53,8 +53,11 @@ const baseClone = (val, deep, objCache) => {
           target[key] = cached
         } else {
           const cloned = baseClone(val[key], true, objCache)
-          objCache.set(val[key], cloned)
           target[key] = cloned
+
+          if (isObjectLike(val[key])) {
+            objCache.set(val[key], cloned)
+          }
         }
       } else {
         target[key] = val[key]
