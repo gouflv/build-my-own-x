@@ -50,7 +50,7 @@ lodash 对 `clone` 的定义
       2. 如果不存在
          ```
          N = clone( O[ownProp] )
-         OC.add(N)
+         OC.set(O, N)
          V[ownProp] = N 
          ```
 
@@ -61,3 +61,5 @@ lodash 对 `clone` 的定义
 ## 参考
 - [Stackoverflow: deep clone with circular references](https://stackoverflow.com/questions/40291987/javascript-deep-clone-object-with-circular-references)
 - [Understanding WeakMap](https://blog.bitsrc.io/understanding-weakmaps-in-javascript-6e323d9eec81)
+- [WeakMap Implementation](https://stackoverflow.com/questions/16366000/weakmap-implementation-in-ecmascript5)
+- [弱引用](https://www.zhihu.com/question/62335874)
