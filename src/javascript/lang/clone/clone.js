@@ -5,7 +5,7 @@ import {
   isNumber,
   isObjectLike,
   isString
-} from '../is'
+} from '../is/is'
 import { toStringTag } from '../utils'
 
 const baseClone = (val, deep, objCache) => {
