@@ -11,7 +11,7 @@ import {
   isError,
   isFunction,
   isArrayLike
-} from '.'
+} from './is'
 
 describe('Test `is`', () => {
   it('isUndefined', () => {

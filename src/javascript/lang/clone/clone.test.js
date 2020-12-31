@@ -1,4 +1,4 @@
-import { clone, cloneDeep } from '.'
+import { clone, cloneDeep } from './clone'
 
 describe('Test clone', () => {
   it('clone should be defined', () => {

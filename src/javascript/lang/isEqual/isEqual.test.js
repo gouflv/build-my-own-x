@@ -1,4 +1,4 @@
-import { isEqual, EqualMode } from '.'
+import { isEqual, EqualMode } from './isEqual'
 
 describe('Test isEqual', () => {
   let mode
