@@ -48,13 +48,13 @@ const baseClone = (val, deep, objCache) => {
   for (const key in val) {
     if (!Object.getPrototypeOf(val) || val.hasOwnProperty(key)) {
       if (deep) {
-        const refVal = objCache.get(val[key])
-        if (refVal) {
-          target[key] = refVal
+        const cached = objCache.get(val[key])
+        if (cached) {
+          target[key] = cached
         } else {
           const cloned = baseClone(val[key], true, objCache)
-          target[key] = baseClone(val[key], true, objCache)
           objCache.set(val[key], cloned)
+          target[key] = cloned
         }
       } else {
         target[key] = val[key]

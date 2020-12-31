@@ -177,10 +177,9 @@ describe('Test clone', () => {
       o.d = o.b.obj
 
       cloned = cloneDeep(o)
-      console.log(cloned)
       staticExpect()
-      expect(cloned.b.arr === o.c).toBeTruthy()
-      expect(cloned.d === o.b.obj).toBeTruthy()
+      expect(cloned.b.arr === cloned.c).toBeTruthy()
+      expect(cloned.d === cloned.b.obj).toBeTruthy()
     })
   })
 })
