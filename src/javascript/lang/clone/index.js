@@ -8,7 +8,7 @@ import {
 } from '../is'
 import { toStringTag } from '../utils'
 
-const baseClone = (val, deep) => {
+const baseClone = (val, deep, objCache) => {
   if (!isObjectLike(val)) return val
 
   if (isBoolean(val)) return new Boolean(val)
@@ -41,11 +41,24 @@ const baseClone = (val, deep) => {
     return result
   }
 
+  objCache = objCache || new Map()
+
   const target = Object.create(Object.getPrototypeOf(val))
 
   for (const key in val) {
     if (!Object.getPrototypeOf(val) || val.hasOwnProperty(key)) {
-      target[key] = deep ? baseClone(val[key], true) : val[key]
+      if (deep) {
+        const refVal = objCache.get(val[key])
+        if (refVal) {
+          target[key] = refVal
+        } else {
+          const cloned = baseClone(val[key], true, objCache)
+          target[key] = baseClone(val[key], true, objCache)
+          objCache.set(val[key], cloned)
+        }
+      } else {
+        target[key] = val[key]
+      }
     }
   }
 

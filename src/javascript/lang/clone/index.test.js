@@ -30,6 +30,14 @@ describe('Test clone', () => {
     expect(clone(new String('foo')).valueOf()).toBe('foo')
   })
 
+  it('clone NaN', () => {
+    expect(clone(NaN)).toBeNaN()
+  })
+
+  it('clone Infinity', () => {
+    expect(clone(Infinity)).toBe(Infinity)
+  })
+
   it('clone array', () => {
     const o = [1, '2', { foo: 3 }]
     const cloned = clone(o)
@@ -169,9 +177,10 @@ describe('Test clone', () => {
       o.d = o.b.obj
 
       cloned = cloneDeep(o)
+      console.log(cloned)
       staticExpect()
-      expect(cloned.b.arr).toBe(o.c)
-      expect(cloned.d).toBe(o.b.obj)
+      expect(cloned.b.arr === o.c).toBeTruthy()
+      expect(cloned.d === o.b.obj).toBeTruthy()
     })
   })
 })
