@@ -94,12 +94,26 @@ console.log(toString.call(new Array)) // "[object Array]"
 console.log(toString.call(new Error(''))) // "[object Error]"
 ```
 
+## 其他检测
+
+isNaN
+
+```javascript
+console.log(isNaN(undefined)) //T
+console.log(isNaN(null))
+console.log(isNaN(1))
+console.log(isNaN(true))
+console.log(isNaN('1'))
+console.log(isNaN('foo'))  //T
+console.log(isNaN({}))  //T
+```
+
 
 ## 类型转化
 
 通过调用 Number()、String()、Boolean() 方法，或者使用运算符操作，都会执行隐式转化
 
-> 参考 ecma-262 定义
+> 详细逻辑参考 ecma-262 定义
 
 [ToBoolean](https://www.ecma-international.org/ecma-262/11.0/index.html#sec-toboolean)
 
@@ -125,6 +139,8 @@ console.log(Number(true))  // 1
 console.log(Number(false)) // 0
 console.log(Number(1))     // 1
 console.log(Number('1'))   // 1
+console.log(Number(''))   // 0
+console.log(Number('foo'))   // NaN
 console.log(Number({}))    // NaN
 console.log(Number([]))    // 0
 console.log(Number([1]))    // 1
@@ -143,18 +159,44 @@ console.log(String([])) // ""
 console.log(String([1, 2])) // "1,2"
 ```
 
-## 其他检测
+上面几个将引用类型转基础类型的方法，内部都依赖了 ToPrimitive 操作，对引用做求值
 
-isNaN
+[ToPrimitive](https://www.ecma-international.org/ecma-262/11.0/index.html#sec-toprimitive)
+
+1. ToBoolean, 遇到引用类型都返回 `true`
 
 ```javascript
-console.log(isNaN(undefined)) //T
-console.log(isNaN(null))
-console.log(isNaN(1))
-console.log(isNaN(true))
-console.log(isNaN('1'))
-console.log(isNaN('foo'))  //T
-console.log(isNaN({}))  //T
+console.log(Boolean({})) //T
+console.log(Boolean([])) //T
+```
+
+2. ToNumber, 使用 ToPrimitive(input,'number') 模式，简单理解就是先后调用 `valueOf` 和 `toString`, 直到返回值为非对象
+
+```javascript
+console.log(Number({}))  // NaN
+// 1. ({}).valueOf() 返回 {}，所以继续尝试 toString
+// 2. ({}).toString() 返回 ‘[object Object]’
+// 3. 将 ‘[object Object]’ 作为参数，执行 ToNumber() 转换，所以最终结果为 NaN
+
+console.log(Number([]))    // 0
+// 1. 调用 valueOf 返回 []，所以尝试 toString
+// 2. ([]).toString() 返回 ‘’
+// 3. ToNumber('')，结果 0
+
+console.log(Number([1]))    // 1
+// ([1]).toString() 返回 '1'
+
+
+console.log(Number([1, 2]))    // NaN
+// ([1,2]).toString() 返回 '1,2', Number('1,2') 返回 NaN
+```
+
+3. ToString, 使用 ToPrimitive(input,'string') 模式，先后调用 `toString` 和 `valueOf`，直到返回值为非对象
+
+```javascript
+console.log(String({})) // [object Object]
+console.log(String([])) // ""
+console.log(String([1, 2])) // "1,2"
 ```
 
 ## 思考
