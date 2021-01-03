@@ -58,9 +58,9 @@ describe('Test clone', () => {
   describe('clone object', () => {
     function staticExpect() {
       expect(cloned).not.toBe(o)
-      expect(cloned.a).toBe(o.a)
-      expect(cloned.b).toBe(o.b)
-      expect(cloned.c).toBe(o.c)
+      expect(cloned.a === o.a).toBeTruthy()
+      expect(cloned.b === o.b).toBeTruthy()
+      expect(cloned.c === o.c).toBeTruthy()
     }
 
     let o, cloned
@@ -144,11 +144,12 @@ describe('Test clone', () => {
   describe('cloneDeep object', () => {
     function staticExpect() {
       expect(cloned).not.toBe(o)
-      expect(cloned.a).toBe(o.a)
-      expect(cloned.b).not.toBe(o.b)
-      expect(cloned.c).not.toBe(o.c)
-      expect(cloned.b.obj).not.toBe(o.b.obj)
-      expect(cloned.b.obj).toStrictEqual({ bar: 'baz' })
+      expect(cloned.a === o.a).toBeTruthy()
+      expect(cloned.b !== o.b).toBeTruthy()
+      expect(cloned.b.obj !== o.b.obj).toBeTruthy()
+      expect(cloned.b.obj).toStrictEqual(o.b.obj)
+      expect(cloned.c !== o.c).toBeTruthy()
+      expect(cloned.c).toStrictEqual(o.c)
     }
 
     let o, cloned

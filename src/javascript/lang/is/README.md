@@ -28,9 +28,7 @@
 - Promise
 - Proxy
 
-### 特殊
-
-### 定义
+### 特殊类型
 
 - 包装类型: 对原始类型的对象包装
 - PlainObject: 纯对象，类似于 Java 的 POJO，[[prototype]] 为 `null` 或者 `object`
@@ -115,7 +113,7 @@ console.log(isNaN({}))  //T
 
 > 详细逻辑参考 ecma-262 定义
 
-[ToBoolean](https://www.ecma-international.org/ecma-262/11.0/index.html#sec-toboolean)
+### [ToBoolean](https://www.ecma-international.org/ecma-262/11.0/index.html#sec-toboolean)
 
 ```javascript
 console.log(Boolean(undefined))
@@ -130,7 +128,7 @@ console.log(Boolean({})) //T
 console.log(Boolean([])) //T
 ```
 
-[ToNumber](https://www.ecma-international.org/ecma-262/11.0/index.html#sec-tonumber)
+### [ToNumber](https://www.ecma-international.org/ecma-262/11.0/index.html#sec-tonumber)
 
 ```javascript
 console.log(Number(undefined)) // NaN
@@ -147,7 +145,7 @@ console.log(Number([1]))    // 1
 console.log(Number([1, 2]))    // NaN ?
 ```
 
-[ToString](https://www.ecma-international.org/ecma-262/11.0/index.html#sec-tostring)
+### [ToString](https://www.ecma-international.org/ecma-262/11.0/index.html#sec-tostring)
 
 ```javascript
 console.log(String(undefined))
@@ -156,12 +154,17 @@ console.log(String(1))
 console.log(String(true))
 console.log(String({})) // [object Object]
 console.log(String([])) // ""
+console.log(String([1])) // "1"
 console.log(String([1, 2])) // "1,2"
 ```
 
+### [ToPrimitive](https://www.ecma-international.org/ecma-262/11.0/index.html#sec-toprimitive)
+
 上面几个将引用类型转基础类型的方法，内部都依赖了 ToPrimitive 操作，对引用做求值
 
-[ToPrimitive](https://www.ecma-international.org/ecma-262/11.0/index.html#sec-toprimitive)
+> ToPrimitive(A)通过尝试调用 A 的A.toString() 和 A.valueOf() 方法，将参数 A 转换为原始值（Primitive）
+
+因此，上面三个隐式转化规则中，参数为对象的情况，可以解释为：
 
 1. ToBoolean, 遇到引用类型都返回 `true`
 
