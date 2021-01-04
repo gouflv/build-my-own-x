@@ -4,9 +4,7 @@ lodash 对 `clone` 的定义
 
 > 这个方法参考自structured clone algorithm 以及支持 arrays、array buffers、 booleans、 date objects、maps、 numbers， Object 对象, regexes, sets, strings, symbols, 以及 typed arrays。 arguments对象的可枚举属性会拷贝为普通对象。 一些不可拷贝的对象，例如error objects、functions, DOM nodes, 以及 WeakMaps 会返回空对象。
 
-## 具体实现
-
-浅拷贝 `clone`
+## 浅拷贝 `clone`
 
 1. 对非 `object` 类型
    
@@ -31,7 +29,7 @@ lodash 对 `clone` 的定义
    
          `for(ownProp in V)  V[ownProp] = O[ownProp]`
    
-深拷贝 `cloneDeep`
+## 深拷贝 `cloneDeep`
 
 1. 在浅拷贝的基础上，在每次赋值前，对值本身做一次拷贝，也就是递归拷贝
    
