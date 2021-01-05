@@ -8,6 +8,16 @@ import {
 } from '../is/is'
 import { toStringTag } from '../utils'
 
+const copyArray = source => {
+  let index = -1,
+    len = source.length
+  const array = Array(len)
+  while (++index < len) {
+    array[index] = source[index]
+  }
+  return array
+}
+
 const baseClone = (val, deep, objCache) => {
   if (!isObjectLike(val)) return val
 
@@ -18,7 +28,7 @@ const baseClone = (val, deep, objCache) => {
   if (isString(val)) return new String(val)
 
   // TODO: optimize performance
-  if (isArray(val) || isArguments(val)) return [...val]
+  if (isArray(val) || isArguments(val)) return copyArray(val)
 
   // Date
   if (toStringTag(val) === '[object Date]') return new Date(val.getTime())
@@ -41,7 +51,7 @@ const baseClone = (val, deep, objCache) => {
     return result
   }
 
-  objCache = objCache || new WeakMap
+  objCache = objCache || new WeakMap()
 
   const target = Object.create(Object.getPrototypeOf(val))
 
