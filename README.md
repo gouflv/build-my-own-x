@@ -8,12 +8,26 @@
 
 实现语言特性和基础工具
 
-1. [数据类型和检测](src/javascript/lang/is/)
-2. [拷贝/深拷贝](src/javascript/lang/clone/)
-3. [数据相等性判断](src/javascript/lang/isEqual/)
-4. [深度相等检测](src/javascript/lang/isEqualDeep/)
+API 
 
-### Object
+- [is](src/javascript/lang/is/)
+- [clone](src/javascript/lang/clone/)
+- [isEqual](src/javascript/lang/isEqual/)
+- [isEqualDeep](src/javascript/lang/isEqualDeep/)
+- [typeOf](src/javascript/lang/typeOf)
 
-对象相关工具
+Doc
 
+- [数据类型和检测](src/javascript/lang/is/README.md)
+- [拷贝/深拷贝](src/javascript/lang/clone/README.md)
+- [数据相等性判断](src/javascript/lang/isEqual/README.md)
+- [深度相等检测](src/javascript/lang/isEqualDeep/README.md)
+
+### Function
+
+函数相关
+
+API
+
+- [get](src/javascript/function/get/)
+- [curry](src/javascript/function/curry/)
