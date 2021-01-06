@@ -37,7 +37,7 @@ describe('Test isEqual', () => {
     expect(isEqual({ foo: 'bar' }, { foo: 'bar' }, mode)).not.toBeTruthy()
   })
 
-  it('test MODE_STRICT', () => {
+  it('test MODE_SAME_VALUE', () => {
     mode = EqualMode.MODE_SAME_VALUE
 
     expect(isEqual(undefined, undefined, mode)).toBeTruthy()
