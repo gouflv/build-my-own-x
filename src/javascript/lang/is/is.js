@@ -43,6 +43,8 @@ export const isNumber = val => typeof val === 'number' || isNumberObject(val)
  */
 export const isFinite = val => isNumber(val) && nativeRoot.isFinite(val)
 
+export const isNaNOnly = val => isNumber(val) && val !== val
+
 /**
  * check String object
  */
@@ -106,5 +108,4 @@ export const isArrayLike = val => {
 /**
  * isArray
  */
-export const isArray = val =>
-  Array.isArray ? Array.isArray(val) : toStringTag(val) === '[object Array]'
+export const isArray = Array.isArray || ((val) => toStringTag(val) === '[object Array]')

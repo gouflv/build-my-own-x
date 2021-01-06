@@ -1,16 +1,17 @@
 import {
-  isUndefined,
-  isNull,
-  isBoolean,
-  isFinite as _isFinite,
-  isObjectLike,
-  isNumber,
-  isString,
-  isPlainObject,
   isArguments,
+  isArrayLike,
+  isBoolean,
   isError,
+  isFinite as _isFinite,
   isFunction,
-  isArrayLike
+  isNaNOnly,
+  isNull,
+  isNumber,
+  isObjectLike,
+  isPlainObject,
+  isString,
+  isUndefined
 } from './is'
 
 describe('Test `is`', () => {
@@ -91,6 +92,17 @@ describe('Test `is`', () => {
     expect(_isFinite('3')).not.toBeTruthy()
     expect(_isFinite({})).not.toBeTruthy()
     expect(_isFinite([1, 2, 3])).not.toBeTruthy()
+  })
+
+  it('isNaNOnly', () => {
+    expect(isNaNOnly()).not.toBeTruthy()
+    expect(isNaNOnly(null)).not.toBeTruthy()
+    expect(isNaNOnly(true)).not.toBeTruthy()
+    expect(isNaNOnly(1)).not.toBeTruthy()
+    expect(isNaNOnly('foo')).not.toBeTruthy()
+    expect(isNaNOnly({})).not.toBeTruthy()
+    expect(isNaNOnly([1, 2, 3])).not.toBeTruthy()
+    expect(isNaNOnly(NaN)).toBeTruthy()
   })
 
   it('isString', () => {
