@@ -3,8 +3,8 @@ export const curry = func => {
     if (args.length >= func.length) {
       return func.apply(this, args)
     } else {
-      return function (...argsIn) {
-        return curried.apply(this, args.concat(argsIn))
+      return function (...rest) {
+        return curried.apply(this, args.concat(rest))
       }
     }
   }
