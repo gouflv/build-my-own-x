@@ -1,5 +1,8 @@
 # Build my own X
 
+![Test](https://github.com/gouflv/build-my-own-x/workflows/Test/badge.svg)
+![Coverage](https://img.shields.io/codecov/c/github/gouflv/build-my-own-x)
+
 > 再次发明轮子
 
 ## Javascript
@@ -31,3 +34,5 @@ API
 
 - [get](src/javascript/function/get/)
 - [curry](src/javascript/function/curry/)
+- [partial](src/javascript/function/partial/)
+- [pick](src/javascript/function/pick/)
