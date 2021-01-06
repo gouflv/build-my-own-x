@@ -5,7 +5,8 @@
   "scripts": {
     "test": "jest",
     "test:w": "jest --watch",
-    "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand"
+    "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
+    "test:coverage": "jest --coverage"
   },
   "author": "gouflv",
   "devDependencies": {
