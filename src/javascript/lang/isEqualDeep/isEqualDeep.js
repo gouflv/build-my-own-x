@@ -4,31 +4,23 @@ import { keys } from '../../object/keys/keys'
 import { toStringTag } from '../utils'
 
 export const isEqualDeep = (x, y) => {
-  if (x === y) {
-    return true
-  }
-
   if (isEqual(x, y)) {
     return true
   }
-
   return baseIsEqualDeep(x, y)
 }
 
 const baseIsEqualDeep = (x, y) => {
-  const xTag = toStringTag(x)
-  const yTag = toStringTag(y)
-
-  if (xTag !== yTag) {
+  if (toStringTag(x) !== toStringTag(y)) {
     return false
-  }
-
-  if (isObjectLike(x)) {
-    return isObjectDeepEqual(x, y)
   }
 
   if (isArray(x)) {
     return isArrayDeepEqual(x, y)
+  }
+
+  if (isObjectLike(x)) {
+    return isObjectDeepEqual(x, y)
   }
 
   return isEqual(x, y)

@@ -16,7 +16,7 @@ describe('Test isEqualDeep', () => {
 
     it('simple array deep equal', () => {
       const a = [undefined, null, 1, 'foo', true]
-      const b = [undefined, null, 1, 'foo', true]
+      const b = cloneDeep(a)
       const c = [undefined, null, 1, 'foo']
       expect(isArrayDeepEqual(a, b)).toBeTruthy()
       expect(isArrayDeepEqual(a, c)).not.toBeTruthy()
@@ -31,11 +31,11 @@ describe('Test isEqualDeep', () => {
   })
 
   it('check rich object equalDeep', () => {
-    const a = { foo: 1, bar: [1, 2], baz: { a: [1, 2] } }
-    const b = { foo: 1, bar: [1, 2], baz: { a: [1, 2] } }
-    const c = { foo: 2, bar: [1, 2, 3], baz: { a: [1, 2] } }
+    const a = { foo: [1, 2], bar: { a: [1, 2] } }
+    const b = { foo: [1, 2], bar: { a: [1, 2] } }
+    const c = { foo: [1, 2, 3], bar: { a: [1, 2] } }
     const d = cloneDeep(c)
-    const e = { foo: 2, bar: [1, 2, 3], baz: { a: [1, 2, 3] } }
+    const e = { foo: [1, 2, 3], bar: { a: [1, 2, 3] } }
     expect(isEqualDeep(a, b)).toBeTruthy()
     expect(isEqualDeep(a, c)).not.toBeTruthy()
     expect(isEqualDeep(c, d)).toBeTruthy()
@@ -46,7 +46,9 @@ describe('Test isEqualDeep', () => {
     const a = ['foo', { bar: '1', baz: [1, 2] }]
     const b = ['foo', { bar: '1', baz: [1, 2] }]
     const c = ['foo', { bar: '1', baz: [1, 2, 3] }]
+    const d = cloneDeep(c)
     expect(isEqualDeep(a, b)).toBeTruthy()
     expect(isEqualDeep(a, c)).not.toBeTruthy()
+    expect(isEqualDeep(c, d)).toBeTruthy()
   })
 })
