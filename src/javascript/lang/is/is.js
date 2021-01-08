@@ -3,7 +3,7 @@ import { nativeRoot, toStringTag } from '../utils'
 /**
  * isUndefined
  */
-export const isUndefined = val => val === undefined
+export const isUndefined = val => val === void 0
 
 /**
  * isNull
@@ -43,6 +43,9 @@ export const isNumber = val => typeof val === 'number' || isNumberObject(val)
  */
 export const isFinite = val => isNumber(val) && nativeRoot.isFinite(val)
 
+/**
+ * isNaNOnly
+ */
 export const isNaNOnly = val => isNumber(val) && val !== val
 
 /**
@@ -57,9 +60,9 @@ const isStringObject = val =>
 export const isString = val => typeof val === 'string' || isStringObject(val)
 
 /**
- * isObjectLike
+ * isObject
  */
-export const isObject = isObjectLike
+export const isObject = val => isObjectLike(val) || isFunction(val)
 
 /**
  * isPlainObject
@@ -108,4 +111,5 @@ export const isArrayLike = val => {
 /**
  * isArray
  */
-export const isArray = Array.isArray || ((val) => toStringTag(val) === '[object Array]')
+export const isArray =
+  Array.isArray || (val => toStringTag(val) === '[object Array]')
