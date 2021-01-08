@@ -181,8 +181,12 @@ describe('Test `is`', () => {
   })
 
   it('isArrayLike', () => {
-    expect(isArrayLike(function foo(a) {})).not.toBeTruthy()
+    expect(isArrayLike(undefined)).not.toBeTruthy()
+    expect(isArrayLike(null)).not.toBeTruthy()
+    expect(isArrayLike(1)).not.toBeTruthy()
+    expect(isArrayLike(true)).not.toBeTruthy()
     expect(isArrayLike('foo')).toBeTruthy()
+    expect(isArrayLike(function foo(a) {})).not.toBeTruthy()
     expect(isArrayLike({ length: 1 })).toBeTruthy()
     expect(isArrayLike({ length: '1' })).not.toBeTruthy()
     expect(isArrayLike({ length: Infinity })).not.toBeTruthy()

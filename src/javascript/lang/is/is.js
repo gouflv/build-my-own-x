@@ -100,7 +100,7 @@ export const isFunction = val => typeof val === 'function'
  * isArrayLike
  */
 export const isArrayLike = val => {
-  if (isFunction(val)) return false
+  if (!val || isFunction(val)) return false
   return (
     isNumber(val.length) &&
     val.length > -1 &&
