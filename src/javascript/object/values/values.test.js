@@ -21,4 +21,11 @@ describe('Test Values', () => {
     }
     expect(values(new Foo())).toStrictEqual([1, 2, 3])
   })
+
+  it('function values', () => {
+    function foo() {}
+    foo.a = 1
+
+    expect(values(foo)).toStrictEqual([1])
+  })
 })
