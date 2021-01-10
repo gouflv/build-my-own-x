@@ -13,11 +13,11 @@
 
 API 
 
-- [is](src/javascript/lang/is/)
-- [clone](src/javascript/lang/clone/)
-- [isEqual](src/javascript/lang/isEqual/)
-- [isEqualDeep](src/javascript/lang/isEqualDeep/)
-- [typeOf](src/javascript/lang/typeOf)
+- [is](src/javascript/lang/is)
+- [clone](src/javascript/lang/clone)
+- [isEqual](src/javascript/lang/isEqual)
+- [isEqualDeep](src/javascript/lang/isEqualDeep)
+- [typeOf](src/javascript/lang/typeof)
 
 Doc
 
@@ -32,15 +32,15 @@ Doc
 
 API
 
-- [get](src/javascript/function/get/)
-- [curry](src/javascript/function/curry/)
-- [partial](src/javascript/function/partial/)
-- [pick](src/javascript/function/pick/)
+- [get](src/javascript/function/get)
+- [curry](src/javascript/function/curry)
+- [partial](src/javascript/function/partial)
+- [pick](src/javascript/function/pick)
 
 ### Array
 
-- [flatten](src/javascript/array/flatten/)
+- [flatten](src/javascript/array/flatten)
 
 ### 其他
 
-- [pathParser](src/javascript/_/pathParser/)  词法解析 accessor-style 字符串
+- [pathParser](src/javascript/_/pathParser)  词法解析 accessor-style 字符串
