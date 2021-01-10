@@ -1,15 +1,28 @@
-import { isArrayLike, isUndefined } from '../../lang/is/is'
+import {
+  isArrayLike,
+  isObjectLike,
+  isString,
+  isUndefined
+} from '../../lang/is/is'
+import { pathParser } from '../../_/pathParser/pathParser'
 
 export const get = (obj, path, defaultValue = undefined) => {
-  if (!path || !isArrayLike(path)) {
+  if (!path) {
     return defaultValue
   }
 
-  let index = -1,
-    res = obj
+  const pathArr = isString(path) ? pathParser(path) : Array.from(path)
 
-  while (++index < path.length) {
-    res = res[path[index]]
+  if (!pathArr.length) {
+    return defaultValue
+  }
+
+  let index = -1
+  let res = obj
+
+  while (++index < pathArr.length) {
+    res =
+      isObjectLike(res) || isArrayLike(res) ? res[pathArr[index]] : undefined
   }
 
   return isUndefined(res) ? defaultValue : res

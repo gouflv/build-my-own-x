@@ -11,6 +11,7 @@ describe('Test get', () => {
     expect(get(o, ['a', 'b'])).toBe(o.a.b)
     expect(get(o, ['a', 'b', '0'])).toBe(o.a.b[0])
     expect(get(o, ['a', 'b', '0', 'c'])).toBe(o.a.b[0].c)
+    expect(get(o, ['a', 'b', 0, 'c'])).toBe(o.a.b[0].c)
   })
 
   it('get value from object with default', () => {
@@ -24,5 +25,14 @@ describe('Test get', () => {
     expect(get(arr, ['0', 'a', 'b', '2'], 0)).toBe(0)
     expect(get(arr, ['1', 'c'])).toBe(3)
     expect(get(arr, ['1', 'd'])).toBeUndefined()
+  })
+
+  it('get value from object by path', () => {
+    expect(get(o)).toBeUndefined()
+    expect(get(o, 'a')).toBe(o.a)
+    expect(get(o, 'a.b')).toBe(o.a.b)
+    expect(get(o, 'a.b.[0]')).toBe(o.a.b[0])
+    expect(get(o, 'a.b.[0].c')).toBe(o.a.b[0].c)
+    expect(get(o, 'a.b[0].c')).toBe(o.a.b[0].c)
   })
 })
