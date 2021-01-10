@@ -15,5 +15,6 @@ describe('Test Flatten', () => {
     expect(flatten(arr, 0)).toStrictEqual([])
     expect(flatten(arr, -1)).toStrictEqual([])
     expect(flatten(arr, 1)).toStrictEqual([1, 2, [3], [[4]]])
+    expect(flatten(arr, 2)).toStrictEqual([1, 2, 3, [4]])
   })
 })
