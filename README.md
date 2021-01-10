@@ -36,3 +36,11 @@ API
 - [curry](src/javascript/function/curry/)
 - [partial](src/javascript/function/partial/)
 - [pick](src/javascript/function/pick/)
+
+### Array
+
+- [flatten](src/javascript/array/flatten/)
+
+### 其他
+
+- [pathParser](src/javascript/_/pathParser/)  词法解析 accessor-style 字符串
