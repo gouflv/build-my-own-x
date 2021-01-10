@@ -1,17 +1,17 @@
 import { isString } from '../../lang/is/is'
 
-const PATH_MODE = {
-  ID: 1,
+const PATH_Token = {
+  Identifier: 1,
   ACC: 2,
   ARR_START: 3,
   ARR_END: 4
 }
 
-function getCharMode(char) {
-  if (char === '.') return PATH_MODE.ACC
-  if (char === '[') return PATH_MODE.ARR_START
-  if (char === ']') return PATH_MODE.ARR_END
-  return PATH_MODE.ID
+function toToken(char) {
+  if (char === '.') return PATH_Token.ACC
+  if (char === '[') return PATH_Token.ARR_START
+  if (char === ']') return PATH_Token.ARR_END
+  return PATH_Token.Identifier
 }
 
 export const pathParser = str => {
@@ -23,27 +23,27 @@ export const pathParser = str => {
   const length = str.length
 
   let index = 0
-  let mode
+  let token
   let curr
   let identifier = ''
 
   while (index < length) {
     curr = str[index]
-    mode = getCharMode(curr)
+    token = toToken(curr)
 
-    if (mode === PATH_MODE.ACC) {
+    if (token === PATH_Token.ACC) {
       // keep identifier
       if (identifier.length) {
         res.push(identifier)
         identifier = ''
       }
-    } else if (mode === PATH_MODE.ARR_START) {
+    } else if (token === PATH_Token.ARR_START) {
       // ignore '[' and save identifier
       if (identifier.length) {
         res.push(identifier)
         identifier = ''
       }
-    } else if (mode === PATH_MODE.ARR_END) {
+    } else if (token === PATH_Token.ARR_END) {
       // ignore ']' and save array index number
 
       const arrIndex = parseInt(identifier, 10)
