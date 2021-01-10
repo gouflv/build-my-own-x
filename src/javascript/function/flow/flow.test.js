@@ -1,22 +1,22 @@
-import { compose } from './compose'
+import { flow } from './flow'
 import { curry } from '../curry/curry'
 
-describe('Test compose', () => {
-  it('simple compose', () => {
+describe('Test flow', () => {
+  it('simple flow', () => {
     const greet = name => `Hi, ${name}`
     const exclaim = val => `${val.toUpperCase()}!`
-    expect(compose(greet, exclaim)('foo')).toBe('Hi, FOO!')
+    expect(flow(greet, exclaim)('foo')).toBe('HI, FOO!')
   })
 
-  it('reduced compose', () => {
+  it('reduced flow', () => {
     const add = (val, res) => res + val
-    const composed = compose(
+    const flowed = flow(
       curry(add)('1'),
       curry(add)('2'),
       curry(add)('3'),
       curry(add)('4'),
       curry(add)('5')
     )
-    expect(composed('foo')).toBe('foo54321')
+    expect(flowed('foo')).toBe('foo12345')
   })
 })
