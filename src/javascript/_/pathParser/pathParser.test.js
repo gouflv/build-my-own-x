@@ -11,5 +11,6 @@ describe('Test pathParser', () => {
     expect(pathParser('a.b.c')).toStrictEqual(['a', 'b', 'c'])
     expect(pathParser('a.[1].c')).toStrictEqual(['a', 1, 'c'])
     expect(pathParser('a[1].c')).toStrictEqual(['a', 1, 'c'])
+    expect(pathParser('a.1.c')).toStrictEqual(['a', '1', 'c'])
   })
 })
