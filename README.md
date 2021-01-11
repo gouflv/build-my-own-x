@@ -14,8 +14,6 @@
 <summary>实现语言特性和基础工具</summary>
 
 <p>
-API 
-
 - [is](src/javascript/lang/is)
 - [clone](src/javascript/lang/clone)
 - [isEqual](src/javascript/lang/isEqual)
@@ -39,8 +37,6 @@ Doc
 <summary>函数相关</summary>
 
 <p>
-API
-
 - [get](src/javascript/function/get)
 - [curry](src/javascript/function/curry)
 - [partial](src/javascript/function/partial)
@@ -55,6 +51,6 @@ API
 
 - [flatten](src/javascript/array/flatten)
 
-### 其他
+### Util
 
 - [pathParser](src/javascript/_/pathParser)  词法解析 accessor-style 字符串
