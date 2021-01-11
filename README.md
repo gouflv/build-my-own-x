@@ -14,6 +14,7 @@
 <summary>实现语言特性和基础工具</summary>
 
 <p>
+
 - [is](src/javascript/lang/is)
 - [clone](src/javascript/lang/clone)
 - [isEqual](src/javascript/lang/isEqual)
@@ -26,6 +27,7 @@ Doc
 - [拷贝/深拷贝](src/javascript/lang/clone/README.md)
 - [数据相等性判断](src/javascript/lang/isEqual/README.md)
 - [深度相等检测](src/javascript/lang/isEqualDeep/README.md)
+
 </p>
 
 </details>
@@ -37,10 +39,12 @@ Doc
 <summary>函数相关</summary>
 
 <p>
+
 - [get](src/javascript/function/get)
 - [curry](src/javascript/function/curry)
 - [partial](src/javascript/function/partial)
 - [pick](src/javascript/function/pick)
+
 </p>
 
 </details>
