@@ -1,17 +1,14 @@
 import { assign } from './assign'
-import { keys } from '../keys/keys'
 
 describe('Test assign', () => {
   it('simple assign', () => {
-    expect(assign()).toStrictEqual({})
-    expect(assign(undefined)).toStrictEqual({})
-    expect(assign(undefined, undefined)).toStrictEqual({})
-    expect(assign(null)).toStrictEqual({})
-    expect(assign(null, null)).toStrictEqual({})
-    expect(assign(1)).toStrictEqual(new Number(1))
-    expect(assign(true)).toStrictEqual(new Boolean(true))
-    expect(assign('', '')).toStrictEqual(new String())
-    expect(assign([], {})).toStrictEqual([])
+    expect(assign()).toBeUndefined()
+    expect(assign(undefined)).toBeUndefined()
+    expect(assign(null)).toBeNull()
+    expect(assign(1)).toBe(1)
+    expect(assign(true)).toBeTruthy()
+    expect(assign('')).toBe('')
+    expect(assign([])).toStrictEqual([])
     expect(assign({}, [])).toStrictEqual({})
     expect(assign([1], [1, 2])).toStrictEqual([1, 2])
   })
