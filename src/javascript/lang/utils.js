@@ -1,4 +1,9 @@
-export const nativeRoot = window || global
+// use `self` instead of `window` for `WebWorker` support
+export const nativeRoot = 
+  (typeof self === 'object' && self.self === self && self) || 
+  (typeof global === 'object' && global.global === global && global) ||
+  this ||
+  {}
 
 /**
  * get object toString type tag: [object `Class`]
