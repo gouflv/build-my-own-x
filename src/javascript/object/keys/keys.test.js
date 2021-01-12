@@ -23,9 +23,13 @@ describe('Test keys', () => {
   })
 
   it('function keys', () => {
-    function foo() {}
-    foo.a = 1
+    function Foo() {
+      this.a = 1
+    }
+    Foo.b = 2
+    expect(keys(new Foo())).toStrictEqual(['a'])
 
-    expect(keys(foo)).toStrictEqual(['a'])
+    Foo.prototype.c = 3
+    expect(keys(new Foo())).toStrictEqual(['a'])
   })
 })
