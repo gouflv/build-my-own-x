@@ -1,17 +1,19 @@
-export const createAssigner = getKeys => {
+export const createAssigner = (getKeys, defaults) => {
   return (obj, ...sources) => {
-    const target = Object(obj)
+    const target = defaults ? Object(obj) : obj
 
     if (!sources.length) {
       return target
     }
 
-    for (let i = 0; i < sources.length; i++) {
-      const src = sources[i]
+    sources.forEach(src => {
       getKeys(src).forEach(k => {
+        if (defaults && target[k] !== void 0) {
+          return
+        }
         target[k] = src[k]
       })
-    }
+    })
 
     return target
   }
