@@ -1,7 +1,7 @@
 import { flatten } from './flatten'
 
 describe('Test Flatten', () => {
-  it('simple flat array', () => {
+  it('flat array', () => {
     expect(flatten(undefined)).toStrictEqual([])
     expect(flatten(null)).toStrictEqual([])
     expect(flatten(1)).toStrictEqual([])
@@ -16,5 +16,12 @@ describe('Test Flatten', () => {
     expect(flatten(arr, -1)).toStrictEqual([])
     expect(flatten(arr, 1)).toStrictEqual([1, 2, [3], [[4]]])
     expect(flatten(arr, 2)).toStrictEqual([1, 2, 3, [4]])
+  })
+
+  it('flat arguments', () => {
+    function foo() {
+      expect(flatten(arguments)).toStrictEqual([0, 1, 2])
+    }
+    foo(0, [1], [[2]])
   })
 })
