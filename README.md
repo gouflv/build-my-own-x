@@ -32,6 +32,26 @@ Doc
 
 </details>
 
+### Object
+
+<details>
+
+<summary>对象相关</summary>
+
+<p>
+
+- [assign](src/javascript/object/assign)
+- [defaults](src/javascript/object/defaults)
+- [keys](src/javascript/object/keys)
+- [keysIn](src/javascript/object/keysIn)
+- [values](src/javascript/object/values)
+- [get](src/javascript/object/get)
+- [pick](src/javascript/object/pick)
+
+</p>
+
+</details>
+
 ### Function
 
 <details>
@@ -40,10 +60,10 @@ Doc
 
 <p>
 
-- [get](src/javascript/function/get)
-- [curry](src/javascript/function/curry)
 - [partial](src/javascript/function/partial)
-- [pick](src/javascript/function/pick)
+- [curry](src/javascript/function/curry)
+- [compose](src/javascript/function/compose)
+- [flow](src/javascript/function/flow)
 
 </p>
 
