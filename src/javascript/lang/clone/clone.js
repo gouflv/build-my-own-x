@@ -6,7 +6,7 @@ import {
   isObjectLike,
   isString
 } from '../is/is'
-import { toStringTag } from '../utils'
+import { toStringTag } from '../_/setup'
 
 const copyArray = source => {
   let index = -1,

@@ -1,7 +1,7 @@
 import { isArray, isObjectLike } from '../is/is'
 import { isEqual } from '../isEqual/isEqual'
 import { keys } from '../../object/keys/keys'
-import { toStringTag } from '../utils'
+import { toStringTag } from '../_/setup'
 
 export const isEqualDeep = (x, y) => {
   if (isEqual(x, y)) {

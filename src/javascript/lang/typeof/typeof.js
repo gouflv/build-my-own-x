@@ -1,5 +1,5 @@
 import { isObjectLike } from '../is/is'
-import { toStringTag } from '../utils'
+import { toStringTag } from '../_/setup'
 
 export const typeOf = val => {
   let result = typeof val

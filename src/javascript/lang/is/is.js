@@ -1,4 +1,4 @@
-import { nativeRoot, toStringTag } from '../utils'
+import { nativeRoot, toStringTag } from '../_/setup'
 
 /**
  * isUndefined
