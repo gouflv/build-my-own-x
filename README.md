@@ -16,17 +16,24 @@
 <p>
 
 - [is](src/javascript/lang/is)
-- [clone](src/javascript/lang/clone)
+    
+    > _[数据类型和检测](src/javascript/lang/is/types.md)_
+    
+    > _[类型转化](src/javascript/lang/is/to.md)_
+
+- [clone](src/javascript/lang/clone) / [cloneDeep](src/javascript/lang/clone)
+  
+    > _[拷贝/深拷贝, 解决循环引用](src/javascript/lang/clone/README.md)_
+  
 - [isEqual](src/javascript/lang/isEqual)
+
+    > _[数据相等性判断](src/javascript/lang/isEqual/README.md)_
+
 - [isEqualDeep](src/javascript/lang/isEqualDeep)
+
+     > _[深度相等检测](src/javascript/lang/isEqualDeep/README.md)_
+
 - [typeOf](src/javascript/lang/typeof)
-
-Doc
-
-- [数据类型和检测](src/javascript/lang/is/README.md)
-- [拷贝/深拷贝](src/javascript/lang/clone/README.md)
-- [数据相等性判断](src/javascript/lang/isEqual/README.md)
-- [深度相等检测](src/javascript/lang/isEqualDeep/README.md)
 
 </p>
 
@@ -77,4 +84,5 @@ Doc
 
 ### Util
 
-- [pathParser](src/javascript/_/pathParser)  词法解析 accessor-style 字符串
+- [pathParser](src/javascript/_/pathParser)  
+    > _词法解析 accessor-style 字符串_

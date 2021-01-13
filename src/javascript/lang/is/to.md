@@ -1,117 +1,6 @@
-# 数据类型和检测
+# 类型转化
 
-## 数据类型
-
-### 原始类型
-- Undefined
-- Null
-- Boolean
-- Number
-- String
-- Symbol
-- NaN
-- Infinity
-  
-### 对象引用类型
-- Object
-- Arguments
-- Date
-- RegExp
-- Error
-- 原始包装
-
-- Array
-- Map
-- Set
-
-- Function
-- Promise
-- Proxy
-
-### 特殊类型
-
-- 包装类型: 对原始类型的对象包装
-- PlainObject: 纯对象，类似于 Java 的 POJO，[[prototype]] 为 `null` 或者 `object`
-- ArrayLike: Arguments、NodeList、string
-
-
-## typeof 检测
-
-`typeof` 用于对简单类型的判断
-
-```javascript
-console.log(typeof undefined) // "undefined"
-console.log(typeof null)      // "object"
-console.log(typeof true)      // "boolean"
-console.log(typeof 1)         // "number"
-console.log(typeof NaN)       // "number"
-console.log(typeof 'foo')     // "string"
-console.log(typeof Symbol('bar')) // "symbol"
-```
-
-`typeof` 对复杂类型的判断, 只能区分出 `object` 或者 `function`
-
-```javascript
-console.log(typeof new Number(1))  // "object"
-console.log(typeof {})  // "object"
-console.log(typeof [])  // "object"
-console.log(typeof (new Date))  // "object"
-console.log(typeof (new Proxy({}, () => {})))  // "object"
-console.log(typeof (function() {}))  // "function"
-```
-
-## toString 检测
-
-`Object.prototype.toString` 可用于对象类型检测
-
-简单类型
-
-```javascript
-const toString = Object.prototype.toString
-console.log(toString.call(undefined)) // "[object Undefined]"
-console.log(toString.call(null)) // "[object Null]"
-console.log(toString.call(true)) // "[object Boolean]"
-console.log(toString.call(1)) // "[object Number]"
-console.log(toString.call('')) // "[object String]"
-```
-
-包装类型
-
-```javascript
-console.log(toString.call(new Boolean(true))) // "[object Boolean]"
-console.log(toString.call(new Number(1))) // "[object Number]"
-console.log(toString.call(new String(''))) // "[object String]"
-```
-
-复杂类型
-
-```javascript
-console.log(toString.call({})) // "[object Object]"
-console.log(toString.call(new Date)) // "[object Date]"
-console.log(toString.call(new Array)) // "[object Array]"
-console.log(toString.call(new Error(''))) // "[object Error]"
-```
-
-## 其他检测
-
-isNaN
-
-```javascript
-console.log(isNaN(undefined)) //T
-console.log(isNaN(null))
-console.log(isNaN(1))
-console.log(isNaN(true))
-console.log(isNaN('1'))
-console.log(isNaN('foo'))  //T
-console.log(isNaN({}))  //T
-```
-
-
-## 类型转化
-
-通过调用 Number()、String()、Boolean() 方法，或者使用运算符操作，都会执行隐式转化
-
-> 详细逻辑参考 ecma-262 定义
+## 几种转化算法
 
 ### [ToBoolean](https://www.ecma-international.org/ecma-262/11.0/index.html#sec-toboolean)
 
@@ -202,16 +91,21 @@ console.log(String([])) // ""
 console.log(String([1, 2])) // "1,2"
 ```
 
-## 思考
+## 运算符
 
 ```javascript
 console.log([] == "")
 console.log({} == "[object Object]")
+console.log(+undefined)
+console.log(+null)
+console.log(+{})
+console.log(+'')
+console.log(undefined + '')
+console.log('' + undefined)
 console.log([]+[])
 console.log({}+[])
 console.log([]+{})
 console.log({}+{})
-console.log(+undefined)
 console.log(undefined+undefined)
 ```
 
@@ -219,10 +113,4 @@ console.log(undefined+undefined)
 
 [ECMA](https://www.ecma-international.org/ecma-262/11.0/index.html)
 
-- [类型转换](https://zhuanlan.zhihu.com/p/29730094)
-
-- [隐式装箱ToPrimitive](https://sinaad.github.io/xfe/2016/04/15/ToPrimitive/)
-
-[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects)
-
-[lodash](https://github.com/lodash)
+JavaScript深入之头疼的类型转换 [link](https://github.com/mqyqingfeng/Blog/issues/164)
