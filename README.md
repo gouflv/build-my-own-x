@@ -11,7 +11,7 @@
 
 <details>
 
-<summary>实现语言特性和基础工具</summary>
+<summary>语言特性</summary>
 
 <p>
 
@@ -43,7 +43,7 @@
 
 <details>
 
-<summary>对象相关</summary>
+<summary>对象</summary>
 
 <p>
 
@@ -53,6 +53,9 @@
 - [keysIn](src/javascript/object/keysIn)
 - [values](src/javascript/object/values)
 - [get](src/javascript/object/get)
+  
+  > _[pathParser](src/javascript/_/pathParser)_ 词法解析 accessor-style 字符串
+
 - [pick](src/javascript/object/pick)
 
 </p>
@@ -63,7 +66,7 @@
 
 <details>
 
-<summary>函数相关</summary>
+<summary>函数</summary>
 
 <p>
 
@@ -76,20 +79,31 @@
 
 </details>
 
-### Reactive
-
-基于 Proxy 的响应式
-
-- [reactive](src/javascript/proxy/reactive)
-
-
 ### Array
 
-数组集合相关
+<details>
+
+<summary>数组集合</summary>
+
+<p>
 
 - [flatten](src/javascript/array/flatten)
 
-### Util
+</p>
 
-- [pathParser](src/javascript/_/pathParser)  
-    > _词法解析 accessor-style 字符串_
+</details>
+
+
+### Proxy
+
+<details>
+
+<summary>基于 Proxy 的响应式</summary>
+
+<p>
+
+- [reactive](src/javascript/proxy/reactive)
+
+</p>
+
+</details>
