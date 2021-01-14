@@ -19,7 +19,7 @@
     
     > _[数据类型和检测](src/javascript/lang/is/types.md)_
     
-    > _[类型转化](src/javascript/lang/is/to.md)_
+    > _[类型转化](src/javascript/lang/is/type-conversion.md)_
 
 - [clone](src/javascript/lang/clone) / [cloneDeep](src/javascript/lang/clone)
   
