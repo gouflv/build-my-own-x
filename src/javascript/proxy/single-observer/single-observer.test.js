@@ -49,7 +49,7 @@ describe('Test Single Observer', () => {
     expect(changed).toBeCalledTimes(2)
   })
 
-  it('object had been observed', () => {
+  it('when object had been observed', () => {
     const observable = singleObserver({})
     expect(isObservable(observable)).toBeTruthy()
     expect(singleObserver(observable)).toBe(observable)

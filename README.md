@@ -94,15 +94,22 @@
 </details>
 
 
-### Proxy
+### Reactive
 
 <details>
 
-<summary>基于 Proxy 的响应式</summary>
+<summary>基于 Proxy 的响应式数据</summary>
 
 <p>
 
+- [single-object-observer](src/javascript/proxy/single-observer)
+
+  > _[响应式数据最简实现](src/javascript/proxy/single-observer/README.md)_
+
 - [reactive](src/javascript/proxy/reactive)
+  / [effect](src/javascript/proxy/effect)
+
+  > _基于 [observer-util](https://github.com/nx-js/observer-util) 的实现_
 
 </p>
 
