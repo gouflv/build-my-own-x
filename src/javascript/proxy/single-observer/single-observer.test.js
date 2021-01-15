@@ -30,10 +30,28 @@ describe('Test Single Observer', () => {
     expect(changed).toBeCalledTimes(2)
   })
 
-  it('call with observed object', () => {
+  it('nesting object observer', () => {
+    const changed = jest.fn()
+    const observable = singleObserver({ a: { b: { c: 1 } } })
+
+    observable.subscribe((key, value) => {
+      changed()
+      key === 'c' && expect(value).toBe(2)
+      key === 'd' && expect(value).toStrictEqual({ d: 'foo' })
+    })
+
+    observable.a.b.c = 2
+    expect(observable).toStrictEqual({ a: { b: { c: 2 } } })
+
+    observable.a.b = { d: 'foo' }
+    expect(observable).toStrictEqual({ a: { b: { d: 'foo' } } })
+
+    expect(changed).toBeCalledTimes(2)
+  })
+
+  it('object had been observed', () => {
     const observable = singleObserver({})
     expect(isObservable(observable)).toBeTruthy()
     expect(singleObserver(observable)).toBe(observable)
-    console.debug(observable)
   })
 })

@@ -19,18 +19,29 @@ export const singleObserver = target => {
     value: new Set()
   })
 
-  target.subscribe = handler => {
+  const subscribe = handler => {
     target[KEY_OBSERVER].add(handler)
   }
+  Object.defineProperty(target, 'subscribe', {
+    configurable: false,
+    writable: false,
+    enumerable: false,
+    value: subscribe
+  })
 
+  return createReactive(target, target[KEY_OBSERVER])
+}
+
+function createReactive(target, observerSet) {
   const baseHandler = {
     get(target, key) {
-      return Reflect.get(...arguments)
+      const res = Reflect.get(...arguments)
+      return isObjectLike(res) ? createReactive(res, observerSet) : res
     },
     set(target, key, value) {
       const success = Reflect.set(...arguments)
       if (success) {
-        target[KEY_OBSERVER].forEach(f => f(key, value))
+        observerSet.forEach(f => f(key, value))
       }
       return success
     }
