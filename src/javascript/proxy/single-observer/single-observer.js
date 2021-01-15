@@ -12,7 +12,12 @@ export const singleObserver = target => {
     return target
   }
 
-  target[KEY_OBSERVER] = new Set()
+  Object.defineProperty(target, KEY_OBSERVER, {
+    configurable: false,
+    enumerable: false,
+    writable: false,
+    value: new Set()
+  })
 
   target.subscribe = handler => {
     target[KEY_OBSERVER].add(handler)

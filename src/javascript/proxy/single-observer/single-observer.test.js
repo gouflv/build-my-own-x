@@ -30,23 +30,10 @@ describe('Test Single Observer', () => {
     expect(changed).toBeCalledTimes(2)
   })
 
-  // 暂时不支持嵌套
-  it.skip('nesting object observer', () => {
-    const changed = jest.fn()
-    const observable = singleObserver({ a: { b: { c: 1 } } })
-
-    observable.subscribe((key, value) => {
-      expect(key).toBe('c1')
-      expect(value).toBe(2)
-    })
-
-    observable.a.b.c = 2
-    expect(changed).toBeCalled()
-  })
-
-  it('call with a object has been observable', () => {
+  it('call with observed object', () => {
     const observable = singleObserver({})
     expect(isObservable(observable)).toBeTruthy()
     expect(singleObserver(observable)).toBe(observable)
+    console.debug(observable)
   })
 })

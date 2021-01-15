@@ -1,5 +1,11 @@
 # Proxy
 
+## 特性
+
+- 数组操作引发多次操作
+- 只能代理对象第一层，需手动实现深度代理
+
+
 ## Proxy type
 
 ```javascript
@@ -56,4 +62,25 @@ console.log('a' in proxy) //true
 console.log(Object.keys(proxy)) // ['a']
 delete proxy.a
 console.log(proxy, target) //{}
+```
+
+## Array Operation
+
+```javascript
+const proxy = new Proxy([1], {
+  set(target, key, value) {
+    console.log(`Set [${key}]=${value}`)
+    return Reflect.set(...arguments)
+  }
+})
+
+proxy.push(2)
+// Set [1]=2
+// Set [length]=2
+
+proxy.unshift(1)
+// Set [2]=2
+// Set [1]=1
+// Set [0]=1
+// Set [length]=3
 ```
