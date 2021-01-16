@@ -1,7 +1,7 @@
 import { isObjectLike } from '../../lang/is/is'
 import { proxyToRawMap, reactive } from './reactive'
 import { hasOwn } from '../../lang/_/setup'
-import { track } from './effect'
+import { track, TrackOpType } from './effect'
 
 // const ArrayReactiveMethods = {}
 //
@@ -15,7 +15,7 @@ import { track } from './effect'
 //   }
 // })
 
-export const baseHandler = {
+export const baseHandler: ProxyHandler<any> = {
   get(target, key, receiver) {
     if (proxyToRawMap.get(target)) {
       return target
@@ -27,7 +27,7 @@ export const baseHandler = {
 
     const res = Reflect.get(target, key, receiver)
 
-    track({ target, key, receiver, type: 'get' })
+    track(target, key, TrackOpType.GET)
 
     // dynamic reactive
     return isObjectLike(res) ? reactive(res) : res
