@@ -113,3 +113,8 @@ export const isArrayLike = val => {
  */
 export const isArray =
   Array.isArray || (val => toStringTag(val) === '[object Array]')
+
+/**
+ * isSymbol
+ */
+export const isSymbol = val => typeof val === 'symbol'

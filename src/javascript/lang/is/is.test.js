@@ -11,6 +11,7 @@ import {
   isObjectLike,
   isPlainObject,
   isString,
+  isSymbol,
   isUndefined
 } from './is'
 
@@ -194,5 +195,9 @@ describe('Test `is`', () => {
       expect(isArrayLike(arguments)).toBeTruthy()
     }
     foo()
+  })
+
+  it('isSymbol', () => {
+    expect(isSymbol(Symbol('a'))).toBeTruthy()
   })
 })
