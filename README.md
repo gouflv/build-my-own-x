@@ -109,7 +109,7 @@
 - [reactive](src/javascript/proxy/reactive)
   / [effect](src/javascript/proxy/effect)
 
-  > _基于 [observer-util](https://github.com/nx-js/observer-util) 的实现_
+  > _参考 [@vue/reactivity]() 和 [observer-util](https://github.com/nx-js/observer-util) 的实现_
 
 </p>
 

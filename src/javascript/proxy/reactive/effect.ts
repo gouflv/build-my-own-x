@@ -1,30 +1,77 @@
-import { activeEffect } from './effectRunner'
+/**
+ * targetMap = Map(
+ *  target : Map<TargetKeysMap>(
+ *    key : EffectSet
+ *  )
+ * )
+ */
+import { isUndefined } from '../../lang/is/is'
 
-export type Target = object
-export interface Effect {}
-
-export const enum TrackOpType {
-  GET = 'get'
+export interface Effect {
+  (): any
+  deps: Array<EffectSet>
 }
 
-const trackTargetMap = new WeakMap<Target>()
+type EffectSet = Set<Effect>
+type TargetKeysMap = Map<any, EffectSet>
 
-export const track = (target: Target, key, type: TrackOpType) => {
+export enum TriggerType {
+  ADD = 'add',
+  SET = 'set'
+}
+
+const targetMap = new Map<any, TargetKeysMap>()
+let activeEffect: Effect | undefined
+
+export const track = (target, key) => {
   if (!activeEffect) {
     return
   }
 
-  let trackedTarget = trackTargetMap.get(target)
-  if (!trackedTarget) {
-    trackedTarget.set(target, (trackedTarget = new Map()))
+  let targetKeysMap = targetMap.get(target)
+  if (!targetKeysMap) {
+    targetMap.set(target, (targetKeysMap = new Map()))
   }
 
-  let trackedTargetKeySet = trackedTarget.get(key)
-  if (!trackedTargetKeySet) {
-    trackedTarget.set(key, (trackedTargetKeySet = new Set()))
+  let effectSet = targetKeysMap.get(key)
+  if (!effectSet) {
+    targetKeysMap.set(key, (effectSet = new Set()))
   }
 
-  if (!trackedTargetKeySet.has(activeEffect)) {
-    trackedTargetKeySet.add(activeEffect)
+  if (!effectSet.has(activeEffect)) {
+    effectSet.add(activeEffect)
+    activeEffect.deps.push(effectSet)
   }
+}
+
+export const trigger = (target, type, key, value) => {
+  const targetKeysMap = targetMap.get(target)
+  if (!targetKeysMap) {
+    return
+  }
+
+  const effects = new Set<Effect>()
+  const add = (add: Set<Effect> | undefined) => {
+    add &&
+      add.forEach(effect => {
+        effects.add(effect)
+      })
+  }
+
+  if (!isUndefined(key)) {
+    add(targetKeysMap.get(key))
+  }
+
+  effects.forEach(fn => {
+    fn()
+  })
+}
+
+export const effect = fn => {
+  const effect = function effectFun() {
+    return fn()
+  }
+  effect.deps = []
+  activeEffect = effect
+  effect()
 }
