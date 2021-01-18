@@ -1,5 +1,4 @@
 import { isReactive, reactive, toRaw } from './reactive'
-import { effect } from './effect'
 
 describe('Test reactive', () => {
   it('types reactive', () => {
@@ -20,14 +19,11 @@ describe('Test reactive', () => {
     expect(isReactive({})).not.toBeTruthy()
   })
 
-  it('track', () => {
-    const obj = { a: 1, b: { c: 2 } }
-    const observed = reactive(obj)
-
-    let c
-    effect(() => (c = observed.b.c))
-    expect(c).toBe(2)
-    observed.b.c = 3
-    expect(c).toBe(3)
+  it('array reactive', () => {
+    const array = [1, 2, 3]
+    const observed = reactive(array)
+    expect(observed).not.toBe(array)
+    expect(toRaw(observed)).toBe(array)
+    expect(isReactive(observed)).toBeTruthy()
   })
 })

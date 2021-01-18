@@ -5,7 +5,6 @@
  *  )
  * )
  */
-import { isUndefined } from '../../lang/is/is'
 
 export interface Effect {
   (): any
@@ -15,18 +14,32 @@ export interface Effect {
 type EffectSet = Set<Effect>
 type TargetKeysMap = Map<any, EffectSet>
 
+export enum TrackType {
+  GET = 'get',
+  ITERATE = 'iterate'
+}
+
 export enum TriggerType {
   ADD = 'add',
   SET = 'set'
 }
 
 const targetMap = new Map<any, TargetKeysMap>()
+
 let activeEffect: Effect | undefined
 
-export const track = (target, key) => {
-  if (!activeEffect) {
+let shouldTrack = true
+
+export const pauseTrack = () => (shouldTrack = false)
+
+export const resumeTrack = () => (shouldTrack = true)
+
+export const track = (target, type: TrackType, key) => {
+  if (!shouldTrack || !activeEffect) {
     return
   }
+
+  console.debug(`track ${type} ${key} on ${JSON.stringify(target)}`)
 
   let targetKeysMap = targetMap.get(target)
   if (!targetKeysMap) {
@@ -58,9 +71,7 @@ export const trigger = (target, type, key, value) => {
       })
   }
 
-  if (!isUndefined(key)) {
-    add(targetKeysMap.get(key))
-  }
+  add(targetKeysMap.get(key))
 
   effects.forEach(fn => {
     fn()
