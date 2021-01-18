@@ -1,9 +1,10 @@
 # Proxy
 
-## 特性
+## Features
 
-- 数组操作引发多次操作
 - 只能代理对象第一层，需手动实现深度代理
+
+- 数组方法会触发内部的多次操作
 
 
 ## Proxy type
@@ -71,16 +72,34 @@ const proxy = new Proxy([1], {
   set(target, key, value) {
     console.log(`Set [${key}]=${value}`)
     return Reflect.set(...arguments)
+  },
+  get(target, key) {
+    console.log(`Get [${key}]`)
+    return Reflect.get(...arguments)
   }
 })
 
 proxy.push(2)
+// Get [push]
+// Get [length]
 // Set [1]=2
 // Set [length]=2
 
 proxy.unshift(1)
+// Get [unshift]
+// Get [length]
+// Get [1]
 // Set [2]=2
+// Get [0]
 // Set [1]=1
 // Set [0]=1
 // Set [length]=3
+
+proxy.join(',')
+// Get [join]
+// Get [length]
+// Get [0]
+// Get [1]
+// Get [2]
+
 ```
