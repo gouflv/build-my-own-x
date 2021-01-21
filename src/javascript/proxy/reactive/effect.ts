@@ -39,7 +39,7 @@ export const track = (target, type: TrackType, key) => {
     return
   }
 
-  console.debug(`track ${type} ${key} on ${JSON.stringify(target)}`)
+  // console.debug(`track ${type} ${key} on ${JSON.stringify(target)}`)
 
   let targetKeysMap = targetMap.get(target)
   if (!targetKeysMap) {
