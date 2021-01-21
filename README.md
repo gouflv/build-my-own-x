@@ -91,14 +91,16 @@
 <p>
 
 - [flatten](src/javascript/array/flatten)
-- reduce
+- [reduce](src/javascript/array/reduce)
+- [reduceRight](src/javascript/array/reduceRight)
+
 </p>
 
 </details>
 
 ### Promise
 
-<detail>
+<details>
 
 <summary>契约</summary>
 
@@ -109,7 +111,7 @@
 
 </p>
 
-</detail>
+</details>
 
 ### Reactive
 
