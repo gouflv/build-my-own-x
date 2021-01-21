@@ -1,4 +1,6 @@
-export const flow = (...f) => {
+import { reduce } from '../../array/reduce/reduce'
+
+const flowOld = (...f) => {
   return (...args) => {
     let result = f[0].apply(this, args)
     let index = 1
@@ -7,5 +9,15 @@ export const flow = (...f) => {
       index++
     }
     return result
+  }
+}
+
+export const flow = (...fn) => {
+  return (...args) => {
+    return reduce(
+      fn.slice(1),
+      (res, f) => f.call(this, res),
+      fn[0].apply(this, args)
+    )
   }
 }
