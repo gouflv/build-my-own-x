@@ -74,6 +74,9 @@
 - [curry](src/javascript/function/curry)
 - [compose](src/javascript/function/compose)
 - [flow](src/javascript/function/flow)
+- compose(use reduce)
+- bind
+- apply/call
 
 </p>
 
@@ -88,11 +91,25 @@
 <p>
 
 - [flatten](src/javascript/array/flatten)
-
+- reduce
 </p>
 
 </details>
 
+### Promise
+
+<detail>
+
+<summary>契约</summary>
+
+<p>
+
+- PromiseMock
+- runPromiseInSequence
+
+</p>
+
+</detail>
 
 ### Reactive
 
