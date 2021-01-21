@@ -74,7 +74,6 @@
 - [curry](src/javascript/function/curry)
 - [compose](src/javascript/function/compose)
 - [flow](src/javascript/function/flow)
-- compose(use reduce)
 - bind
 - apply/call
 
@@ -102,7 +101,7 @@
 
 <details>
 
-<summary>契约</summary>
+<summary>异步相关</summary>
 
 <p>
 
