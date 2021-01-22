@@ -17,21 +17,19 @@
 
 - [is](src/javascript/lang/is)
     
-    > _[数据类型和检测](src/javascript/lang/is/types.md)_
+    > _[JavaScript 基础之数据类型和检测](src/javascript/lang/is/types.md)_
     
-    > _[类型转化](src/javascript/lang/is/type-conversion.md)_
+    > _[JavaScript 基础之类型转化](src/javascript/lang/is/type-conversion.md)_
 
 - [clone](src/javascript/lang/clone) / [cloneDeep](src/javascript/lang/clone)
   
-    > _[拷贝/深拷贝, 解决循环引用](src/javascript/lang/clone/README.md)_
+    > _[JavaScript 基础之拷贝/深拷贝, 解决循环引用](src/javascript/lang/clone/README.md)_
   
 - [isEqual](src/javascript/lang/isEqual)
 
-    > _[数据相等性判断](src/javascript/lang/isEqual/README.md)_
+    > _[JavaScript 基础之数据相等性判断](src/javascript/lang/isEqual/README.md)_
 
 - [isEqualDeep](src/javascript/lang/isEqualDeep)
-
-     > _[深度相等检测](src/javascript/lang/isEqualDeep/README.md)_
 
 - [typeOf](src/javascript/lang/typeof)
 
@@ -76,7 +74,7 @@
 - [flow](src/javascript/function/flow)
 - [bind](src/javascript/function/bind)
   
-  > [bind 方法模拟](src/javascript/function/bind/README.md)  
+  > [JavaScript 基础之 bind 方法模拟](src/javascript/function/bind/README.md)  
 
 - apply 
 - call
