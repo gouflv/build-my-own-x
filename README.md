@@ -76,8 +76,7 @@
   
   > [JavaScript 基础之 bind 方法模拟](src/javascript/function/bind/README.md)  
 
-- apply 
-- call
+- [apply / call](src/javascript/function/apply)
 
 </p>
 
