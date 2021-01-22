@@ -74,8 +74,12 @@
 - [curry](src/javascript/function/curry)
 - [compose](src/javascript/function/compose)
 - [flow](src/javascript/function/flow)
-- bind
-- apply/call
+- [bind](src/javascript/function/bind)
+  
+  > [bind 方法模拟](src/javascript/function/bind/README.md)  
+
+- apply 
+- call
 
 </p>
 
