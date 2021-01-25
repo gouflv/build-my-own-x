@@ -1,4 +1,10 @@
-# Promise 用例
+# Promise 
+
+## 规范
+
+[Promise/A+](https://www.ituring.com.cn/article/66566)
+
+## 用例
 
 ```javascript
 new Promise(resolve => {
