@@ -1,71 +1,76 @@
-import { isFunction } from '../lang/is/is'
-
 enum PromiseState {
   PENDING,
   FULFILLED,
   REJECTED
 }
 
-type PromiseValue = any
+type PromiseValue<T> = T
 
-type PromiseReason = any
+type PromiseReason<T = any> = T
 
-type FulfilledFunction = (value?: PromiseValue) => void
-type RejectedFunction = (reason?: PromiseReason) => void
+type FulfilledHandler<T> = (value?: PromiseValue<T>) => void
+
+type RejectedHandler<R = any> = (reason?: PromiseReason<R>) => void
+
+interface Thenable<T> {
+  then(fulfilled: FulfilledHandler<T>, rejected: RejectedHandler): Thenable<T>
+}
 
 const runMicroFake = fn => (setImmediate ? setImmediate(fn) : setTimeout(fn))
 
-export class PromiseMock {
+export class PromiseMock<T = any> implements Thenable<T> {
   state: PromiseState = PromiseState.PENDING
-  value: PromiseValue = null
-  reason: PromiseReason = null
-  onFulfilledCallback: FulfilledFunction[] = []
-  onRejectedCallback: RejectedFunction[] = []
+
+  value: PromiseValue<T> | PromiseReason | undefined = undefined
+
+  onFulfilledHandler: Array<FulfilledHandler<T>> = []
+
+  onRejectedHandler: RejectedHandler[] = []
 
   constructor(
     executor: (
-      onFulfilled: FulfilledFunction,
-      onRejected: RejectedFunction
+      resolve: (value?: PromiseValue<T>) => void,
+      reject: (reason?: PromiseReason) => void
     ) => void
   ) {
-    const resolve: FulfilledFunction = value => {
+    const resolve: FulfilledHandler<T> = value => {
       runMicroFake(() => {
         if (this.state === PromiseState.PENDING) {
           this.value = value
           this.state = PromiseState.FULFILLED
 
-          this.onFulfilledCallback.forEach(fn => {
-            fn(value)
-          })
+          this.onFulfilledHandler.forEach(fn => fn(value))
         }
       })
     }
 
-    const reject: RejectedFunction = reason => {
+    const reject: RejectedHandler = reason => {
       runMicroFake(() => {
         if (this.state === PromiseState.PENDING) {
-          this.reason = reason
+          this.value = reason
           this.state = PromiseState.REJECTED
 
-          this.onRejectedCallback.forEach(fn => {
-            fn(reason)
-          })
+          this.onRejectedHandler.forEach(fn => fn(reason))
         }
       })
     }
 
-    executor(resolve, reject)
+    try {
+      executor(resolve, reject)
+    } catch (e) {
+      reject(e)
+    }
   }
 
   then(
-    onFulfilled: FulfilledFunction = value => value,
-    onRejected: RejectedFunction = reason => {
+    onFulfilled: FulfilledHandler<T> = value => value,
+    onRejected: RejectedHandler = reason => {
       throw reason
     }
   ) {
     if (this.state === PromiseState.PENDING) {
-      this.onFulfilledCallback.push(onFulfilled)
-      this.onRejectedCallback.push(onRejected)
+      this.onFulfilledHandler.push(onFulfilled)
+      this.onRejectedHandler.push(onRejected)
     }
 
     if (this.state === PromiseState.FULFILLED) {
@@ -73,7 +78,7 @@ export class PromiseMock {
     }
 
     if (this.state === PromiseState.REJECTED) {
-      onRejected(this.reason)
+      onRejected(this.value)
     }
 
     return this
