@@ -1,5 +1,3 @@
-import { isFunction } from '../lang/is/is'
-
 enum PromiseState {
   PENDING,
   FULFILLED,
@@ -21,18 +19,26 @@ type FulfilledHandler<T> = (value?: T) => Value<T> | Thenable<T>
 
 type RejectedHandler<R = any> = (reason?: R) => Reason<R> | Thenable<R>
 
+interface Deferred<T> {
+  promise: PromiseMock
+  onFulfilled: FulfilledHandler<T>
+  onRejected: RejectedHandler
+}
+
 const runMicroFake = fn => (setImmediate ? setImmediate(fn) : setTimeout(fn))
 
+let promiseId = 0
+
 export class PromiseMock<T = any> implements Thenable<T> {
+  _id: number = 0
+
   state: PromiseState = PromiseState.PENDING
 
   value: any = undefined
 
   reason: any = undefined
 
-  onFulfilledHandler: Array<FulfilledHandler<T>> = []
-
-  onRejectedHandler: Array<RejectedHandler> = []
+  deferred: Deferred<T>[] = []
 
   constructor(
     executor: (
@@ -40,54 +46,66 @@ export class PromiseMock<T = any> implements Thenable<T> {
       reject: (reason?: Reason) => void
     ) => void
   ) {
-    const resolve = value => {
-      runMicroFake(() => {
-        if (this.state === PromiseState.PENDING) {
-          this.value = value
-          this.state = PromiseState.FULFILLED
+    this._id = promiseId++
 
-          this.onFulfilledHandler.forEach(fn => fn(value))
-        }
-      })
-    }
-
-    const reject = reason => {
-      runMicroFake(() => {
-        if (this.state === PromiseState.PENDING) {
-          this.reason = reason
-          this.state = PromiseState.REJECTED
-
-          this.onRejectedHandler.forEach(fn => fn(reason))
-        }
-      })
-    }
-
-    try {
-      executor(resolve, reject)
-    } catch (e) {
-      reject(e)
-    }
+    executor(
+      value => resolve(this, value),
+      reason => reject(this, reason)
+    )
   }
 
   then(
-    onFulfilled = value => value,
-    onRejected = (reason => {
-      throw reason
+    onFulfilled = val => val,
+    onRejected = (e => {
+      throw e
     }) as RejectedHandler
   ) {
-    if (this.state === PromiseState.PENDING) {
-      this.onFulfilledHandler.push(onFulfilled)
-      this.onRejectedHandler.push(onRejected)
-    }
-
-    if (this.state === PromiseState.FULFILLED) {
-      onFulfilled(this.value)
-    }
-
-    if (this.state === PromiseState.REJECTED) {
-      onRejected(this.reason)
-    }
-
-    return this
+    const promise2 = new PromiseMock(() => {})
+    deferredHandler(this, {
+      promise: promise2,
+      onFulfilled,
+      onRejected
+    })
+    return promise2
   }
+}
+
+const resolve = (self: PromiseMock, value) => {
+  self.state = PromiseState.FULFILLED
+  self.value = value
+  finale(self)
+}
+
+const reject = (self: PromiseMock, reason) => {
+  self.state = PromiseState.REJECTED
+  self.reason = reason
+  finale(self)
+}
+
+const finale = (self: PromiseMock) => {
+  self.deferred.forEach(def => {
+    deferredHandler(self, def)
+  })
+}
+
+const deferredHandler = (self: PromiseMock, def: Deferred<any>) => {
+  if (self.state === PromiseState.PENDING) {
+    // 记录异步依赖
+    self.deferred.push(def)
+    return
+  }
+  runMicroFake(() => {
+    // 根据当前 state 和 value 执行依赖
+    const fn =
+      self.state === PromiseState.FULFILLED ? def.onFulfilled : def.onRejected
+
+    let res
+    try {
+      res = fn(self.value)
+    } catch (e) {
+      console.debug(e)
+      return
+    }
+    resolve(def.promise, res)
+  })
 }

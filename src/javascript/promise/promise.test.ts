@@ -4,19 +4,25 @@ const expectFnCalledWith = (fn, params: any[]) =>
   params.forEach((param, i) => expect(fn).nthCalledWith(i + 1, param))
 
 describe('Test PromiseMock', () => {
-  it('promise simple', done => {
-    const called = jest.fn()
+  let called
+  beforeEach(() => {
+    called = jest.fn()
+  })
+
+  it.only('promise simple', done => {
     called('start')
     new PromiseMock<string>(resolve => {
       called('init')
       resolve('resolved')
     })
       .then()
-      .then(() => {
+      .then(value => {
         called('thenA')
+        return value
       })
-      .then(() => {
+      .then(value => {
         called('thenB')
+        return value
       })
       .then(value => {
         expect(value).toBe('resolved')
@@ -48,5 +54,28 @@ describe('Test PromiseMock', () => {
         done()
       }
     )
+  })
+
+  it('promise chain', done => {
+    new PromiseMock(() => {
+      return new PromiseMock(resolve => resolve('promise 1 init'))
+    })
+      .then(value1 => {
+        called(value1)
+        return new PromiseMock(resolve => {
+          resolve('promise2 init')
+        }).then(value2 => {
+          called('promise2 then')
+          return value2
+        })
+      })
+      .then(value2 => {
+        expectFnCalledWith(called, [
+          'promise 1 init',
+          'promise 2 init',
+          'promise 2 then'
+        ])
+        done()
+      })
   })
 })
