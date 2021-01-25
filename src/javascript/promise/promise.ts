@@ -1,39 +1,46 @@
+import { isFunction } from '../lang/is/is'
+
 enum PromiseState {
   PENDING,
   FULFILLED,
   REJECTED
 }
 
-type PromiseValue<T> = T
+type Value<T> = T | null | undefined
 
-type PromiseReason<T = any> = T
-
-type FulfilledHandler<T> = (value?: PromiseValue<T>) => void
-
-type RejectedHandler<R = any> = (reason?: PromiseReason<R>) => void
+type Reason<T = any> = T | null | undefined
 
 interface Thenable<T> {
-  then(fulfilled: FulfilledHandler<T>, rejected: RejectedHandler): Thenable<T>
+  then(
+    onFulfilled: FulfilledHandler<T>,
+    onRejected: RejectedHandler
+  ): Thenable<T>
 }
+
+type FulfilledHandler<T> = (value?: T) => Value<T> | Thenable<T>
+
+type RejectedHandler<R = any> = (reason?: R) => Reason<R> | Thenable<R>
 
 const runMicroFake = fn => (setImmediate ? setImmediate(fn) : setTimeout(fn))
 
 export class PromiseMock<T = any> implements Thenable<T> {
   state: PromiseState = PromiseState.PENDING
 
-  value: PromiseValue<T> | PromiseReason | undefined = undefined
+  value: any = undefined
+
+  reason: any = undefined
 
   onFulfilledHandler: Array<FulfilledHandler<T>> = []
 
-  onRejectedHandler: RejectedHandler[] = []
+  onRejectedHandler: Array<RejectedHandler> = []
 
   constructor(
     executor: (
-      resolve: (value?: PromiseValue<T>) => void,
-      reject: (reason?: PromiseReason) => void
+      resolve: (value?: Value<T>) => void,
+      reject: (reason?: Reason) => void
     ) => void
   ) {
-    const resolve: FulfilledHandler<T> = value => {
+    const resolve = value => {
       runMicroFake(() => {
         if (this.state === PromiseState.PENDING) {
           this.value = value
@@ -44,10 +51,10 @@ export class PromiseMock<T = any> implements Thenable<T> {
       })
     }
 
-    const reject: RejectedHandler = reason => {
+    const reject = reason => {
       runMicroFake(() => {
         if (this.state === PromiseState.PENDING) {
-          this.value = reason
+          this.reason = reason
           this.state = PromiseState.REJECTED
 
           this.onRejectedHandler.forEach(fn => fn(reason))
@@ -63,10 +70,10 @@ export class PromiseMock<T = any> implements Thenable<T> {
   }
 
   then(
-    onFulfilled: FulfilledHandler<T> = value => value,
-    onRejected: RejectedHandler = reason => {
+    onFulfilled = value => value,
+    onRejected = (reason => {
       throw reason
-    }
+    }) as RejectedHandler
   ) {
     if (this.state === PromiseState.PENDING) {
       this.onFulfilledHandler.push(onFulfilled)
@@ -78,7 +85,7 @@ export class PromiseMock<T = any> implements Thenable<T> {
     }
 
     if (this.state === PromiseState.REJECTED) {
-      onRejected(this.value)
+      onRejected(this.reason)
     }
 
     return this

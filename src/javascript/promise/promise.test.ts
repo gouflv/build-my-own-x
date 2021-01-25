@@ -11,6 +11,7 @@ describe('Test PromiseMock', () => {
       called('init')
       resolve('resolved')
     })
+      .then()
       .then(() => {
         called('thenA')
       })
@@ -23,6 +24,18 @@ describe('Test PromiseMock', () => {
         done()
       })
     called('end')
+  })
+
+  it('promise reject', done => {
+    new PromiseMock((resolve, reject) => {
+      reject('rejected')
+    }).then(
+      () => {},
+      e => {
+        expect(e).toBe('rejected')
+        done()
+      }
+    )
   })
 
   it('promise reject on throw error in executor', done => {
