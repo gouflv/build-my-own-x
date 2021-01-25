@@ -47,13 +47,16 @@ describe('Test PromiseMock', () => {
     )
   })
 
-  it('reject on throw error in executor', done => {
+  it.only('reject on throw error in executor', done => {
     new PromiseMock(() => {
       throw 'error'
     }).then(
-      () => {},
+      () => {
+        called('fulfilled')
+      },
       reason => {
-        expect(reason).toBe('error')
+        called('rejected')
+        expectFnCalledWith(called, ['rejected'])
         done()
       }
     )
