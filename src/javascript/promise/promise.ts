@@ -1,3 +1,5 @@
+// https://github.com/taylorhakes/promise-polyfill/blob/master/test/promise.js
+
 enum PromiseState {
   PENDING,
   FULFILLED,
@@ -101,9 +103,9 @@ const deferredHandler = (self: PromiseMock, def: Deferred<any>) => {
 
     let res
     try {
-      res = fn(self.value)
+      res = fn(self.state === PromiseState.FULFILLED ? self.value : self.reason)
     } catch (e) {
-      console.debug(e)
+      console.error(e)
       return
     }
     resolve(def.promise, res)
