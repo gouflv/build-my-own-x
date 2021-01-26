@@ -106,7 +106,7 @@
 
 <p>
 
-- PromiseMock
+- [PromiseMock](src/javascript/promise)
 - runPromiseInSequence
 
 </p>
