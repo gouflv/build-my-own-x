@@ -12,8 +12,8 @@ type Reason<T = any> = T | null | undefined
 
 interface Thenable<T> {
   then(
-    onFulfilled: FulfilledHandler<T>,
-    onRejected: RejectedHandler
+    onFulfilled?: FulfilledHandler<T>,
+    onRejected?: RejectedHandler
   ): Thenable<T>
 }
 
@@ -23,8 +23,8 @@ type RejectedHandler<R = any> = (reason?: R) => Reason<R> | Thenable<R>
 
 interface Deferred<T> {
   promise: PromiseMock
-  onFulfilled: FulfilledHandler<T>
-  onRejected: RejectedHandler
+  onFulfilled?: FulfilledHandler<T>
+  onRejected?: RejectedHandler
 }
 
 const runMicroFake = fn => (setImmediate ? setImmediate(fn) : setTimeout(fn))
@@ -52,12 +52,7 @@ export class PromiseMock<T = any> implements Thenable<T> {
     runResolver(this, executor)
   }
 
-  then(
-    onFulfilled = val => val,
-    onRejected = (e => {
-      throw e
-    }) as RejectedHandler
-  ) {
+  then(onFulfilled?: FulfilledHandler<T>, onRejected?: RejectedHandler) {
     const promise2 = new PromiseMock(() => {})
     deferredHandler(this, {
       promise: promise2,
@@ -91,6 +86,9 @@ const runResolver = (self: PromiseMock, executor) => {
 }
 
 const resolve = (self: PromiseMock, value) => {
+  if (value instanceof PromiseMock) {
+    return
+  }
   self.state = PromiseState.FULFILLED
   self.value = value
   finale(self)
@@ -115,17 +113,30 @@ const deferredHandler = (self: PromiseMock, def: Deferred<any>) => {
     return
   }
   runMicroFake(() => {
-    // 根据当前 state 和 value 执行依赖
-    const fn =
+    let fn =
       self.state === PromiseState.FULFILLED ? def.onFulfilled : def.onRejected
+
+    // 如果 onFulfilled 不是函数且 promise1 成功执行， promise2 必须成功执行并返回相同的值
+    // 如果 onRejected 不是函数且 promise1 拒绝执行， promise2 必须拒绝执行并返回相同的据因
+    if (!fn) {
+      ;(self.state === PromiseState.FULFILLED ? resolve : reject)(
+        def.promise,
+        self.value
+      )
+      return
+    }
 
     let res
     try {
+      // 根据当前 state 和 value 执行依赖
       res = fn(self.state === PromiseState.FULFILLED ? self.value : self.reason)
     } catch (e) {
+      // 如果 onFulfilled 或者 onRejected 抛出一个异常 e ，则 promise2 必须拒绝执行，并返回拒因 e
       console.error(e)
       return
     }
+
+    // 触发依赖的状态改变
     resolve(def.promise, res)
   })
 }

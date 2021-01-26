@@ -3,8 +3,10 @@ import { PromiseMock as PM } from './promise'
 const PromiseMock = PM
 // const PromiseMock = Promise
 
-const expectFnCalledWith = (fn, params: any[]) =>
+const expectFnCalledWith = (fn, params: any[]) => {
+  expect(fn).toBeCalledTimes(params.length)
   params.forEach((param, i) => expect(fn).nthCalledWith(i + 1, param))
+}
 
 describe('Test PromiseMock', () => {
   let called
@@ -67,7 +69,7 @@ describe('Test PromiseMock', () => {
       setTimeout(() => {
         called('called resolve')
         resolve('resolved')
-      }, 1000)
+      }, 500)
     })
       .then(value => {
         called(value)
@@ -84,53 +86,87 @@ describe('Test PromiseMock', () => {
       setTimeout(() => {
         called('call rejected')
         reject('rejected')
-      }, 1000)
-    }).then(
-      () => {
-        called('fulfilled')
-      },
-      e => {
-        called('rejected')
-        expectFnCalledWith(called, ['init', 'call rejected', 'rejected'])
+      }, 500)
+    })
+      .then(
+        () => {
+          called('then1 fulfilled')
+        },
+        e => {
+          called('then1 rejected')
+          called(e)
+          return e
+        }
+      )
+      .then(value => {
+        called('fulfilled always run in then2')
+        called(value)
+      })
+      .then(() => {
+        expectFnCalledWith(called, [
+          'init',
+          'call rejected',
+          'then1 rejected',
+          'rejected',
+          'fulfilled always run in then2',
+          'rejected'
+        ])
         done()
-      }
-    )
+      })
   })
 
   it('reject whit throw error', done => {
     new PromiseMock(() => {
       called('init')
       throw 'error'
-    }).then(
-      () => {
-        called('fulfilled')
-      },
-      () => {
-        called('rejected')
-        expectFnCalledWith(called, ['init', 'rejected'])
+    })
+      .then(
+        () => {
+          called('then fulfilled')
+        },
+        () => {
+          called('then rejected')
+        }
+      )
+      .then(() => {
+        expectFnCalledWith(called, ['init', 'then rejected'])
         done()
-      }
-    )
+      })
   })
 
   it.skip('promise chain', done => {
-    new PromiseMock(() => {
-      return new PromiseMock(resolve => resolve('promise 1 init'))
+    new PromiseMock(resolve => {
+      called('promise 1 init')
+      resolve(
+        new PromiseMock(resolve => {
+          called('promise 1 inner init')
+          resolve('promise 1 inner resolved value')
+        }).then(value => {
+          called('promise 1 inner then')
+          return value
+        })
+      )
     })
-      .then(value1 => {
-        called(value1)
+      .then(value => {
+        called(value)
         return new PromiseMock(resolve => {
-          resolve('promise2 init')
-        }).then(value2 => {
-          called('promise2 then')
-          return value2
+          called('promise 2 inner init')
+          resolve('promise 2 inner resolved value')
+        }).then(value => {
+          called('promise 2 inner then')
+          return value
         })
       })
-      .then(value2 => {
+      .then(value => {
+        called(value)
         expectFnCalledWith(called, [
           'promise 1 init',
-          'promise 2 init',
-          'promise 2 then'
+          'promise 1 inner init',
+          'promise 1 inner then',
+          'promise 1 inner resolved value',
+          'promise 2 inner init',
+          'promise 2 inner then',
+          'promise 2 inner resolved value'
         ])
         done()
       })
