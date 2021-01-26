@@ -50,12 +50,23 @@ export class PromiseMock<T = any> implements Thenable<T> {
   ) {
     this._id = promiseId++
 
+    let done = false
     try {
       executor(
-        value => resolve(this, value),
-        reason => reject(this, reason)
+        value => {
+          if (done) return
+          done = true
+          resolve(this, value)
+        },
+        reason => {
+          if (done) return
+          done = true
+          reject(this, reason)
+        }
       )
     } catch (e) {
+      if (done) return
+      done = true
       reject(this, e)
     }
   }

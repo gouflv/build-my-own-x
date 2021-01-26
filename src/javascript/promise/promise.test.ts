@@ -1,4 +1,7 @@
-import { PromiseMock } from './promise'
+import { PromiseMock as PM } from './promise'
+
+const PromiseMock = PM
+// const PromiseMock = Promise
 
 const expectFnCalledWith = (fn, params: any[]) =>
   params.forEach((param, i) => expect(fn).nthCalledWith(i + 1, param))
@@ -9,7 +12,7 @@ describe('Test PromiseMock', () => {
     called = jest.fn()
   })
 
-  it.only('promise simple', done => {
+  it('promise simple', done => {
     called('start')
     new PromiseMock<string>(resolve => {
       called('init')
@@ -25,16 +28,62 @@ describe('Test PromiseMock', () => {
         return value
       })
       .then(value => {
-        expect(value).toBe('resolved')
-        expectFnCalledWith(called, ['start', 'init', 'end', 'thenA', 'thenB'])
+        called(value)
+        expectFnCalledWith(called, [
+          'start',
+          'init',
+          'end',
+          'thenA',
+          'thenB',
+          'resolved'
+        ])
         done()
       })
     called('end')
   })
 
-  it.only('fire onRejected on call reject', done => {
+  it('resolve state must not change', done => {
     new PromiseMock((resolve, reject) => {
+      resolve('resolved')
       reject('rejected')
+    })
+      .then(
+        value => {
+          called(value)
+        },
+        reason => {
+          called(reason)
+        }
+      )
+      .then(() => {
+        expectFnCalledWith(called, ['resolved'])
+        done()
+      })
+  })
+
+  it.skip('async resolved', () => {
+    new PromiseMock(resolve => {
+      called('init')
+      setTimeout(() => {
+        called('called resolve')
+        resolve('resolved')
+      }, 1000)
+    })
+      .then(value => {
+        called(value)
+      })
+      .then(() => {
+        expectFnCalledWith(called, ['init', 'called resolve', 'resolved'])
+      })
+  })
+
+  it.skip('async reject', done => {
+    new PromiseMock((resolve, reject) => {
+      called('init')
+      setTimeout(() => {
+        called('call rejected')
+        reject('rejected')
+      }, 1000)
     }).then(
       () => {
         called('fulfilled')
@@ -47,8 +96,9 @@ describe('Test PromiseMock', () => {
     )
   })
 
-  it.only('reject on throw error in executor', done => {
+  it.skip('reject on throw error in executor', done => {
     new PromiseMock(() => {
+      called('init')
       throw 'error'
     }).then(
       () => {
@@ -56,7 +106,7 @@ describe('Test PromiseMock', () => {
       },
       reason => {
         called('rejected')
-        expectFnCalledWith(called, ['rejected'])
+        expectFnCalledWith(called, ['init', 'rejected'])
         done()
       }
     )
