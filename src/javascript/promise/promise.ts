@@ -49,26 +49,7 @@ export class PromiseMock<T = any> implements Thenable<T> {
     ) => void
   ) {
     this._id = promiseId++
-
-    let done = false
-    try {
-      executor(
-        value => {
-          if (done) return
-          done = true
-          resolve(this, value)
-        },
-        reason => {
-          if (done) return
-          done = true
-          reject(this, reason)
-        }
-      )
-    } catch (e) {
-      if (done) return
-      done = true
-      reject(this, e)
-    }
+    runResolver(this, executor)
   }
 
   then(
@@ -84,6 +65,28 @@ export class PromiseMock<T = any> implements Thenable<T> {
       onRejected
     })
     return promise2
+  }
+}
+
+const runResolver = (self: PromiseMock, executor) => {
+  let done = false
+  try {
+    executor(
+      value => {
+        if (done) return
+        done = true
+        resolve(self, value)
+      },
+      reason => {
+        if (done) return
+        done = true
+        reject(self, reason)
+      }
+    )
+  } catch (e) {
+    if (done) return
+    done = true
+    reject(self, e)
   }
 }
 

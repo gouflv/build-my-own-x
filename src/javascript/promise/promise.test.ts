@@ -97,7 +97,7 @@ describe('Test PromiseMock', () => {
     )
   })
 
-  it.skip('reject on throw error in executor', done => {
+  it('reject whit throw error', done => {
     new PromiseMock(() => {
       called('init')
       throw 'error'
@@ -105,7 +105,7 @@ describe('Test PromiseMock', () => {
       () => {
         called('fulfilled')
       },
-      reason => {
+      () => {
         called('rejected')
         expectFnCalledWith(called, ['init', 'rejected'])
         done()
