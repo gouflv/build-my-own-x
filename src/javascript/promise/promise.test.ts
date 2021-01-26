@@ -78,7 +78,7 @@ describe('Test PromiseMock', () => {
       })
   })
 
-  it.skip('async reject', done => {
+  it('async reject', done => {
     new PromiseMock((resolve, reject) => {
       called('init')
       setTimeout(() => {
@@ -91,7 +91,7 @@ describe('Test PromiseMock', () => {
       },
       e => {
         called('rejected')
-        expectFnCalledWith(called, ['rejected'])
+        expectFnCalledWith(called, ['init', 'call rejected', 'rejected'])
         done()
       }
     )
