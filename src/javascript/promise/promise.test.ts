@@ -44,7 +44,6 @@ describe('Test PromiseMock', () => {
     called('end')
   })
 
-  // onFulfilled 和 onRejected 调用次数不可超过一次
   it('resolve state must not change', done => {
     new PromiseMock((resolve, reject) => {
       resolve('resolved')
@@ -64,7 +63,6 @@ describe('Test PromiseMock', () => {
       })
   })
 
-  // onFulfilled 和 onRejected 必须被作为函数调用（即没有 this 值）
   it('onFulfilled called as function', done => {
     new PromiseMock(resolve => resolve('')).then(() => {
       expect(this).toBeUndefined()
@@ -175,39 +173,28 @@ describe('Test PromiseMock', () => {
       })
   })
 
-  it.skip('promise chain', done => {
+  it('resolve with a promise', done => {
     new PromiseMock(resolve => {
-      called('promise 1 init')
+      called('promise1 init')
       resolve(
         new PromiseMock(resolve => {
-          called('promise 1 inner init')
-          resolve('promise 1 inner resolved value')
+          called('promise2 init')
+          resolve('promise2 resolved value')
         }).then(value => {
-          called('promise 1 inner then')
+          called('promise2 then')
           return value
         })
       )
     })
       .then(value => {
         called(value)
-        return new PromiseMock(resolve => {
-          called('promise 2 inner init')
-          resolve('promise 2 inner resolved value')
-        }).then(value => {
-          called('promise 2 inner then')
-          return value
-        })
       })
-      .then(value => {
-        called(value)
+      .then(() => {
         expectFnCalledWith(called, [
-          'promise 1 init',
-          'promise 1 inner init',
-          'promise 1 inner then',
-          'promise 1 inner resolved value',
-          'promise 2 inner init',
-          'promise 2 inner then',
-          'promise 2 inner resolved value'
+          'promise1 init',
+          'promise2 init',
+          'promise2 then',
+          'promise2 resolved value'
         ])
         done()
       })

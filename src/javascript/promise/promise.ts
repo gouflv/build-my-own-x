@@ -3,7 +3,8 @@
 enum PromiseState {
   PENDING,
   FULFILLED,
-  REJECTED
+  REJECTED,
+  VALUE_IS_A_PROMISE
 }
 
 type Value<T> = T | null | undefined
@@ -91,10 +92,25 @@ const runResolver = (self: PromiseMock, executor) => {
 }
 
 const resolve = (self: PromiseMock, value) => {
+  if (self === value) {
+    throw TypeError('promise cannot resolve with self')
+  }
+
   try {
+    /**
+     如果 x 为 Promise ，则使 promise 接受 x 的状态 注4：
+
+     如果 x 处于等待态， promise 需保持为等待态直至 x 被执行或拒绝
+     如果 x 处于执行态，用相同的值执行 promise
+     如果 x 处于拒绝态，用相同的据因拒绝 promise
+     */
     if (value instanceof PromiseMock) {
+      self.state = PromiseState.VALUE_IS_A_PROMISE
+      self.value = value
+      finale(self)
       return
     }
+
     self.state = PromiseState.FULFILLED
     self.value = value
     finale(self)
@@ -116,6 +132,10 @@ const finale = (self: PromiseMock) => {
 }
 
 const deferredHandler = (self: PromiseMock, def: Deferred<any>) => {
+  if (self.state === PromiseState.VALUE_IS_A_PROMISE) {
+    self = self.value
+  }
+
   if (self.state === PromiseState.PENDING) {
     // 记录异步依赖
     self.deferred.push(def)
