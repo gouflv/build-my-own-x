@@ -17,9 +17,13 @@ interface Thenable<T> {
   ): Thenable<T>
 }
 
-type FulfilledHandler<T> = (value?: T) => Value<T> | Thenable<T>
+type FulfilledHandler<T> = (
+  value: T
+) => Value<T> | Thenable<T> | null | undefined
 
-type RejectedHandler<R = any> = (reason?: R) => Reason<R> | Thenable<R>
+type RejectedHandler<R = any> = (
+  reason: R
+) => Reason<R> | Thenable<R> | null | undefined
 
 interface Deferred<T> {
   promise: PromiseMock
@@ -44,8 +48,8 @@ export class PromiseMock<T = any> implements Thenable<T> {
 
   constructor(
     executor: (
-      resolve: (value?: Value<T>) => void,
-      reject: (reason?: Reason) => void
+      resolve: (value: Value<T>) => void,
+      reject: (reason: Reason) => void
     ) => void
   ) {
     this._id = promiseId++
@@ -64,6 +68,9 @@ export class PromiseMock<T = any> implements Thenable<T> {
 }
 
 const runResolver = (self: PromiseMock, executor) => {
+  // onFulfilled 和 onRejected 必须被作为函数调用（即没有 this 值）
+  // onFulfilled 和 onRejected 调用次数不可超过一次
+
   let done = false
   try {
     executor(

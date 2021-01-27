@@ -2,7 +2,7 @@
 
 ## 规范
 
-[Promise/A+](https://www.ituring.com.cn/article/66566)
+[Promise/A+](https://promisesaplus.com/)
 
 ## 用例
 

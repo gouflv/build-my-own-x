@@ -44,6 +44,7 @@ describe('Test PromiseMock', () => {
     called('end')
   })
 
+  // onFulfilled 和 onRejected 调用次数不可超过一次
   it('resolve state must not change', done => {
     new PromiseMock((resolve, reject) => {
       resolve('resolved')
@@ -61,6 +62,24 @@ describe('Test PromiseMock', () => {
         expectFnCalledWith(called, ['resolved'])
         done()
       })
+  })
+
+  // onFulfilled 和 onRejected 必须被作为函数调用（即没有 this 值）
+  it('onFulfilled called as function', done => {
+    new PromiseMock(resolve => resolve('')).then(() => {
+      expect(this).toBeUndefined()
+      done()
+    })
+  })
+
+  it('onRejected called as function', done => {
+    new PromiseMock((resolve, reject) => reject('')).then(
+      () => {},
+      () => {
+        expect(this).toBeUndefined()
+        done()
+      }
+    )
   })
 
   it('async resolved', done => {
@@ -115,7 +134,7 @@ describe('Test PromiseMock', () => {
       })
   })
 
-  it('reject whit throw error', done => {
+  it('reject if executor throw error', done => {
     new PromiseMock(() => {
       called('init')
       throw 'error'
