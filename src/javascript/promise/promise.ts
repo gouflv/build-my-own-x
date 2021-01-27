@@ -1,5 +1,7 @@
 // https://github.com/taylorhakes/promise-polyfill/blob/master/test/promise.js
 
+import { isFunction, isObject } from '../lang/is/is'
+
 enum PromiseState {
   PENDING,
   FULFILLED,
@@ -98,7 +100,7 @@ const resolve = (self: PromiseMock, value) => {
 
   try {
     /**
-     如果 x 为 Promise ，则使 promise 接受 x 的状态 注4：
+     如果 x 为 Promise ，则使 promise 接受 x 的状态:
 
      如果 x 处于等待态， promise 需保持为等待态直至 x 被执行或拒绝
      如果 x 处于执行态，用相同的值执行 promise
@@ -108,6 +110,20 @@ const resolve = (self: PromiseMock, value) => {
       self.state = PromiseState.VALUE_IS_A_PROMISE
       self.value = value
       finale(self)
+      return
+    }
+
+    /**
+     * 把 x.then 赋值给 then
+     * 如果取 x.then 的值时抛出错误 e ，则以 e 为据因拒绝 promise
+     * 如果 then 是函数，将 x 作为函数的作用域 this 调用之
+     * 传递两个回调函数作为参数，第一个参数叫做 resolvePromise ，第二个参数叫做 rejectPromise
+     */
+    if (isObject(value)) {
+      const _then = value.then
+      if (isFunction(_then)) {
+        runResolver(self, _then.bind(value))
+      }
       return
     }
 
