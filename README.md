@@ -69,7 +69,7 @@
 <p>
 
 - [partial](src/javascript/function/partial)
-- [curry](src/javascript/function/curry)
+- [curry (with placeholder)](src/javascript/function/curry)
 - [compose](src/javascript/function/compose)
 - [flow](src/javascript/function/flow)
 - [bind](src/javascript/function/bind)
