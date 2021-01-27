@@ -42,8 +42,6 @@ export class PromiseMock<T = any> implements Thenable<T> {
 
   value: any = undefined
 
-  reason: any = undefined
-
   deferred: Deferred<T>[] = []
 
   constructor(
@@ -93,17 +91,21 @@ const runResolver = (self: PromiseMock, executor) => {
 }
 
 const resolve = (self: PromiseMock, value) => {
-  if (value instanceof PromiseMock) {
-    return
+  try {
+    if (value instanceof PromiseMock) {
+      return
+    }
+    self.state = PromiseState.FULFILLED
+    self.value = value
+    finale(self)
+  } catch (e) {
+    reject(self, e)
   }
-  self.state = PromiseState.FULFILLED
-  self.value = value
-  finale(self)
 }
 
 const reject = (self: PromiseMock, reason) => {
   self.state = PromiseState.REJECTED
-  self.reason = reason
+  self.value = reason
   finale(self)
 }
 
@@ -136,10 +138,10 @@ const deferredHandler = (self: PromiseMock, def: Deferred<any>) => {
     let res
     try {
       // 根据当前 state 和 value 执行依赖
-      res = fn(self.state === PromiseState.FULFILLED ? self.value : self.reason)
+      res = fn(self.value)
     } catch (e) {
       // 如果 onFulfilled 或者 onRejected 抛出一个异常 e ，则 promise2 必须拒绝执行，并返回拒因 e
-      console.error(e)
+      reject(def.promise, e)
       return
     }
 

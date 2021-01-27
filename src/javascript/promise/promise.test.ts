@@ -153,6 +153,28 @@ describe('Test PromiseMock', () => {
       })
   })
 
+  it('reject if onFulfilled throw error', done => {
+    new PromiseMock(resolve => {
+      resolve('resolved value')
+    })
+      .then(value => {
+        called(value)
+        throw 'throw in then'
+      })
+      .then(undefined, () => {
+        called('then2 rejected')
+        called('throw in then')
+      })
+      .then(() => {
+        expectFnCalledWith(called, [
+          'resolved value',
+          'then2 rejected',
+          'throw in then'
+        ])
+        done()
+      })
+  })
+
   it.skip('promise chain', done => {
     new PromiseMock(resolve => {
       called('promise 1 init')
