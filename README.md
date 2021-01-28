@@ -71,6 +71,7 @@
 - [partial](src/javascript/function/partial)
 - [curry (with placeholder)](src/javascript/function/curry)
 - [compose](src/javascript/function/compose)
+- [memo](src/javascript/function/memo)
 - [flow](src/javascript/function/flow)
 - [bind](src/javascript/function/bind)
   
