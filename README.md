@@ -77,6 +77,8 @@
   > [JavaScript 基础之 bind 方法模拟](src/javascript/function/bind/README.md)  
 
 - [apply / call](src/javascript/function/apply)
+- [debounce](src/javascript/function/debounce)
+- [throttle](src/javascript/function/throttle)
 
 </p>
 
@@ -93,6 +95,7 @@
 - [flatten](src/javascript/array/flatten)
 - [reduce](src/javascript/array/reduce)
 - [reduceRight](src/javascript/array/reduceRight)
+- [shuffle](src/javascript/array/shuffle)
 
 </p>
 
