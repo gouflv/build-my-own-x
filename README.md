@@ -110,8 +110,13 @@
 
 <p>
 
-- [PromiseMock](src/javascript/promise)
-- runPromiseInSequence
+- [PromiseMock](src/javascript/promise/promiseMock)
+- [sequence](src/javascript/promise/sequence)
+- [parallel](src/javascript/promise/parallel)
+- race
+- [all](src/javascript/promise/all)
+- any
+- race
 
 </p>
 
