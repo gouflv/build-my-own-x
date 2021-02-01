@@ -1,21 +1,10 @@
 import { sequence } from './sequence'
+import { errorTask, task } from '../_/utils'
 
 jest.useFakeTimers()
 
-const task = id => {
-  return new Promise(resolve => {
-    setTimeout(() => resolve(id), id * 100)
-  })
-}
-
-const createErrorTask = id => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => reject(id), 100)
-  })
-}
-
 describe('Test sequence', () => {
-  it('simple', done => {
+  it('resolve promise in orders', done => {
     const called = jest.fn()
     const sequenceFn = sequence([task(3), task(1), task(2)])
 
@@ -30,8 +19,14 @@ describe('Test sequence', () => {
     jest.runAllTimers()
   })
 
-  it('should catch error', done => {
-    const sequenceFn = sequence([task(1), task(2), createErrorTask(3), task(4)])
+  it('should catch first error', done => {
+    const sequenceFn = sequence([
+      task(1),
+      task(2),
+      errorTask(3),
+      task(4),
+      errorTask(5)
+    ])
 
     sequenceFn((error, data) => {
       expect(error).toBe(3)

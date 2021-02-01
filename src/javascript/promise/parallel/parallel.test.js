@@ -1,23 +1,12 @@
 import { parallel } from './parallel'
+import { errorTask, task } from '../_/utils'
 
 jest.useFakeTimers()
 
-const task = id => {
-  return new Promise(resolve => {
-    setTimeout(() => resolve(id), id * 100)
-  })
-}
-
-const createErrorTask = id => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => reject(id), 100)
-  })
-}
-
 describe('Test parallel', () => {
-  it('simple', done => {
+  it('resolve the faster promise', done => {
     const called = jest.fn()
-    const paralleled = parallel([task(1), task(2), task(3)])
+    const paralleled = parallel([task(3), task(1), task(2)])
 
     expect(called).not.toBeCalled()
 
@@ -29,8 +18,14 @@ describe('Test parallel', () => {
     jest.runAllTimers()
   })
 
-  it('should catch error', done => {
-    const parallelFn = parallel([task(1), task(2), createErrorTask(3), task(4)])
+  it('should catch the first error', done => {
+    const parallelFn = parallel([
+      task(1),
+      task(2),
+      errorTask(3),
+      task(4),
+      errorTask(5)
+    ])
 
     parallelFn((error, data) => {
       expect(error).toBe(3)
