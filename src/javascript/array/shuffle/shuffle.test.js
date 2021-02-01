@@ -29,6 +29,6 @@ describe('Test Shuffle', () => {
       shuffled[shuffle([...origin]).join('')]++
     })
 
-    expect(std(Object.values(shuffled))).toBeLessThan(100)
+    expect(std(Object.values(shuffled))).toBeLessThan(500)
   })
 })
