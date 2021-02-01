@@ -1,6 +1,6 @@
 // https://github.com/taylorhakes/promise-polyfill/blob/master/test/promise.js
 
-import { isFunction, isObject } from '../lang/is/is'
+import { isFunction, isObject } from '../../lang/is/is'
 
 enum PromiseState {
   PENDING,
