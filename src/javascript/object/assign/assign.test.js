@@ -8,6 +8,7 @@ describe('Test assign', () => {
     expect(assign(1)).toBe(1)
     expect(assign(true)).toBeTruthy()
     expect(assign('')).toBe('')
+    expect(assign('foo')).toBe('foo')
     expect(assign([])).toStrictEqual([])
     expect(assign({}, [])).toStrictEqual({})
     expect(assign([1], [1, 2])).toStrictEqual([1, 2])

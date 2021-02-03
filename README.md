@@ -69,14 +69,17 @@
 <p>
 
 - [partial](src/javascript/function/partial)
-- [curry](src/javascript/function/curry)
+- [curry (with placeholder)](src/javascript/function/curry)
 - [compose](src/javascript/function/compose)
+- [memo](src/javascript/function/memo)
 - [flow](src/javascript/function/flow)
 - [bind](src/javascript/function/bind)
   
   > [JavaScript 基础之 bind 方法模拟](src/javascript/function/bind/README.md)  
 
 - [apply / call](src/javascript/function/apply)
+- [debounce](src/javascript/function/debounce)
+- [throttle](src/javascript/function/throttle)
 
 </p>
 
@@ -93,6 +96,7 @@
 - [flatten](src/javascript/array/flatten)
 - [reduce](src/javascript/array/reduce)
 - [reduceRight](src/javascript/array/reduceRight)
+- [shuffle](src/javascript/array/shuffle)
 
 </p>
 
@@ -106,8 +110,13 @@
 
 <p>
 
-- PromiseMock
-- runPromiseInSequence
+- [PromiseMock](src/javascript/promise/promiseMock)
+- [sequence](src/javascript/promise/sequence)
+- [parallel](src/javascript/promise/parallel)
+- race
+- [all](src/javascript/promise/all)
+- any
+- race
 
 </p>
 

@@ -10,15 +10,13 @@ export const flatten = (arr, deep = Infinity) => {
   return flattenDeep(arr, deep)
 }
 
-const flattenDeep = (value, deep, prevValue = []) => {
-  const arr = Array.from(value)
-  const result = prevValue
-  for (const val of arr) {
-    if (isArrayLike(val) && deep > 0) {
-      flattenDeep(val, deep - 1, prevValue)
+const flattenDeep = (value, deep) => {
+  return Array.from(value).reduce((res, val) => {
+    if (deep && isArrayLike(val)) {
+      res.push(...flattenDeep(val, deep - 1))
     } else {
-      result.push(val)
+      res.push(val)
     }
-  }
-  return result
+    return res
+  }, [])
 }
