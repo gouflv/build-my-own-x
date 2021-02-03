@@ -2,7 +2,6 @@ import { PriorityQueue } from './priority-queue'
 
 describe('Test PriorityQueue', () => {
   it('should all APIs work', () => {
-    // @ts-ignore
     const queue = new PriorityQueue((a, b) => b - a)
 
     queue.enqueue(1)
@@ -30,5 +29,19 @@ describe('Test PriorityQueue', () => {
 
     expect(queue.front()).toBeUndefined()
     expect(queue.dequeue()).toBeUndefined()
+  })
+
+  it('should dequeue random numbers in order', () => {
+    const queue = new PriorityQueue((a, b) => {
+      return b > a ? 1 : b < a ? -1 : 0
+    })
+    for (let i = 0; i < 100; i++) {
+      queue.enqueue(Math.floor(Math.random() * 100))
+    }
+    let prev = queue.dequeue()
+    while (queue.size()) {
+      expect(queue.front()).toBeLessThanOrEqual(prev)
+      prev = queue.dequeue()
+    }
   })
 })

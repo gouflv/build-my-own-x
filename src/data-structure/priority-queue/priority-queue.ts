@@ -5,7 +5,7 @@
 export class PriorityQueue<T = any> {
   protected items: T[] = []
 
-  constructor(private compare: (a, b) => -1 | 0 | 1) {}
+  constructor(private compare: (a, b) => number) {}
 
   enqueue(el: T) {
     // 1.
