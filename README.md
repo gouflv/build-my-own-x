@@ -113,7 +113,6 @@
 - [PromiseMock](src/javascript/promise/promiseMock)
 - [sequence](src/javascript/promise/sequence)
 - [parallel](src/javascript/promise/parallel)
-- race
 - [all](src/javascript/promise/all)
 - any
 - race
@@ -138,6 +137,24 @@
   / [effect](src/javascript/proxy/effect)
 
   > _参考 [@vue/reactivity]() 和 [observer-util](https://github.com/nx-js/observer-util) 的实现_
+
+</p>
+
+</details>
+
+## Data Structures and Algorithms
+
+<details>
+  
+<summary>数据结构</summary>
+
+<p>
+
+- [stack](src/data-structure/stack)
+- [queue](src/data-structure/queue)
+- [priority-queue](src/data-structure/priority-queue)
+- linked-list
+- doubly-linked-list
 
 </p>
 
