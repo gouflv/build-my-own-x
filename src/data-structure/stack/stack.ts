@@ -1,3 +1,6 @@
+/**
+ * LIFO
+ */
 export class Stack<T = any> {
   protected items: T[] = []
 
