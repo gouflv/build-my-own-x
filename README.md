@@ -144,18 +144,14 @@
 
 ## Data Structures and Algorithms
 
-<details>
-  
-<summary>数据结构</summary>
-
-<p>
+### 数据结构
 
 - [stack](src/data-structure/stack)
 - [queue](src/data-structure/queue)
 - [priority-queue](src/data-structure/priority-queue)
-- linked-list
+- [linked-list](src/data-structure/linked-list)
 - doubly-linked-list
 
-</p>
+### 算法
 
-</details>
+- [binary-search](src/algorithms/binary-search)
