@@ -32,9 +32,7 @@ describe('Test PriorityQueue', () => {
   })
 
   it('should dequeue random numbers in order', () => {
-    const queue = new PriorityQueue((a, b) => {
-      return a === b ? 0 : b > a ? 1 : -1
-    })
+    const queue = new PriorityQueue((a, b) => b - a)
     for (let i = 0; i < 100; i++) {
       queue.enqueue(Math.floor(Math.random() * 100))
     }
