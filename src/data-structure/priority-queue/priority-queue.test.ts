@@ -31,7 +31,7 @@ describe('Test PriorityQueue', () => {
     expect(queue.dequeue()).toBeUndefined()
   })
 
-  it('should dequeue random numbers in order', () => {
+  it('should dequeue random numbers in desc order', () => {
     const queue = new PriorityQueue((a, b) => b - a)
     for (let i = 0; i < 100; i++) {
       queue.enqueue(Math.floor(Math.random() * 100))
@@ -39,6 +39,18 @@ describe('Test PriorityQueue', () => {
     let output = queue.dequeue()
     while (queue.size()) {
       expect(queue.front()).toBeLessThanOrEqual(output)
+      output = queue.dequeue()
+    }
+  })
+
+  it('should dequeue random numbers in asc order', () => {
+    const queue = new PriorityQueue((a, b) => a - b)
+    for (let i = 0; i < 100; i++) {
+      queue.enqueue(Math.floor(Math.random() * 100))
+    }
+    let output = queue.dequeue()
+    while (queue.size()) {
+      expect(queue.front()).toBeGreaterThanOrEqual(output)
       output = queue.dequeue()
     }
   })
