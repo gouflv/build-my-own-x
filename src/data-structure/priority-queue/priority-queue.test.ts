@@ -33,15 +33,15 @@ describe('Test PriorityQueue', () => {
 
   it('should dequeue random numbers in order', () => {
     const queue = new PriorityQueue((a, b) => {
-      return b > a ? 1 : b < a ? -1 : 0
+      return a === b ? 0 : b > a ? 1 : -1
     })
     for (let i = 0; i < 100; i++) {
       queue.enqueue(Math.floor(Math.random() * 100))
     }
-    let prev = queue.dequeue()
+    let output = queue.dequeue()
     while (queue.size()) {
-      expect(queue.front()).toBeLessThanOrEqual(prev)
-      prev = queue.dequeue()
+      expect(queue.front()).toBeLessThanOrEqual(output)
+      output = queue.dequeue()
     }
   })
 })
