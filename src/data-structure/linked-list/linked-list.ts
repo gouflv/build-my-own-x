@@ -3,9 +3,11 @@ interface Node<T> {
   next: Node<T> | null
 }
 
+type MaybeNode<T> = Node<T> | null
+
 export class LinkedList<T = any> {
-  head: Node<T> | null = null
-  tail: Node<T> | null = null
+  head: MaybeNode<T> = null
+  tail: MaybeNode<T> = null
   private length = 0
 
   constructor(initialValue?: T[]) {
@@ -95,7 +97,7 @@ export class LinkedList<T = any> {
   forEach(iterator: (value: T, index: number) => boolean | void) {
     if (!this.head) return
 
-    let curr: Node<T> | null = this.head,
+    let curr: MaybeNode<T> = this.head,
       index = -1
 
     while (curr) {
@@ -126,13 +128,10 @@ export class LinkedList<T = any> {
   }
 
   toArray() {
-    if (!this.head) return []
-    const res = [this.head.value]
-    let curr = this.head
-    while (curr.next) {
-      curr = curr.next
-      res.push(curr.value)
-    }
+    const res: T[] = []
+    this.forEach(value => {
+      res.push(value)
+    })
     return res
   }
 
