@@ -126,8 +126,6 @@ export class LinkedList<T = any> {
   reverse() {
     if (!this.head) return
 
-    this.tail = this.head
-
     let prev: MaybeNode<T> = null,
       curr: MaybeNode<T> = this.head,
       next: MaybeNode<T> = null
@@ -136,12 +134,11 @@ export class LinkedList<T = any> {
       next = curr.next
       curr.next = prev
       prev = curr
-
-      if (!next) {
-        this.head = curr
-      }
       curr = next
     }
+
+    this.tail = this.head
+    this.head = prev
   }
 
   size() {
