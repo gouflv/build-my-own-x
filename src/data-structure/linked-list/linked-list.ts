@@ -123,6 +123,10 @@ export class LinkedList<T = any> {
     return found ? index : -1
   }
 
+  /**
+   * @see https://medium.com/javascript-in-plain-english/javascript-reverse-linked-list-a2d235d64548
+   * @see https://dev.to/urfan/leetcode-reverse-linked-list-with-javascript-1nn8
+   */
   reverse() {
     if (!this.head) return
 
