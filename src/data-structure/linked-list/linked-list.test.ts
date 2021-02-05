@@ -120,4 +120,16 @@ describe('Test LinkedList', () => {
     expect(list.indexOf(3)).toBe(2)
     expect(list.indexOf(4)).toBe(-1)
   })
+
+  it('should reverse works', () => {
+    list.reverse()
+    expect(list.toArray()).toStrictEqual([3, 2, 1])
+    expect(list.head?.value).toBe(3)
+    expect(list.tail?.value).toBe(1)
+
+    list.reverse()
+    expect(list.toArray()).toStrictEqual([1, 2, 3])
+    expect(list.head?.value).toBe(1)
+    expect(list.tail?.value).toBe(3)
+  })
 })
