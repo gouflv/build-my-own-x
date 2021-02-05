@@ -150,7 +150,6 @@
 - [queue](src/data-structure/queue)
 - [priority-queue](src/data-structure/priority-queue)
 - [linked-list](src/data-structure/linked-list)
-- doubly-linked-list
 
 ### 算法
 
