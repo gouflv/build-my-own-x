@@ -41,8 +41,6 @@ export class LinkedList<T = any> {
   }
 
   insertAfter(index: number, value: T) {
-    this.length++
-
     if (!this.head || index <= 0) {
       this.prepend(value)
       return
@@ -53,11 +51,13 @@ export class LinkedList<T = any> {
       return
     }
 
+    let curr = this.head
+    while (index-- > 0 && curr.next) curr = curr.next
+
     const node = this._create(value)
-    let prev = this.head
-    while (index-- > 0 && prev.next) prev = prev.next
-    node.next = prev.next
-    prev.next = node
+    node.next = curr.next
+    curr.next = node
+    this.length++
 
     if (!node.next) this.tail = node
   }
@@ -73,26 +73,53 @@ export class LinkedList<T = any> {
       return ret
     }
 
-    let prev = this.head
-    while (--index > 0 && prev.next) prev = prev.next
-    let toRemove = prev.next
+    if (index > this.length - 1) index = this.length - 1
+
+    // curr is left side node of index
+    let curr = this.head
+    while (--index > 0 && curr.next) curr = curr.next
+
+    let toRemove = curr.next
     if (toRemove) {
-      prev.next = toRemove.next
+      this.length--
+      if (toRemove.next) {
+        curr.next = toRemove.next
+      } else {
+        curr.next = null
+        this.tail = curr
+      }
       return toRemove.value
-    } else {
-      throw 'error'
     }
   }
 
-  removeValue(value: T) {}
+  forEach(iterator: (value: T, index: number) => boolean | void) {
+    if (!this.head) return
 
-  has(value: T) {}
+    let curr: Node<T> | null = this.head,
+      index = -1
 
-  indexOf(value: T) {}
+    while (curr) {
+      index++
+      const ret = iterator(curr.value, index)
+      if (typeof ret === 'boolean' && !ret) {
+        break
+      }
+      curr = curr.next
+    }
+  }
 
-  forEach() {}
-
-  forEachRight() {}
+  indexOf(value: T) {
+    let index = -1,
+      found = false
+    this.forEach((val, i) => {
+      index = i
+      if (Object.is(val, value)) {
+        found = true
+        return false
+      }
+    })
+    return found ? index : -1
+  }
 
   size() {
     return this.length
