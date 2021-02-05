@@ -75,18 +75,18 @@ export class LinkedList<T = any> {
 
     if (index > this.length - 1) index = this.length - 1
 
-    // curr is left side node of index
-    let curr = this.head
-    while (--index > 0 && curr.next) curr = curr.next
+    // prev is left side node of index
+    let prev = this.head
+    while (--index > 0 && prev.next) prev = prev.next
 
-    let toRemove = curr.next
+    let toRemove = prev.next
     if (toRemove) {
       this.length--
       if (toRemove.next) {
-        curr.next = toRemove.next
+        prev.next = toRemove.next
       } else {
-        curr.next = null
-        this.tail = curr
+        prev.next = null
+        this.tail = prev
       }
       return toRemove.value
     }
