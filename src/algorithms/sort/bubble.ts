@@ -1,3 +1,6 @@
+/**
+ * bubble max num to end
+ */
 export const bubbleSort = (arr: number[]) => {
   let swapped = false
   let len = arr.length
