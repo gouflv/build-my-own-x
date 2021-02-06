@@ -151,11 +151,33 @@
 - [priority-queue](src/data-structure/priority-queue)
 - [linked-list](src/data-structure/linked-list)
 - [hash-table](src/data-structure/hash-table)
-- [binary-search-tree](src/data-structure/binary-search-tree)
+- [binary-search-tree](src/data-structure/tree/binary-search-tree)
+- [heap](src/data-structure/tree/heap)
 
 ### 算法
+
+<details>
+
+<summary>排序</summary>
+
+<p>
 
 - [bubble](src/algorithms/sort/bubble.ts)
 - [select](src/algorithms/sort/select.ts)
 - [insertion](src/algorithms/sort/insertion.ts)
+
+</p>
+
+</details>
+
+<details>
+
+<summary>搜索</summary>
+
+<p>
+
 - [binary-search](src/algorithms/binary-search)
+
+</p>
+
+</details>
