@@ -31,12 +31,12 @@ describe('Test BST', () => {
     expect(tree.findParent(8)).toBeUndefined()
     expect(tree.findParent(0)).toBeUndefined()
     expect(tree.findParent(99)).toBeUndefined()
-    expect(tree.findParent(3).value).toBe(8)
-    expect(tree.findParent(10).value).toBe(8)
-    expect(tree.findParent(1).value).toBe(3)
-    expect(tree.findParent(6).value).toBe(3)
-    expect(tree.findParent(4).value).toBe(6)
-    expect(tree.findParent(7).value).toBe(6)
+    expect(tree.findParent(3)?.value).toBe(8)
+    expect(tree.findParent(10)?.value).toBe(8)
+    expect(tree.findParent(1)?.value).toBe(3)
+    expect(tree.findParent(6)?.value).toBe(3)
+    expect(tree.findParent(4)?.value).toBe(6)
+    expect(tree.findParent(7)?.value).toBe(6)
   })
 
   it('should findMin works', () => {

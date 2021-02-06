@@ -17,19 +17,19 @@ export class BinarySearchTree<T = number> {
     this._insert(this.root, value)
   }
 
-  contains(value: T, root = this.root) {
+  contains(value: T, root = this.root): boolean {
     if (!root) return false
     if (root.value === value) return true
     return this.contains(value, value < root.value ? root.left : root.right)
   }
 
-  findNode(value: T, root = this.root) {
+  findNode(value: T, root = this.root): Node<T> | undefined {
     if (!root) return
     if (root.value === value) return root
     return this.findNode(value, value < root.value ? root.left : root.right)
   }
 
-  findParent(value: T, root = this.root) {
+  findParent(value: T, root = this.root): Node<T> | undefined {
     if (!root) return
     if (value === root.value) return
     if (value < root.value) {
@@ -43,13 +43,13 @@ export class BinarySearchTree<T = number> {
     }
   }
 
-  findMin(root = this.root) {
+  findMin(root = this.root): T | undefined {
     if (!root) return
     if (!root.left) return root.value
     return this.findMin(root.left)
   }
 
-  findMax(root = this.root) {
+  findMax(root = this.root): T | undefined {
     if (!root) return
     if (!root.right) return root.value
     return this.findMax(root.right)
