@@ -1,13 +1,13 @@
 interface Node<T> {
   value: T
-  next: Node<T> | null
+  next: NullableNode<T>
 }
 
-type MaybeNode<T> = Node<T> | null
+type NullableNode<T> = Node<T> | null
 
 export class LinkedList<T = any> {
-  head: MaybeNode<T> = null
-  tail: MaybeNode<T> = null
+  head: NullableNode<T> = null
+  tail: NullableNode<T> = null
   private length = 0
 
   constructor(initialValue?: T[]) {
@@ -97,7 +97,7 @@ export class LinkedList<T = any> {
   forEach(iterator: (value: T, index: number) => boolean | void) {
     if (!this.head) return
 
-    let curr: MaybeNode<T> = this.head,
+    let curr: NullableNode<T> = this.head,
       index = -1
 
     while (curr) {
@@ -130,9 +130,9 @@ export class LinkedList<T = any> {
   reverse() {
     if (!this.head) return
 
-    let prev: MaybeNode<T> = null,
-      curr: MaybeNode<T> = this.head,
-      next: MaybeNode<T> = null
+    let prev: NullableNode<T> = null,
+      curr: NullableNode<T> = this.head,
+      next: NullableNode<T> = null
 
     while (curr) {
       next = curr.next

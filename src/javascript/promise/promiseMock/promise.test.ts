@@ -1,12 +1,8 @@
 import { PromiseMock as PM } from './promise'
+import { expectFnCalledWith } from '../../_/utils'
 
 const PromiseMock = PM
 // const PromiseMock = Promise
-
-const expectFnCalledWith = (fn, params: any[]) => {
-  expect(fn).toBeCalledTimes(params.length)
-  params.forEach((param, i) => expect(fn).nthCalledWith(i + 1, param))
-}
 
 describe('Test PromiseMock', () => {
   let called
