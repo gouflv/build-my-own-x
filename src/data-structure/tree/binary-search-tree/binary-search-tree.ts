@@ -1,10 +1,4 @@
-interface Node<T> {
-  value: T
-  left: NullableNode<T>
-  right: NullableNode<T>
-}
-
-type NullableNode<T> = Node<T> | null
+import { Node, NullableNode } from '../typing'
 
 export class BinarySearchTree<T = number> {
   root: NullableNode<T> = null
