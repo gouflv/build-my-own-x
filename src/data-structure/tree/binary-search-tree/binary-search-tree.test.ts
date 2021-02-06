@@ -10,6 +10,10 @@ describe('Test BST', () => {
     data.forEach(d => tree.insert(d))
   })
 
+  afterEach(() => {
+    expect(tree.__validate__()).toBeTruthy()
+  })
+
   it('should insert works', () => {})
 
   it('should contain works', () => {
@@ -63,5 +67,25 @@ describe('Test BST', () => {
     const called = jest.fn()
     expect(tree.walkPost(value => called(value)))
     expectFnCalledWith(called, [1, 4, 7, 6, 3, 13, 14, 10, 8])
+  })
+
+  it('should remove root', () => {
+    tree.remove(8)
+    expect(tree.toArray('walkPre')).toStrictEqual([])
+  })
+
+  it('should remove leaf node', () => {
+    expect(tree.remove(1)).toBeTruthy()
+    expect(tree.remove(4)).toBeTruthy()
+    expect(tree.remove(7)).toBeTruthy()
+    expect(tree.remove(13)).toBeTruthy()
+    expect(tree.toArray('walkPre')).toStrictEqual([8, 3, 6, 10, 14])
+  })
+
+  it('should remove on child node', () => {
+    expect(tree.remove(14)).toBeTruthy()
+    expect(tree.toArray('walkPre')).toStrictEqual([8, 3, 1, 6, 4, 7, 10, 13])
+    expect(tree.remove(13)).toBeTruthy()
+    expect(tree.toArray('walkPre')).toStrictEqual([8, 3, 1, 6, 4, 7, 10])
   })
 })

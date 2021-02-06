@@ -88,7 +88,78 @@ export class BinarySearchTree<T = number> {
     walker()
   }
 
-  remove(value: T) {}
+  remove(value: T, root = this.root): boolean {
+    const curr = this.findNode(value)
+    if (!curr) {
+      console.warn('${value} on found in tree')
+      return false
+    }
+
+    if (curr === this.root) {
+      this.root = null
+      return true
+    }
+
+    const parent = this.findParent(value)
+    if (!parent) return false
+
+    if (!curr.left && !curr.right) {
+      if (value < parent.value) parent.left = null
+      else parent.right = null
+    }
+
+    if (curr.left || curr.right) {
+      const next = curr.left || (curr.right as Node<T>)
+      if (next.value < parent.value) {
+        parent.left = next
+      } else {
+        parent.right = next
+      }
+    }
+
+    // const removeFn = root => {
+    //   const toRemove = this.findNode(value)
+    //   if (toRemove.left)
+    //
+    //   const parent = this.findParent(value)
+    //
+    //   return true
+    // }
+    // removeFn(root)
+
+    return true
+  }
+
+  toArray(walker: 'walkPre' | 'walkIn' | 'walkPost') {
+    const res: T[] = []
+    this[walker].bind(this)(value => {
+      res.push(value)
+    })
+    return res
+  }
+
+  __validate__(root = this.root) {
+    if (!root) return true
+    if (root.left) {
+      if (root.left.value > root.value) {
+        console.error(
+          `${root.value} has invalidate left value: ${root.left.value}`
+        )
+        return false
+      }
+      return this.__validate__(root.left)
+    }
+    if (root.right) {
+      if (root.right.value < root.value) {
+        console.error(
+          `${root.value} has invalidate right value: ${root.right.value}`
+        )
+        return false
+      }
+      return this.__validate__(root.right)
+    }
+    return true
+  }
 
   protected _create(value: T): Node<T> {
     return { value, left: null, right: null }
