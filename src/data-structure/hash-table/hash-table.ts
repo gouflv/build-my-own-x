@@ -1,17 +1,40 @@
-export class HashTable {
-  constructor() {}
+export class HashTable<T = any> {
+  protected buckets: Array<T[]> = []
+  protected _keys: { [key: string]: number } = {}
 
-  set(key: string, value) {}
+  constructor(protected size = 10) {
+    this.buckets = Array.from({ length: this.size }).map(() => [])
+  }
 
-  get(key: string) {}
+  set(key: string, value: T) {
+    const hash = this.hash(key)
+    this._keys[key] = hash
+    this.buckets[hash].push(value)
+  }
 
-  has(key: string) {}
+  get(key: string) {
+    return this.buckets[this.hash(key)]
+  }
 
-  remove(key: string) {}
+  has(key: string) {
+    return this.get(key).length
+  }
 
-  keys() {}
+  remove(key: string) {
+    this.buckets[this.hash(key)] = []
+  }
 
-  values() {}
+  keys() {
+    return Object.keys(this._keys)
+  }
 
-  protected hash(key: string) {}
+  values() {
+    return this.buckets.reduce((res, arr) => {
+      return [...res, ...arr]
+    }, [])
+  }
+
+  hash(key: string) {
+    return key.charCodeAt(0) % this.size
+  }
 }
