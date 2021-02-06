@@ -107,8 +107,21 @@ export class BinarySearchTree<T = number> {
       if (value < parent.value) parent.left = null
       else parent.right = null
     }
+    // full children
+    if (curr.left && curr.right) {
+      let minNodeOnRight = curr.right
+      while (minNodeOnRight.left) minNodeOnRight = minNodeOnRight.left
 
-    if (curr.left || curr.right) {
+      if (minNodeOnRight === curr.right) {
+        curr.value = minNodeOnRight.value
+        curr.right = null
+      } else {
+        this.remove(minNodeOnRight.value)
+        curr.value = minNodeOnRight.value
+      }
+    }
+    // one child
+    else if (curr.left || curr.right) {
       const next = curr.left || (curr.right as Node<T>)
       if (next.value < parent.value) {
         parent.left = next
@@ -116,16 +129,6 @@ export class BinarySearchTree<T = number> {
         parent.right = next
       }
     }
-
-    // const removeFn = root => {
-    //   const toRemove = this.findNode(value)
-    //   if (toRemove.left)
-    //
-    //   const parent = this.findParent(value)
-    //
-    //   return true
-    // }
-    // removeFn(root)
 
     return true
   }

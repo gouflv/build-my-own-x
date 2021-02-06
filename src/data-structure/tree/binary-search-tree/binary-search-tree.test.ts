@@ -82,10 +82,20 @@ describe('Test BST', () => {
     expect(tree.toArray('walkPre')).toStrictEqual([8, 3, 6, 10, 14])
   })
 
-  it('should remove on child node', () => {
+  it('should remove only one child node', () => {
     expect(tree.remove(14)).toBeTruthy()
     expect(tree.toArray('walkPre')).toStrictEqual([8, 3, 1, 6, 4, 7, 10, 13])
     expect(tree.remove(13)).toBeTruthy()
     expect(tree.toArray('walkPre')).toStrictEqual([8, 3, 1, 6, 4, 7, 10])
+  })
+
+  it('should remove full children node', () => {
+    expect(tree.remove(6)).toBeTruthy()
+    expect(tree.toArray('walkPre')).toStrictEqual([8, 3, 1, 7, 4, 10, 14, 13])
+  })
+
+  it('should remove full children node depth', () => {
+    expect(tree.remove(3)).toBeTruthy()
+    expect(tree.toArray('walkPre')).toStrictEqual([8, 4, 1, 6, 7, 10, 14, 13])
   })
 })
