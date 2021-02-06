@@ -110,6 +110,17 @@ export class LinkedList<T = any> {
     }
   }
 
+  forEachRight(iterator: (value: T, index: number) => boolean | void) {
+    let index = this.length
+    const recursive = (node: NullableNode<T>) => {
+      if (node) {
+        recursive(node.next)
+        iterator(node.value, --index)
+      }
+    }
+    recursive(this.head)
+  }
+
   indexOf(value: T) {
     let index = -1,
       found = false

@@ -105,6 +105,17 @@ describe('Test LinkedList', () => {
     expect(called).toHaveBeenNthCalledWith(3, 3, 2)
   })
 
+  it('should forEachRight works', () => {
+    const called = jest.fn()
+    list.forEachRight((value, index) => {
+      called(value, index)
+    })
+    expect(called).toBeCalledTimes(3)
+    expect(called).toHaveBeenNthCalledWith(1, 3, 2)
+    expect(called).toHaveBeenNthCalledWith(2, 2, 1)
+    expect(called).toHaveBeenNthCalledWith(3, 1, 0)
+  })
+
   it('should forEach early dead when return false', () => {
     const called = jest.fn()
     list.forEach((value, index) => {
