@@ -1,5 +1,6 @@
 import { bubbleSort } from './bubble'
 import { selectSort } from './select'
+import { insertionSort } from './insertion'
 
 describe('Test sort', () => {
   let data
@@ -17,5 +18,10 @@ describe('Test sort', () => {
   it('select', () => {
     // O(n^2)
     expect(selectSort(data)).toStrictEqual(sorted)
+  })
+
+  it('insertion', () => {
+    // O(n^2)
+    expect(insertionSort(data)).toStrictEqual(sorted)
   })
 })
