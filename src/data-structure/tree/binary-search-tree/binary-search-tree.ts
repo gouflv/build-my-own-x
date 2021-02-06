@@ -17,42 +17,42 @@ export class BinarySearchTree<T = number> {
     this._insert(this.root, value)
   }
 
-  contains(value: T, root = this.root): boolean {
-    if (!root) return false
-    if (root.value === value) return true
-    return this.contains(value, value < root.value ? root.left : root.right)
+  contains(value: T, node = this.root): boolean {
+    if (!node) return false
+    if (node.value === value) return true
+    return this.contains(value, value < node.value ? node.left : node.right)
   }
 
-  findNode(value: T, root = this.root): Node<T> | undefined {
-    if (!root) return
-    if (root.value === value) return root
-    return this.findNode(value, value < root.value ? root.left : root.right)
+  findNode(value: T, node = this.root): Node<T> | undefined {
+    if (!node) return
+    if (node.value === value) return node
+    return this.findNode(value, value < node.value ? node.left : node.right)
   }
 
-  findParent(value: T, root = this.root): Node<T> | undefined {
-    if (!root) return
-    if (value === root.value) return
-    if (value < root.value) {
-      if (!root.left) return
-      if (value === root.left.value) return root
-      return this.findParent(value, root.left)
+  findParent(value: T, node = this.root): Node<T> | undefined {
+    if (!node) return
+    if (value === node.value) return
+    if (value < node.value) {
+      if (!node.left) return
+      if (value === node.left.value) return node
+      return this.findParent(value, node.left)
     } else {
-      if (!root.right) return
-      if (value === root.right.value) return root
-      return this.findParent(value, root.right)
+      if (!node.right) return
+      if (value === node.right.value) return node
+      return this.findParent(value, node.right)
     }
   }
 
-  findMin(root = this.root): T | undefined {
-    if (!root) return
-    if (!root.left) return root.value
-    return this.findMin(root.left)
+  findMin(node = this.root): T | undefined {
+    if (!node) return
+    if (!node.left) return node.value
+    return this.findMin(node.left)
   }
 
-  findMax(root = this.root): T | undefined {
-    if (!root) return
-    if (!root.right) return root.value
-    return this.findMax(root.right)
+  findMax(node = this.root): T | undefined {
+    if (!node) return
+    if (!node.right) return node.value
+    return this.findMax(node.right)
   }
 
   walkPre(node: (value: T, node: Node<T>) => boolean | void) {
