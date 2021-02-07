@@ -1,7 +1,7 @@
 /**
  * find min num and swap
  */
-export const selectSort = (arr: number[]) => {
+export const selectSort = <T = number>(arr: T[]) => {
   arr.forEach((v, i) => {
     let minIndex = i
 

@@ -1,7 +1,7 @@
 /**
  * bubble max num to end
  */
-export const bubbleSort = (arr: number[]) => {
+export const bubbleSort = <T = number>(arr: T[]) => {
   let swapped = false
   let len = arr.length
 

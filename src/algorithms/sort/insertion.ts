@@ -1,7 +1,7 @@
 /**
  * find place and swap
  */
-export const insertionSort = (arr: number[]) => {
+export const insertionSort = <T = number>(arr: T[]) => {
   let curr, j
 
   for (let i = 1; i < arr.length; i++) {
