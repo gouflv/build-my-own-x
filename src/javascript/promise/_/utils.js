@@ -5,5 +5,5 @@ export const task = id =>
 
 export const taskReject = id =>
   new Promise((resolve, reject) => {
-    setTimeout(() => reject(id), 100)
+    setTimeout(() => reject(id), id * 100)
   })
