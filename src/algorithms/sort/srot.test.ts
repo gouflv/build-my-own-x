@@ -1,13 +1,14 @@
 import { bubbleSort } from './bubble'
 import { selectSort } from './select'
 import { insertionSort } from './insertion'
+import { mergeSort } from './merge'
 
 describe('Test sort', () => {
   let data
-  const sorted = [0, 1, 2, 3, 4, 5]
+  const sorted = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
   beforeEach(() => {
-    data = [5, 4, 3, 1, 2, 0]
+    data = [6, 7, 8, 9, 5, 4, 3, 1, 2, 0]
   })
 
   it('bubble', () => {
@@ -23,5 +24,10 @@ describe('Test sort', () => {
   it('insertion', () => {
     // O(n^2)
     expect(insertionSort(data)).toStrictEqual(sorted)
+  })
+
+  it('merge', () => {
+    // O(log n)
+    expect(mergeSort(data)).toStrictEqual(sorted)
   })
 })
