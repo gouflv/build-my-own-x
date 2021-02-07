@@ -31,4 +31,9 @@ describe('Test HashTable', () => {
       ht.values().every(v => 'a1|b1|c1|d1|e1'.split('|').includes(v))
     ).toBeTruthy()
   })
+
+  it('should has works', () => {
+    expect(ht.has('a')).toBeTruthy()
+    expect(ht.has('f')).not.toBeTruthy()
+  })
 })
