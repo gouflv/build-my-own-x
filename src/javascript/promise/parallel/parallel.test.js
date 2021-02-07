@@ -1,5 +1,5 @@
 import { parallel } from './parallel'
-import { errorTask, task } from '../_/utils'
+import { taskReject, task } from '../_/utils'
 
 jest.useFakeTimers()
 
@@ -22,9 +22,9 @@ describe('Test parallel', () => {
     const parallelFn = parallel([
       task(1),
       task(2),
-      errorTask(3),
+      taskReject(3),
       task(4),
-      errorTask(5)
+      taskReject(5)
     ])
 
     parallelFn((error, data) => {

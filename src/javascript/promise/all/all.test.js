@@ -1,6 +1,5 @@
 import { all } from './all'
-import { errorTask, task } from '../_/utils'
-import { sequence } from '../sequence/sequence'
+import { taskReject, task } from '../_/utils'
 
 describe('Test all', () => {
   it('resolve each promise result', async () => {
@@ -9,7 +8,7 @@ describe('Test all', () => {
   })
 
   it.skip('reject first error', done => {
-    all([task(1), task(2), errorTask(3), task(4), errorTask(5)])
+    all([task(1), task(2), taskReject(3), task(4), taskReject(5)])
       .then(() => {
         expect(1).toBe(2)
       })

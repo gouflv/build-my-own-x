@@ -1,3 +1,8 @@
+/**
+ * sequence 串联
+ * @param promises
+ * @returns {function(error, values): void}
+ */
 export const sequence = promises => {
   return callback => {
     const res = []

@@ -1,3 +1,8 @@
+/**
+ * parallel 并联
+ * @param promises
+ * @returns {function(error, values): void}
+ */
 export const parallel = promises => {
   return callback => {
     const res = []

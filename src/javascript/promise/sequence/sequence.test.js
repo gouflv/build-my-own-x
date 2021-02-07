@@ -1,5 +1,5 @@
 import { sequence } from './sequence'
-import { errorTask, task } from '../_/utils'
+import { taskReject, task } from '../_/utils'
 
 jest.useFakeTimers()
 
@@ -23,9 +23,9 @@ describe('Test sequence', () => {
     const sequenceFn = sequence([
       task(1),
       task(2),
-      errorTask(3),
+      taskReject(3),
       task(4),
-      errorTask(5)
+      taskReject(5)
     ])
 
     sequenceFn((error, data) => {

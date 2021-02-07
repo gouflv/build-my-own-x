@@ -3,7 +3,7 @@ export const task = id =>
     setTimeout(() => resolve(id), id * 100)
   })
 
-export const errorTask = id =>
+export const taskReject = id =>
   new Promise((resolve, reject) => {
     setTimeout(() => reject(id), 100)
   })
