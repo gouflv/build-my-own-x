@@ -27,9 +27,9 @@ describe('Test HashTable', () => {
 
   it('should set works', () => {
     expect(ht.keys()).toStrictEqual('a|b|c|d|e'.split('|'))
-    expect(
-      ht.values().every(v => 'a1|b1|c1|d1|e1'.split('|').includes(v))
-    ).toBeTruthy()
+    expect(ht.values()).toEqual(
+      expect.arrayContaining('a1|b1|c1|d1|e1'.split('|'))
+    )
   })
 
   it('should has works', () => {
