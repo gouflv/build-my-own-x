@@ -114,8 +114,8 @@
 - [sequence](src/javascript/promise/sequence)
 - [parallel](src/javascript/promise/parallel)
 - [all](src/javascript/promise/all)
-- any
-- race
+- [any](src/javascript/promise/any)
+- [race](src/javascript/promise/race)
 
 </p>
 
@@ -181,3 +181,10 @@
 </p>
 
 </details>
+
+## Web
+
+### MVVM
+
+- [virtual-dom](src/web/virtual-dom)
+
