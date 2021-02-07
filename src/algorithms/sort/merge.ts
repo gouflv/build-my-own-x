@@ -1,10 +1,12 @@
+/**
+ * recursive split array and merge
+ */
 export const mergeSort = <T = number>(arr: T[]) => {
   if (arr.length <= 1) {
     return arr
   }
 
   const mid = Math.floor(arr.length / 2)
-
   const left = mergeSort(arr.slice(0, mid))
   const right = mergeSort(arr.slice(mid, arr.length))
 

@@ -1,5 +1,5 @@
 /**
- * find place and swap
+ * keep swap to right place
  */
 export const insertionSort = <T = number>(arr: T[]) => {
   let curr, j
