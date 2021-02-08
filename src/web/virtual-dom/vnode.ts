@@ -1,7 +1,7 @@
 export class Element<T extends keyof HTMLElementTagNameMap> {
   constructor(
     public tagName: T,
-    public attr: Partial<HTMLElementTagNameMap[T]> | null | undefined,
+    public attrs: Partial<HTMLElementTagNameMap[T]> | null | undefined,
     public children: (Element<any> | string)[]
   ) {}
 
@@ -24,14 +24,14 @@ export class Element<T extends keyof HTMLElementTagNameMap> {
   }
 
   private setNodeAttr(node: HTMLElementTagNameMap[T]) {
-    for (let key in this.attr) {
-      if (!this.attr.hasOwnProperty(key)) {
+    for (let key in this.attrs) {
+      if (!this.attrs.hasOwnProperty(key)) {
         return
       }
       if (key === 'style') {
-        node.style.cssText = this.attr[key] as any
+        node.style.cssText = this.attrs[key] as any
       } else {
-        node.setAttribute(key, this.attr[key] as any)
+        node.setAttribute(key, this.attrs[key] as any)
       }
     }
   }
@@ -39,8 +39,8 @@ export class Element<T extends keyof HTMLElementTagNameMap> {
 
 export const createElement = <T extends keyof HTMLElementTagNameMap>(
   tagName: Element<T>['tagName'],
-  attr?: Element<T>['attr'],
+  attrs?: Element<T>['attrs'],
   children?: Element<T>['children']
 ) => {
-  return new Element(tagName, attr || {}, children || [])
+  return new Element(tagName, attrs || {}, children || [])
 }
