@@ -73,6 +73,7 @@ describe('Test diff', () => {
       })
     )
 
+    // same
     n2 = n1
     expect(diff(n1, n2)).toStrictEqual({ 0: [] })
   })

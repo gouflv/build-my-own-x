@@ -1,13 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test render simple 1`] = `
-<div>
-  <div
-    classname="root"
+exports[`Test render should update with patch REPLACE 1`] = `
+<div
+  id="#div_MUST_replece"
+/>
+`;
+
+exports[`Test render simple render 1`] = `
+<div
+  classname="root"
+>
+  <span
+    classname="text"
   >
-    <span>
-      Hi
-    </span>
-  </div>
+    Hi,
+  </span>
+  <span
+    classname="text"
+  >
+    foo
+  </span>
 </div>
 `;

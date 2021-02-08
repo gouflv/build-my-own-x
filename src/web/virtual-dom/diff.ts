@@ -9,7 +9,7 @@ export enum DiffTypes {
   UPDATE_TEXT
 }
 
-type NodeDiff = {
+export type NodeDiff = {
   type: DiffTypes
   value: ReplaceValue | RemoveValue | UpdateAttrValue | UpdateTextValue
 }
