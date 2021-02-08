@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test vnode should render dom node 1`] = `
+<div
+  classname=".cls"
+  id="#id"
+/>
+`;
+
+exports[`Test vnode should render dom node with children 1`] = `
+<ul
+  classname=".cls"
+  id="#id"
+>
+  <li
+    classname=".c1"
+    id="#c1"
+  />
+  <li
+    classname=".c2"
+    id="#c2"
+  />
+  <li>
+    isTextNode
+  </li>
+</ul>
+`;
