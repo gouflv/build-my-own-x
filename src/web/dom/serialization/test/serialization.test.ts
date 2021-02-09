@@ -10,6 +10,6 @@ describe('Test serialization', () => {
   })
 
   it('should render with vdom', () => {
-    render(vdom)
+    expect(virtualize(render(vdom))).toMatchObject(vdom)
   })
 })
