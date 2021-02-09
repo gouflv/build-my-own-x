@@ -17,11 +17,11 @@ const treeHeightIterative = tree => {
   if (tree.nodeType !== Node.ELEMENT_NODE) return 0
 
   let height = 0
-  let nodeOfLevel = [tree]
+  let currNodes = [tree]
 
-  while (nodeOfLevel.length) {
+  while (currNodes.length) {
     height++
-    nodeOfLevel = nodeOfLevel.reduce((res, node) => {
+    currNodes = currNodes.reduce((res, node) => {
       node.children && res.push(...Array.from(node.children))
       return res
     }, [])
