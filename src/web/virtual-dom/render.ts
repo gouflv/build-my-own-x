@@ -1,28 +1,26 @@
-import { Element } from './vnode'
-import { diff, Patches } from './diff'
+import { VNode } from './vnode'
+import { diff } from './diff'
 import { applyPatches } from './applyPatche'
 
 export class DomRender {
   dom: HTMLElement | null = null
-  nodeTree: Element<any> | null = null
+  nodeTree: VNode<any> | null = null
 
   constructor(private root: HTMLElement) {}
 
-  render(el: Element<any>) {
+  render(el: VNode<any>) {
     if (!this.nodeTree) {
       this.dom = el.render()
-      this.nodeTree = el
       this.dom && this.root.appendChild(this.dom)
     } else {
       this.update(el)
     }
+    this.nodeTree = el
     return this.dom
   }
 
-  private update(newEl: Element<any>) {
-    newEl &&
-      this.dom &&
-      this.nodeTree &&
-      applyPatches(this.dom, diff(this.nodeTree, newEl))
+  private update(newEl: VNode<any>) {
+    if (!this.dom) return
+    applyPatches(this.dom, diff(this.nodeTree, newEl))
   }
 }

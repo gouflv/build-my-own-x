@@ -1,8 +1,8 @@
-export class Element<T extends keyof HTMLElementTagNameMap> {
+export class VNode<T extends keyof HTMLElementTagNameMap> {
   constructor(
     public tagName: T,
     public attrs: Partial<HTMLElementTagNameMap[T]> | null | undefined,
-    public children: (Element<any> | string)[]
+    public children: (VNode<any> | string)[]
   ) {}
 
   render() {
@@ -11,7 +11,7 @@ export class Element<T extends keyof HTMLElementTagNameMap> {
 
     if (this.children.length) {
       this.children.forEach(child => {
-        if (child instanceof Element) {
+        if (child instanceof VNode) {
           node.appendChild(child.render())
         }
         if (typeof child === 'string') {
@@ -38,9 +38,9 @@ export class Element<T extends keyof HTMLElementTagNameMap> {
 }
 
 export const createElement = <T extends keyof HTMLElementTagNameMap>(
-  tagName: Element<T>['tagName'],
-  attrs?: Element<T>['attrs'],
-  children?: Element<T>['children']
+  tagName: VNode<T>['tagName'],
+  attrs?: VNode<T>['attrs'],
+  children?: VNode<T>['children']
 ) => {
-  return new Element(tagName, attrs || {}, children || [])
+  return new VNode(tagName, attrs || {}, children || [])
 }

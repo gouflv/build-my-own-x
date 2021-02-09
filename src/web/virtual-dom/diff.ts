@@ -1,6 +1,6 @@
-import { Element } from './vnode'
+import { VNode } from './vnode'
 
-type VNode = Element<any> | string | null | undefined
+type MayBeVNode = VNode<any> | string | null | undefined
 
 export enum DiffTypes {
   REPLACE,
@@ -14,22 +14,22 @@ export type NodeDiff = {
   value: ReplaceValue | RemoveValue | UpdateAttrValue | UpdateTextValue
 }
 
-type ReplaceValue = VNode
+type ReplaceValue = VNode<any>
 type RemoveValue = number
 type UpdateAttrValue = Record<string, any>
 type UpdateTextValue = string
 
 export type Patches = Record<number, NodeDiff[]>
 
-export const diff = (oldVNode: VNode, newVNode: VNode) => {
+export const diff = (oldVNode: MayBeVNode, newVNode: MayBeVNode) => {
   const res = {} as Patches
   diffWalker(oldVNode, newVNode, 0, res)
   return res
 }
 
 const diffWalker = (
-  oldVNode: VNode,
-  newVNode: VNode,
+  oldVNode: MayBeVNode,
+  newVNode: MayBeVNode,
   index: number,
   patches: Patches
 ) => {
@@ -47,7 +47,7 @@ const diffWalker = (
   }
 
   // Element diff
-  if (oldVNode instanceof Element && newVNode instanceof Element) {
+  if (oldVNode instanceof VNode && newVNode instanceof VNode) {
     // type
     if (oldVNode.tagName !== newVNode.tagName) {
       nodeDiff.push({ type: DiffTypes.REPLACE, value: newVNode })
@@ -57,7 +57,10 @@ const diffWalker = (
     const oldAttrKeys = Object.keys(oldVNode.attrs || {})
     const newAttrKeys = Object.keys(newVNode.attrs || {})
     if (oldAttrKeys.length !== newAttrKeys.length) {
-      nodeDiff.push({ type: DiffTypes.UPDATE_ATTR, value: newVNode.attrs })
+      nodeDiff.push({
+        type: DiffTypes.UPDATE_ATTR,
+        value: newVNode.attrs as UpdateAttrValue
+      })
       return patches
     }
     const isNewAttrUpdate = newAttrKeys.some(k => {
@@ -68,7 +71,10 @@ const diffWalker = (
       )
     })
     if (isNewAttrUpdate) {
-      nodeDiff.push({ type: DiffTypes.UPDATE_ATTR, value: newVNode.attrs })
+      nodeDiff.push({
+        type: DiffTypes.UPDATE_ATTR,
+        value: newVNode.attrs as UpdateAttrValue
+      })
     }
   }
   // TextNode diff
@@ -79,7 +85,7 @@ const diffWalker = (
   ) {
     nodeDiff.push({ type: DiffTypes.UPDATE_TEXT, value: newVNode })
   } else {
-    nodeDiff.push({ type: DiffTypes.REPLACE, value: newVNode })
+    nodeDiff.push({ type: DiffTypes.REPLACE, value: newVNode as ReplaceValue })
   }
 
   return patches
