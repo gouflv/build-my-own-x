@@ -1,4 +1,4 @@
-export const treeHeight = (tree: Node | null | undefined) => {
+const treeHeightRecursive = (tree: Node | null | undefined) => {
   if (!tree) return 0
 
   function walk(tree, depth = 1) {
@@ -11,3 +11,23 @@ export const treeHeight = (tree: Node | null | undefined) => {
   }
   return walk(tree)
 }
+
+const treeHeightIterative = tree => {
+  if (!tree) return 0
+  if (tree.nodeType !== Node.ELEMENT_NODE) return 0
+
+  let height = 0
+  let nodeOfLevel = [tree]
+
+  while (nodeOfLevel.length) {
+    height++
+    nodeOfLevel = nodeOfLevel.reduce((res, node) => {
+      node.children && res.push(...Array.from(node.children))
+      return res
+    }, [])
+  }
+
+  return height
+}
+
+export const treeHeight = treeHeightIterative
