@@ -1,13 +1,12 @@
 import { DiffTypes, NodeDiff, Patches } from './diff'
-import { Element } from './vnode'
+import { VNode } from './vnode'
+import { virtualize } from '../dom/serialization/vartualize'
 
 export const applyPatches = (node: HTMLElement, patches: Patches) => {
   walker(node, 0, patches)
 }
 
 const walker = (node: Node, index: number, patches: Patches) => {
-  console.debug(node, patches)
-
   const nodePatches = patches[index]
   if (nodePatches) {
     applyPatch(node, nodePatches)
@@ -23,14 +22,16 @@ const applyPatch = (node: Node, patches: NodeDiff[]) => {
   patches.forEach(patch => {
     if (patch.type === DiffTypes.REPLACE) {
       const newNode =
-        patch.value instanceof Element
+        patch.value instanceof VNode
           ? patch.value.render()
           : typeof patch.value === 'string'
           ? document.createTextNode(patch.value)
           : null
+      console.debug('newNode', virtualize(newNode))
       if (newNode) {
-        console.log(node.parentElement?.removeChild(node))
-        node.parentElement?.removeChild(node)
+        console.debug('before', virtualize(node))
+        node.parentElement?.replaceChild(newNode, node)
+        console.debug('after', virtualize(node))
       }
     }
   })
