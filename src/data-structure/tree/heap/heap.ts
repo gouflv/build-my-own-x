@@ -29,32 +29,65 @@ export class Heap<T = any> {
   }
 
   private heapifyUp() {
-    let fromIndex = this.heapArr.length - 1
+    let currIndex = this.heapArr.length - 1
     while (
-      Heap.hasParent(fromIndex) &&
-      !this.pairIsInOrder(this.getParent(fromIndex), this.heapArr[fromIndex])
+      Heap.hasParent(currIndex) &&
+      !this.pairIsInOrder(this.getParent(currIndex), this.heapArr[currIndex])
     ) {
-      const pIndex = Heap.getParentIndex(fromIndex)
-      this.swap(pIndex, fromIndex)
-      fromIndex = Heap.getParentIndex(fromIndex)
+      const pIndex = Heap.getParentIndex(currIndex)
+      this.swap(pIndex, currIndex)
+      currIndex = Heap.getParentIndex(currIndex)
     }
   }
 
-  private heapifyDown() {}
+  private heapifyDown() {
+    let currIndex = this.heapArr.length - 1
+    let next
+    while (this.hasLeftChild(currIndex)) {
+      if (this.hasRightChildIndex(currIndex)) {
+        // next =
+      } else {
+        next = Heap.getLeftChildIndex(currIndex)
+      }
 
-  private static getParentIndex(index: number): number {
-    return Math.floor((index - 1) / 2)
+      if (this.pairIsInOrder(this.heapArr[currIndex], this.heapArr[next])) {
+        break
+      }
+
+      this.swap(currIndex, next)
+      currIndex = next
+    }
   }
 
   private getParent(index: number): T | undefined {
     return this.heapArr[Heap.getParentIndex(index)]
   }
 
+  private swap(a: number, b: number) {
+    ;[this.heapArr[a], this.heapArr[b]] = [this.heapArr[b], this.heapArr[a]]
+  }
+
+  private static getParentIndex(index: number): number {
+    return Math.floor((index - 1) / 2)
+  }
+
   private static hasParent(index: number): boolean {
     return Heap.getParentIndex(index) >= 0
   }
 
-  private swap(a: number, b: number) {
-    ;[this.heapArr[a], this.heapArr[b]] = [this.heapArr[b], this.heapArr[a]]
+  private static getLeftChildIndex(index: number): number {
+    return index * 2 + 1
+  }
+
+  private hasLeftChild(index: number) {
+    return Heap.getLeftChildIndex(index) < this.heapArr.length
+  }
+
+  private static getRightChildIndex(index: number): number {
+    return index * 2 + 2
+  }
+
+  private hasRightChildIndex(index: number) {
+    return Heap.getRightChildIndex(index) < this.heapArr.length
   }
 }
