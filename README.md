@@ -144,7 +144,13 @@
 
 ## Data Structures and Algorithms
 
-### 数据结构
+### Data Structures
+
+<details>
+
+<summary>数据结构</summary>
+
+<p>
 
 - [stack](src/data-structure/stack)
 - [queue](src/data-structure/queue)
@@ -155,7 +161,11 @@
 - [heap](src/data-structure/tree/heap)
 - [trie](src/data-structure/tree/trie)
 
-### 算法
+</p>
+
+</details>
+
+### Algorithms
 
 <details>
 
