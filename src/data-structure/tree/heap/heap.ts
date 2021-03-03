@@ -28,8 +28,8 @@ export class Heap<T = any> {
     return this.heapArr.toString()
   }
 
-  private heapifyUp() {
-    let currIndex = this.heapArr.length - 1
+  private heapifyUp(from: number = this.heapArr.length - 1) {
+    let currIndex = from
     while (
       Heap.hasParent(currIndex) &&
       !this.pairIsInOrder(this.getParent(currIndex), this.heapArr[currIndex])
@@ -40,12 +40,21 @@ export class Heap<T = any> {
     }
   }
 
-  private heapifyDown() {
-    let currIndex = this.heapArr.length - 1
+  private heapifyDown(from = 0) {
+    let currIndex = from
     let next
     while (this.hasLeftChild(currIndex)) {
-      if (this.hasRightChildIndex(currIndex)) {
-        // next =
+      // find child to swap
+      // MaxHeap: has right && right >= left
+      // MinHeap: has right && right <= left
+      if (
+        this.hasRightChildIndex(currIndex) &&
+        this.pairIsInOrder(
+          this.getRightChild(currIndex),
+          this.getLeftChild(currIndex)
+        )
+      ) {
+        next = Heap.getRightChildIndex(currIndex)
       } else {
         next = Heap.getLeftChildIndex(currIndex)
       }
@@ -83,11 +92,19 @@ export class Heap<T = any> {
     return Heap.getLeftChildIndex(index) < this.heapArr.length
   }
 
+  private getLeftChild(index: number) {
+    return this.heapArr[Heap.getLeftChildIndex(index)]
+  }
+
   private static getRightChildIndex(index: number): number {
     return index * 2 + 2
   }
 
   private hasRightChildIndex(index: number) {
     return Heap.getRightChildIndex(index) < this.heapArr.length
+  }
+
+  private getRightChild(index: number) {
+    return this.heapArr[Heap.getRightChildIndex(index)]
   }
 }
