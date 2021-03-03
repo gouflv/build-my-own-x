@@ -153,6 +153,7 @@
 - [hash-table](src/data-structure/hash-table)
 - [binary-search-tree](src/data-structure/tree/binary-search-tree)
 - [heap](src/data-structure/tree/heap)
+- [trie](src/data-structure/tree/trie)
 
 ### 算法
 
