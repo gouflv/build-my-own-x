@@ -176,6 +176,8 @@
 - [bubble](src/algorithms/sort/bubble.ts)
 - [select](src/algorithms/sort/select.ts)
 - [insertion](src/algorithms/sort/insertion.ts)
+- [merge](src/algorithms/sort/merge.ts)
+- [quick](src/algorithms/sort/quick.ts)
 
 </p>
 
