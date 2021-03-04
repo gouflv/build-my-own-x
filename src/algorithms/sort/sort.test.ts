@@ -39,6 +39,7 @@ describe('Test sort', () => {
   })
 
   it('heap', () => {
+    // O(n log(n))
     expect(heapSort(data)).toStrictEqual(sorted)
   })
 })
