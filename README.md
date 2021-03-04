@@ -160,6 +160,7 @@
 - [binary-search-tree](src/data-structure/tree/binary-search-tree)
 - [heap](src/data-structure/tree/heap)
 - [trie](src/data-structure/tree/trie)
+- [graph](src/data-structure/graph)
 
 </p>
 
@@ -178,6 +179,7 @@
 - [insertion](src/algorithms/sort/insertion.ts)
 - [merge](src/algorithms/sort/merge.ts)
 - [quick](src/algorithms/sort/quick.ts)
+- [heap](src/algorithms/sort/heap.ts)
 
 </p>
 
