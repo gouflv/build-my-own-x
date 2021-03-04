@@ -23,7 +23,10 @@ export class BinarySearchTree<T = number> {
     return this.findNode(value, value < node.value ? node.left : node.right)
   }
 
-  findParent(value: T, node = this.root): Node<T> | undefined {
+  /**
+   * @deprecated
+   */
+  findParentRecursion(value: T, node = this.root): Node<T> | undefined {
     if (!node) return
     if (value === node.value) return
     if (value < node.value) {
@@ -35,6 +38,14 @@ export class BinarySearchTree<T = number> {
       if (value === node.right.value) return node
       return this.findParent(value, node.right)
     }
+  }
+
+  findParent(value: T, node = this.root): Node<T> | undefined {
+    const child = this.findNode(value, node)
+    if (child && child.parent) {
+      return child.parent
+    }
+    return undefined
   }
 
   findMin(node = this.root): T | undefined {
@@ -97,17 +108,24 @@ export class BinarySearchTree<T = number> {
     const parent = this.findParent(value)
     if (!parent) return false
 
+    // left
     if (!curr.left && !curr.right) {
-      if (value < parent.value) parent.left = null
-      else parent.right = null
+      curr.parent = null
+      if (value < parent.value) {
+        parent.left = null
+      } else {
+        parent.right = null
+      }
     }
     // full children
     if (curr.left && curr.right) {
       let minNodeOnRight = curr.right
       while (minNodeOnRight.left) minNodeOnRight = minNodeOnRight.left
 
+      // set min value to curr
       if (minNodeOnRight === curr.right) {
         curr.value = minNodeOnRight.value
+        curr.right.parent = null
         curr.right = null
       } else {
         this.remove(minNodeOnRight.value)
@@ -116,12 +134,14 @@ export class BinarySearchTree<T = number> {
     }
     // one child
     else if (curr.left || curr.right) {
-      const next = curr.left || (curr.right as Node<T>)
+      const next = (curr.left || curr.right) as Node<T>
       if (next.value < parent.value) {
         parent.left = next
       } else {
         parent.right = next
       }
+      curr.parent = null
+      next.parent = parent
     }
 
     return true
@@ -159,7 +179,7 @@ export class BinarySearchTree<T = number> {
   }
 
   protected _create(value: T): Node<T> {
-    return { value, left: null, right: null }
+    return { value, left: null, right: null, parent: null }
   }
 
   protected _insert(node: Node<T>, value: T) {
@@ -168,12 +188,14 @@ export class BinarySearchTree<T = number> {
         this._insert(node.left, value)
       } else {
         node.left = this._create(value)
+        node.left.parent = node
       }
     } else {
       if (node.right) {
         this._insert(node.right, value)
       } else {
         node.right = this._create(value)
+        node.right.parent = node
       }
     }
   }
