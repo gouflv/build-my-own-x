@@ -24,6 +24,10 @@ export class Heap<T = any> {
     return polled
   }
 
+  isEmpty() {
+    return !this.heapArr.length
+  }
+
   toString() {
     return this.heapArr.toString()
   }

@@ -3,6 +3,7 @@ import { selectSort } from './select'
 import { insertionSort } from './insertion'
 import { mergeSort } from './merge'
 import { quickSort } from './quick'
+import { heapSort } from './heap'
 
 describe('Test sort', () => {
   let data
@@ -35,5 +36,9 @@ describe('Test sort', () => {
   it('quick', () => {
     // O(n log(n))
     expect(quickSort(data)).toStrictEqual(sorted)
+  })
+
+  it('heap', () => {
+    expect(heapSort(data)).toStrictEqual(sorted)
   })
 })
