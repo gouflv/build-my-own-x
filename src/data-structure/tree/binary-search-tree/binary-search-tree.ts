@@ -94,7 +94,7 @@ export class BinarySearchTree<T = number> {
   }
 
   remove(value: T, root = this.root): boolean {
-    const curr = this.findNode(value)
+    const curr = this.findNode(value, root)
     if (!curr) {
       console.warn('${value} on found in tree')
       return false
