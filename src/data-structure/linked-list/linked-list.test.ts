@@ -94,6 +94,13 @@ describe('Test LinkedList', () => {
     expect(list.size()).toBe(2)
   })
 
+  it('should remove work', () => {
+    expect(list.remove(0)).toBeUndefined()
+    expect(list.remove(1)).toBe(1)
+    expect(list.remove(2)).toBe(2)
+    expect(list.size()).toBe(1)
+  })
+
   it('should forEach works', () => {
     const called = jest.fn()
     list.forEach((value, index) => {
@@ -131,6 +138,13 @@ describe('Test LinkedList', () => {
     expect(list.indexOf(3)).toBe(2)
     expect(list.indexOf(4)).toBe(-1)
   })
+
+  // it('should find works', () => {
+  //   let node = list.find(value => value === 0)
+  //   expect(node).toBeNull()
+  //   node = list.find(value => value === 1)
+  //   expect(node?.value).toBe(1)
+  // })
 
   it('should reverse works', () => {
     list.reverse()

@@ -10,7 +10,10 @@ export class LinkedList<T = any> {
   tail: NullableNode<T> = null
   private length = 0
 
-  constructor(initialValue?: T[]) {
+  constructor(
+    initialValue: T[] = [],
+    private isEqual = (a: T, b: T) => Object.is(a, b)
+  ) {
     if (initialValue) {
       initialValue.forEach(value => this.append(value))
     }
@@ -64,8 +67,8 @@ export class LinkedList<T = any> {
     if (!node.next) this.tail = node
   }
 
-  removeAt(index: number): T | undefined {
-    if (!this.head) return
+  removeAt(index: number): T | null {
+    if (!this.head) return null
 
     if (index <= 0) {
       this.length--
@@ -91,6 +94,15 @@ export class LinkedList<T = any> {
         this.tail = prev
       }
       return toRemove.value
+    }
+
+    return null
+  }
+
+  remove(value: T) {
+    const index = this.indexOf(value)
+    if (~index) {
+      return this.removeAt(index)
     }
   }
 
@@ -126,12 +138,23 @@ export class LinkedList<T = any> {
       found = false
     this.forEach((val, i) => {
       index = i
-      if (Object.is(val, value)) {
+      if (this.isEqual(val, value)) {
         found = true
         return false
       }
     })
     return found ? index : -1
+  }
+
+  find(iterator: (value: T) => boolean) {
+    let curr = this.head
+    while (curr) {
+      if (iterator(curr.value)) {
+        return curr
+      }
+      curr = curr.next
+    }
+    return null
   }
 
   /**
