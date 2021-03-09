@@ -29,8 +29,8 @@ describe('Test axios api and config', () => {
     expect(instance.config).toStrictEqual(outputConfig)
   })
 
-  // it('should request with custom config', async () => {
-  //   const res = await axios.request(mockConfig)
-  //   expect(res.config).toStrictEqual(outputConfig)
-  // })
+  it('should request with custom config', async () => {
+    const res = await axios.request(mockConfig)
+    expect(res.config).toStrictEqual(outputConfig)
+  })
 })

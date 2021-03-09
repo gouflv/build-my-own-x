@@ -32,9 +32,6 @@ export const margeConfig = (
     ...base,
     ...config,
     headers: Object.assign({}, base.headers, config.headers),
-    transformResponse: [
-      ...base.transformResponse,
-      ...(config.transformResponse || [])
-    ]
+    transformResponse: config.transformResponse || base.transformResponse
   }
 }
