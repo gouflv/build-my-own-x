@@ -1,4 +1,4 @@
-import { defaults, margeConfig } from './defaults'
+import { defaults, margeConfig } from './configs'
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from './typding'
 
 class Axios {
@@ -9,8 +9,7 @@ class Axios {
     const adapter = _config.adapter
 
     const onAdapterResolved = (response: AxiosResponse<T>) => {
-      // TODO Transform response
-      return response
+      return transformResponse(response, _config.transformResponse)
     }
     const onAdapterRejected = (reason: AxiosError) => {
       // TODO Transform response
@@ -32,3 +31,14 @@ export function createAxios(config?: Partial<AxiosRequestConfig>) {
  * axios build-in instance
  */
 export const axios = createAxios(defaults)
+
+function transformResponse(
+  response: AxiosResponse,
+  transforms: AxiosRequestConfig['transformResponse']
+) {
+  response.data = transforms.reduce(
+    (data, transform) => transform(data),
+    response.data
+  )
+  return response
+}

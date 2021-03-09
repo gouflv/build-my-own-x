@@ -11,6 +11,7 @@ export interface AxiosRequestConfig {
   timeout: number
 
   responseType: 'json' | 'text'
+  transformResponse: Array<(data: any) => any>
 
   // onUploadProgress: (e: ProgressEvent) => void
   // onDownloadProgress: (e: ProgressEvent) => void

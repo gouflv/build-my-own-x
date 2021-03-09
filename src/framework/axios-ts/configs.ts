@@ -11,6 +11,16 @@ export const defaults: AxiosRequestConfig = {
   headers: DEFAULT_HEADER_ACCEPT,
   timeout: 0,
   responseType: 'json',
+  transformResponse: [
+    function transformResponse(data) {
+      if (typeof data === 'string') {
+        try {
+          return JSON.parse(data)
+        } catch (e) {}
+      }
+      return data
+    }
+  ],
   adapter: adapterXHR
 }
 
@@ -21,6 +31,10 @@ export const margeConfig = (
   return {
     ...base,
     ...config,
-    headers: Object.assign({}, base.headers, config.headers)
+    headers: Object.assign({}, base.headers, config.headers),
+    transformResponse: [
+      ...base.transformResponse,
+      ...(config.transformResponse || [])
+    ]
   }
 }

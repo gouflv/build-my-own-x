@@ -31,5 +31,7 @@ export const adapterXHR = (config: AxiosRequestConfig) => {
         reject(createError(request.status, 'Request failed', response))
       }
     }
+
+    request.send()
   })
 }
