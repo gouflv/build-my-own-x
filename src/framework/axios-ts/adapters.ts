@@ -1,5 +1,8 @@
+import { createError } from './errors'
+import { AxiosRequestConfig, AxiosResponse } from './typding'
+
 export const adapterXHR = (config: AxiosRequestConfig) => {
-  return new Promise((resolve, reject) => {
+  return new Promise<AxiosResponse>((resolve, reject) => {
     const request = new XMLHttpRequest()
 
     request.open(config.method.toUpperCase(), config.url)
@@ -22,7 +25,11 @@ export const adapterXHR = (config: AxiosRequestConfig) => {
         request
       }
 
-      resolve(response)
+      if (request.status && request.status >= 200 && request.status < 300) {
+        resolve(response)
+      } else {
+        reject(createError(request.status, 'Request failed', response))
+      }
     }
   })
 }

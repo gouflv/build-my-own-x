@@ -1,4 +1,4 @@
-interface AxiosRequestConfig {
+export interface AxiosRequestConfig {
   url: string
   method: 'get' | 'post' | 'put' | 'delete'
   headers: Record<string, string>
@@ -15,14 +15,21 @@ interface AxiosRequestConfig {
   // onUploadProgress: (e: ProgressEvent) => void
   // onDownloadProgress: (e: ProgressEvent) => void
 
-  adapter: any
+  adapter: (config: AxiosRequestConfig) => Promise<AxiosResponse>
   // cancelToken: any
 }
 
-interface AxiosResponse<T = any> {
+export interface AxiosResponse<T = any> {
   data: T
   status: number
   headers: any
   config: AxiosRequestConfig
   request: XMLHttpRequest
+}
+
+export interface AxiosError extends Error {
+  code: number
+  request: any
+  response: AxiosResponse
+  isAxiosError: boolean
 }

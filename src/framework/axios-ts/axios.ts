@@ -1,19 +1,34 @@
-import { defaults } from './defaults'
+import { defaults, margeConfig } from './defaults'
+import { AxiosError, AxiosRequestConfig, AxiosResponse } from './typding'
 
 class Axios {
-  constructor(private config: AxiosRequestConfig) {}
-  request<T>() {
-    const adapter = this.config.adapter
+  constructor(public config: AxiosRequestConfig) {}
 
-    const onAdapterResolved = (response: AxiosResponse<T>) => {}
-    const onAdapterRejected = reason => {}
+  request<T = any>(config: Partial<AxiosRequestConfig>) {
+    const _config = margeConfig(config, this.config)
+    const adapter = _config.adapter
 
-    return adapter(this.config).then(onAdapterResolved, onAdapterRejected)
+    const onAdapterResolved = (response: AxiosResponse<T>) => {
+      // TODO Transform response
+      return response
+    }
+    const onAdapterRejected = (reason: AxiosError) => {
+      // TODO Transform response
+      return Promise.reject(reason)
+    }
+
+    return adapter(_config).then(onAdapterResolved, onAdapterRejected)
   }
 }
 
-function createAxios(config: AxiosRequestConfig) {
-  return new Axios(config)
+/**
+ * create custom instance
+ */
+export function createAxios(config?: Partial<AxiosRequestConfig>) {
+  return new Axios(margeConfig(config || {}))
 }
 
+/**
+ * axios build-in instance
+ */
 export const axios = createAxios(defaults)
