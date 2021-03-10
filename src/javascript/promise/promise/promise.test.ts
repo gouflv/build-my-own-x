@@ -1,10 +1,9 @@
-import { PromiseMock as PM } from './promise'
+import { PromiseA } from './promise'
 import { expectFnCalledWith } from '../../_/utils'
 
-const PromiseMock = PM
-// const PromiseMock = Promise
+const PromiseAdapter = PromiseA
 
-describe('Test PromiseMock', () => {
+describe('Test Promise', () => {
   let called
   beforeEach(() => {
     called = jest.fn()
@@ -12,7 +11,7 @@ describe('Test PromiseMock', () => {
 
   it('promise simple', done => {
     called('start')
-    new PromiseMock<string>(resolve => {
+    new PromiseAdapter<string>(resolve => {
       called('init')
       resolve('resolved')
     })
@@ -41,7 +40,7 @@ describe('Test PromiseMock', () => {
   })
 
   it('resolve state must not change', done => {
-    new PromiseMock((resolve, reject) => {
+    new PromiseAdapter((resolve, reject) => {
       resolve('resolved')
       reject('rejected')
     })
@@ -60,14 +59,14 @@ describe('Test PromiseMock', () => {
   })
 
   it('onFulfilled called as function', done => {
-    new PromiseMock(resolve => resolve('')).then(() => {
+    new PromiseAdapter(resolve => resolve('')).then(() => {
       expect(this).toBeUndefined()
       done()
     })
   })
 
   it('onRejected called as function', done => {
-    new PromiseMock((resolve, reject) => reject('')).then(
+    new PromiseAdapter((resolve, reject) => reject('')).then(
       () => {},
       () => {
         expect(this).toBeUndefined()
@@ -77,7 +76,7 @@ describe('Test PromiseMock', () => {
   })
 
   it('async resolved', done => {
-    new PromiseMock(resolve => {
+    new PromiseAdapter(resolve => {
       called('init')
       setTimeout(() => {
         called('called resolve')
@@ -94,7 +93,7 @@ describe('Test PromiseMock', () => {
   })
 
   it('async reject', done => {
-    new PromiseMock((resolve, reject) => {
+    new PromiseAdapter((resolve, reject) => {
       called('init')
       setTimeout(() => {
         called('call rejected')
@@ -129,7 +128,7 @@ describe('Test PromiseMock', () => {
   })
 
   it('reject if executor throw error', done => {
-    new PromiseMock(() => {
+    new PromiseAdapter(() => {
       called('init')
       throw 'error'
     })
@@ -148,7 +147,7 @@ describe('Test PromiseMock', () => {
   })
 
   it('reject if onFulfilled throw error', done => {
-    new PromiseMock(resolve => {
+    new PromiseAdapter(resolve => {
       resolve('resolved value')
     })
       .then(value => {
@@ -170,10 +169,10 @@ describe('Test PromiseMock', () => {
   })
 
   it('resolve with a promise', done => {
-    new PromiseMock(resolve => {
+    new PromiseAdapter(resolve => {
       called('promise1 init')
       resolve(
-        new PromiseMock(resolve => {
+        new PromiseAdapter(resolve => {
           called('promise2 init')
           resolve('promise2 resolved value')
         }).then(value => {

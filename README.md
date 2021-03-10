@@ -110,7 +110,7 @@
 
 <p>
 
-- [PromiseMock](src/javascript/promise/promiseMock)
+- [Promise](src/javascript/promise/promise)
 - [sequence](src/javascript/promise/sequence)
 - [parallel](src/javascript/promise/parallel)
 - [all](src/javascript/promise/all)

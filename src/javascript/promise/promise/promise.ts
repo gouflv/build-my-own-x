@@ -29,7 +29,7 @@ type RejectedHandler<R = any> = (
 ) => Reason<R> | Thenable<R> | null | undefined
 
 interface Deferred<T> {
-  promise: PromiseMock
+  promise: PromiseA
   onFulfilled?: FulfilledHandler<T>
   onRejected?: RejectedHandler
 }
@@ -38,7 +38,7 @@ const runMicroFake = fn => (setImmediate ? setImmediate(fn) : setTimeout(fn))
 
 let promiseId = 0
 
-export class PromiseMock<T = any> implements Thenable<T> {
+export class PromiseA<T = any> implements Thenable<T> {
   _id: number = 0
 
   state: PromiseState = PromiseState.PENDING
@@ -58,7 +58,7 @@ export class PromiseMock<T = any> implements Thenable<T> {
   }
 
   then(onFulfilled?: FulfilledHandler<T>, onRejected?: RejectedHandler) {
-    const promise2 = new PromiseMock(() => {})
+    const promise2 = new PromiseA(() => {})
     deferredHandler(this, {
       promise: promise2,
       onFulfilled,
@@ -68,7 +68,7 @@ export class PromiseMock<T = any> implements Thenable<T> {
   }
 }
 
-const runResolver = (self: PromiseMock, executor) => {
+const runResolver = (self: PromiseA, executor) => {
   // onFulfilled 和 onRejected 必须被作为函数调用（即没有 this 值）
   // onFulfilled 和 onRejected 调用次数不可超过一次
 
@@ -93,7 +93,7 @@ const runResolver = (self: PromiseMock, executor) => {
   }
 }
 
-const resolve = (self: PromiseMock, value) => {
+const resolve = (self: PromiseA, value) => {
   if (self === value) {
     throw TypeError('promise cannot resolve with self')
   }
@@ -106,7 +106,7 @@ const resolve = (self: PromiseMock, value) => {
      如果 x 处于执行态，用相同的值执行 promise
      如果 x 处于拒绝态，用相同的据因拒绝 promise
      */
-    if (value instanceof PromiseMock) {
+    if (value instanceof PromiseA) {
       self.state = PromiseState.VALUE_IS_A_PROMISE
       self.value = value
       finale(self)
@@ -135,19 +135,19 @@ const resolve = (self: PromiseMock, value) => {
   }
 }
 
-const reject = (self: PromiseMock, reason) => {
+const reject = (self: PromiseA, reason) => {
   self.state = PromiseState.REJECTED
   self.value = reason
   finale(self)
 }
 
-const finale = (self: PromiseMock) => {
+const finale = (self: PromiseA) => {
   self.deferred.forEach(def => {
     deferredHandler(self, def)
   })
 }
 
-const deferredHandler = (self: PromiseMock, def: Deferred<any>) => {
+const deferredHandler = (self: PromiseA, def: Deferred<any>) => {
   if (self.state === PromiseState.VALUE_IS_A_PROMISE) {
     self = self.value
   }
