@@ -1,5 +1,7 @@
 import { adapterXHR } from './adapters'
 import { AxiosRequestConfig } from './typding'
+import { isObject } from '../../javascript/lang/is/is'
+import { setContentTypeIfNeed } from './helpers'
 
 export const DEFAULT_HEADER_ACCEPT = {
   Accept: 'application/json, text/plain, */*'
@@ -11,6 +13,15 @@ export const defaults: AxiosRequestConfig = {
   headers: DEFAULT_HEADER_ACCEPT,
   timeout: 0,
   responseType: 'json',
+  transformRequestData: [
+    function transformRequest(data, headers) {
+      if (isObject(data)) {
+        setContentTypeIfNeed(headers, 'application/json;charset=utf-8')
+        return JSON.stringify(data)
+      }
+      return data
+    }
+  ],
   transformResponse: [
     function transformResponse(data) {
       if (typeof data === 'string') {
@@ -22,16 +33,4 @@ export const defaults: AxiosRequestConfig = {
     }
   ],
   adapter: adapterXHR
-}
-
-export const margeConfig = (
-  config: Partial<AxiosRequestConfig>,
-  base = defaults
-): AxiosRequestConfig => {
-  return {
-    ...base,
-    ...config,
-    headers: Object.assign({}, base.headers, config.headers),
-    transformResponse: config.transformResponse || base.transformResponse
-  }
 }

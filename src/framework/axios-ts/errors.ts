@@ -1,13 +1,14 @@
 import { AxiosError, AxiosResponse } from './typding'
 
 export const createError = (
-  code: number,
+  code: number | null,
   message: string,
-  response: AxiosResponse
+  request: any,
+  response?: AxiosResponse
 ): Error => {
   const error = new Error(message) as AxiosError
   error.code = code
-  error.request = response.request
+  error.request = request
   error.response = response
   error.isAxiosError = true
   return error

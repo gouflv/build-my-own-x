@@ -1,11 +1,16 @@
 import { createError } from './errors'
 import { AxiosRequestConfig, AxiosResponse } from './typding'
+import { buildUrl, transformRequestData } from './helpers'
 
 export const adapterXHR = (config: AxiosRequestConfig) => {
   return new Promise<AxiosResponse>((resolve, reject) => {
     const request = new XMLHttpRequest()
 
-    request.open(config.method.toUpperCase(), config.url)
+    request.open(config.method.toUpperCase(), buildUrl(config))
+
+    Object.keys(config.headers).forEach(k =>
+      request.setRequestHeader(k, config.headers[k])
+    )
 
     request.timeout = config.timeout
 
@@ -20,7 +25,7 @@ export const adapterXHR = (config: AxiosRequestConfig) => {
             ? request.responseText
             : request.response,
         status: request.status,
-        headers: {},
+        headers: config.headers,
         config,
         request
       }
@@ -28,10 +33,19 @@ export const adapterXHR = (config: AxiosRequestConfig) => {
       if (request.status && request.status >= 200 && request.status < 300) {
         resolve(response)
       } else {
-        reject(createError(request.status, 'Request failed', response))
+        reject(createError(request.status, 'Request failed', request, response))
       }
     }
 
-    request.send()
+    request.onerror = () => {
+      console.error(request)
+      reject(createError(null, 'Network Error', request))
+    }
+
+    request.onabort = () => {}
+
+    request.ontimeout = () => {}
+
+    request.send((config.data as any) || null)
   })
 }

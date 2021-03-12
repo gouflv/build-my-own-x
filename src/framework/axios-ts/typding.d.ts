@@ -2,15 +2,19 @@ export interface AxiosRequestConfig {
   url: string
   method: 'get' | 'post' | 'put' | 'delete'
   headers: Record<string, string>
-
-  // params: Record<string, string>
-  // paramsSerializer: (params: AxiosRequestConfig['params']) => string
-
-  // data: Record<string, any>
-
   timeout: number
-
   responseType: 'json' | 'text'
+
+  params?: Record<string, string | number>
+  paramsSerializer?: (params: AxiosRequestConfig['params']) => string
+  data?: Record<string, any>
+
+  transformRequestData: Array<
+    (
+      data: AxiosRequestConfig['data'],
+      headers: AxiosRequestConfig['headers']
+    ) => any
+  >
   transformResponse: Array<(data: any) => any>
 
   // onUploadProgress: (e: ProgressEvent) => void
@@ -29,8 +33,8 @@ export interface AxiosResponse<T = any> {
 }
 
 export interface AxiosError extends Error {
-  code: number
-  request: any
-  response: AxiosResponse
+  code: number | null
+  request: XMLHttpRequest
+  response?: AxiosResponse
   isAxiosError: boolean
 }

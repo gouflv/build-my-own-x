@@ -12,6 +12,7 @@ const mockConfig: Partial<AxiosRequestConfig> = {
 }
 const outputConfig = {
   ...mockConfig,
+  transformRequestData: defaults.transformRequestData,
   transformResponse: defaults.transformResponse
 }
 

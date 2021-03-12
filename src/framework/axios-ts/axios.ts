@@ -1,5 +1,6 @@
-import { defaults, margeConfig } from './configs'
+import { defaults } from './configs'
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from './typding'
+import { margeConfig, transformRequestData, transformResponse } from './helpers'
 
 class Axios {
   constructor(public config: AxiosRequestConfig) {}
@@ -7,6 +8,14 @@ class Axios {
   request<T = any>(config: Partial<AxiosRequestConfig>) {
     const _config = margeConfig(config, this.config)
     const adapter = _config.adapter
+
+    if (_config.data) {
+      _config.data = transformRequestData(
+        _config.data,
+        _config.headers,
+        _config.transformRequestData
+      )
+    }
 
     const onAdapterResolved = (response: AxiosResponse<T>) => {
       return transformResponse(response, _config.transformResponse)
@@ -31,14 +40,3 @@ export function createAxios(config?: Partial<AxiosRequestConfig>) {
  * axios build-in instance
  */
 export const axios = createAxios(defaults)
-
-function transformResponse(
-  response: AxiosResponse,
-  transforms: AxiosRequestConfig['transformResponse']
-) {
-  response.data = transforms.reduce(
-    (data, transform) => transform(data),
-    response.data
-  )
-  return response
-}
