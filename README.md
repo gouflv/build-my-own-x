@@ -7,11 +7,7 @@
 
 ## Javascript
 
-<details>
-
-<summary>Lang</summary>
-
-<p>
+### Lang
 
 - [is](src/javascript/lang/is)
     
@@ -31,15 +27,7 @@
 
 - [typeOf](src/javascript/lang/typeof)
 
-</p>
-
-</details>
-
-<details>
-
-<summary>Object</summary>
-
-<p>
+### Object
 
 - [assign](src/javascript/object/assign)
 - [defaults](src/javascript/object/defaults)
@@ -52,15 +40,7 @@
 
 - [pick](src/javascript/object/pick)
 
-</p>
-
-</details>
-
-<details>
-
-<summary>Function</summary>
-
-<p>
+### Function
 
 - [partial](src/javascript/function/partial)
 - [curry (with placeholder)](src/javascript/function/curry)
@@ -75,30 +55,14 @@
 - [debounce](src/javascript/function/debounce)
 - [throttle](src/javascript/function/throttle)
 
-</p>
-
-</details>
-
-<details>
-
-<summary>Array</summary>
-
-<p>
+### Array
 
 - [flatten](src/javascript/array/flatten)
 - [reduce](src/javascript/array/reduce)
 - [reduceRight](src/javascript/array/reduceRight)
 - [shuffle](src/javascript/array/shuffle)
 
-</p>
-
-</details>
-
-<details>
-
-<summary>Promise</summary>
-
-<p>
+### Promise
 
 - [promise](src/javascript/promise/promise)
 - [sequence](src/javascript/promise/sequence)
@@ -107,15 +71,7 @@
 - [any](src/javascript/promise/any)
 - [race](src/javascript/promise/race)
 
-</p>
-
-</details>
-
-<details>
-
-<summary>Reactive</summary>
-
-<p>
+### Reactive
 
 - [single-object-observer](src/javascript/proxy/single-observer)
 
@@ -126,17 +82,10 @@
 
   > _参考 [@vue/reactivity]() 和 [observer-util](https://github.com/nx-js/observer-util) 的实现_
 
-</p>
-
-</details>
 
 ## Data Structures and Algorithms
 
-<details>
-
-<summary>数据结构</summary>
-
-<p>
+### Data Structures
 
 - [stack](src/data-structure/stack)
 - [queue](src/data-structure/queue)
@@ -148,15 +97,7 @@
 - [trie](src/data-structure/tree/trie)
 - [graph](src/data-structure/graph)
 
-</p>
-
-</details>
-
-<details>
-
-<summary>排序</summary>
-
-<p>
+### Sorting
 
 - [bubble](src/algorithms/sort/bubble.ts)
 - [select](src/algorithms/sort/select.ts)
@@ -165,43 +106,19 @@
 - [quick](src/algorithms/sort/quick.ts)
 - [heap](src/algorithms/sort/heap.ts)
 
-</p>
-
-</details>
-
-<details>
-
-<summary>搜索</summary>
-
-<p>
+### Search
 
 - [binary-search](src/algorithms/binary-search)
 
-</p>
-
-</details>
 
 ## Web
 
-<details>
-
-<summary>Framework</summary>
-
-<p>
+### Framework
 
 - [axios-ts](src/framework/axios-ts)
 
-</p>
 
-</details>
-
-<details>
-
-<summary>MVVM</summary>
-
-<p>
+### MVVM
 
 - [virtual-dom](src/web/virtual-dom)
 
-</p>
-</details>
