@@ -1,12 +1,18 @@
 import { defaults } from './configs'
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from './typding'
 import { margeConfig, transformRequestData, transformResponse } from './helpers'
+import { InterceptorManager } from './interceptor'
 
 class Axios {
+  interceptors = {
+    request: new InterceptorManager<AxiosRequestConfig>(),
+    response: new InterceptorManager<AxiosError>()
+  }
+
   constructor(public config: AxiosRequestConfig) {}
 
   request<T = any>(config: Partial<AxiosRequestConfig>) {
-    const _config = margeConfig(config, this.config)
+    let _config = margeConfig(config, this.config)
     const adapter = _config.adapter
 
     if (_config.data) {
@@ -17,6 +23,15 @@ class Axios {
       )
     }
 
+    this.interceptors.request.forEach(({ onFulfilled, onRejected }) => {
+      try {
+        _config = onFulfilled(_config)
+      } catch (e) {
+        onRejected(e)
+        return false
+      }
+    })
+
     const onAdapterResolved = (response: AxiosResponse<T>) => {
       return transformResponse(response, _config.transformResponse)
     }
@@ -25,7 +40,11 @@ class Axios {
       return Promise.reject(reason)
     }
 
-    return adapter(_config).then(onAdapterResolved, onAdapterRejected)
+    let promise: Promise<AxiosResponse<T>>
+
+    promise = adapter(_config).then(onAdapterResolved, onAdapterRejected)
+
+    return promise
   }
 }
 
