@@ -35,11 +35,33 @@ describe('Test request', () => {
     expect(res.data).toStrictEqual(responseData)
   })
 
-  it('should send POST request', async () => {
+  it('should send POST request with data', async () => {
     const requestData = { a: 1, b: 2 }
     const responseData = { foo: 1 }
     xhrMock.post('url', (req, res) => {
       expect(req.header('Content-Type')).toBe('application/json;charset=utf-8')
+      return res.status(200).body(JSON.stringify(responseData))
+    })
+
+    const res = await axios.request({
+      url: 'url',
+      method: 'post',
+      data: requestData
+    })
+    expect(res.data).toStrictEqual(responseData)
+  })
+
+  it('should send POST request with FormData', async () => {
+    const requestData = new FormData()
+    requestData.append('a', '1')
+    requestData.append('b', '2')
+
+    const responseData = { foo: 1 }
+    xhrMock.post('url', (req, res) => {
+      expect(req.header('Content-Type')?.indexOf('multipart/form-data;')).toBe(
+        0
+      )
+      expect(req.body()).toBe(requestData)
       return res.status(200).body(JSON.stringify(responseData))
     })
 

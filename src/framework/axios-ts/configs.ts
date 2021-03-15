@@ -15,6 +15,9 @@ export const defaults: AxiosRequestConfig = {
   responseType: 'json',
   transformRequestData: [
     function transformRequest(data, headers) {
+      if (data instanceof FormData) {
+        return data
+      }
       if (isObject(data)) {
         setContentTypeIfNeed(headers, 'application/json;charset=utf-8')
         return JSON.stringify(data)
