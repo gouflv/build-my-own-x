@@ -1,14 +1,10 @@
-interface Product {
-  getName(): string
-}
-
-export class ProductA implements Product {
+export class ProductA {
   getName(): string {
     return 'A'
   }
 }
 
-export class ProductB implements Product {
+export class ProductB {
   getName(): string {
     return 'B'
   }
