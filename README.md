@@ -106,6 +106,10 @@
 - [quick](src/algorithms/sort/quick.ts)
 - [heap](src/algorithms/sort/heap.ts)
 
+### Encoding
+
+- [Base64](src/algorithms/encode/base64)
+
 ### Search
 
 - [binary-search](src/algorithms/binary-search)
