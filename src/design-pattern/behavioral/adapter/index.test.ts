@@ -11,5 +11,8 @@ describe('Test Adapter', () => {
 
     ls = new LocalForage(new IndexedDBStorageAdapter())
     expect(ls.get('')).toBe('IndexedDB')
+
+    ls = new LocalForage()
+    expect(ls.get('')).toBe('IndexedDB')
   })
 })

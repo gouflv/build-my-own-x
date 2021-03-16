@@ -21,7 +21,10 @@ export class IndexedDBStorageAdapter implements LSAdapter {
 }
 
 export class LocalForage implements LSAdapter {
-  constructor(private adapter: LSAdapter) {}
+  adapter: LSAdapter
+  constructor(adapter?: LSAdapter) {
+    this.adapter = adapter || new IndexedDBStorageAdapter()
+  }
   get<T>(key: string): T | undefined {
     return this.adapter.get(key)
   }
