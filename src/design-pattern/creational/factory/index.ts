@@ -18,7 +18,7 @@ interface LoggerFactory {
   create(type: string): Logger
 }
 
-export const LoggerFactory = new (class LoggerFactory implements LoggerFactory {
+export const LoggerFactory = new (class implements LoggerFactory {
   create(type: string): Logger {
     switch (type) {
       case 'file':
