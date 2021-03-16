@@ -114,6 +114,13 @@
 
 - [binary-search](src/algorithms/binary-search)
 
+## Design Patterns
+
+- [creational(5)](src/design-pattern/creational)
+
+- [structural(6)](src/design-pattern/structural)
+  
+- [behavioral(5)](src/design-pattern/behavioral)
 
 ## Web
 
