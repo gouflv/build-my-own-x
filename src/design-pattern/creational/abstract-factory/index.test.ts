@@ -1,6 +1,6 @@
 import { ThemeDarkComponentFactory, ThemeLightComponentFactory } from './index'
 
-describe('Test SimpleFactory', () => {
+describe('Test AbstractFactory', () => {
   it('should create light Button', () => {
     expect(ThemeLightComponentFactory.create('button').name()).toBe(
       'LightButton'

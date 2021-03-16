@@ -1,6 +1,6 @@
 import { LoggerFactory } from '.'
 
-describe('Test SimpleFactory', () => {
+describe('Test Factory', () => {
   it('should create Logger', () => {
     expect(LoggerFactory.create('file').log()).toBe('FileLogger')
     expect(LoggerFactory.create('database').log()).toBe('DatabaseLogger')
