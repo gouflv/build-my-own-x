@@ -1,34 +1,26 @@
-interface ThemeLightComponent {
+interface ThemedComponent {
   name(): string
 }
 
-interface ThemeDarkComponent {
-  name(): string
-}
-
-export class LightButton implements ThemeLightComponent {
+export class LightButton implements ThemedComponent {
   name(): string {
     return 'LightButton'
   }
 }
 
-export class DarkButton implements ThemeDarkComponent {
+export class DarkButton implements ThemedComponent {
   name(): string {
     return 'DarkButton'
   }
 }
 
-interface ThemeLightComponentFactory {
-  create(type: string): ThemeLightComponent
-}
-
-interface ThemeDarkComponentFactory {
-  create(type: string): ThemeDarkComponent
+interface ThemedComponentFactory {
+  create(type: string): ThemedComponent
 }
 
 export const ThemeLightComponentFactory = new (class
-  implements ThemeLightComponentFactory {
-  create(type: string): ThemeLightComponent {
+  implements ThemedComponentFactory {
+  create(type: string): ThemedComponent {
     switch (type) {
       case 'button':
         return new LightButton()
@@ -39,8 +31,8 @@ export const ThemeLightComponentFactory = new (class
 })()
 
 export const ThemeDarkComponentFactory = new (class
-  implements ThemeDarkComponentFactory {
-  create(type: string): ThemeDarkComponent {
+  implements ThemedComponentFactory {
+  create(type: string): ThemedComponent {
     switch (type) {
       case 'button':
         return new DarkButton()
