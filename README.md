@@ -122,6 +122,8 @@
   
 - [behavioral(5)](src/design-pattern/behavioral)
 
+> https://refactoringguru.cn/design-patterns
+
 ## Web
 
 ### Framework
