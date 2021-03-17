@@ -1,4 +1,7 @@
-import { ThemeDarkComponentFactory, ThemeLightComponentFactory } from './index'
+import {
+  ThemeDarkComponentFactory,
+  ThemeLightComponentFactory
+} from './abstract-factory'
 
 describe('Test AbstractFactory', () => {
   it('should create light Button', () => {

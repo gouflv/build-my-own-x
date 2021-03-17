@@ -1,4 +1,4 @@
-import { LoggerFactory } from '.'
+import { LoggerFactory } from './factory'
 
 describe('Test Factory', () => {
   it('should create Logger', () => {

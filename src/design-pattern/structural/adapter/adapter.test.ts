@@ -2,7 +2,7 @@ import {
   IndexedDBStorageAdapter,
   LocalForage,
   LocalStorageAdapter
-} from './index'
+} from './adapter'
 
 describe('Test Adapter', () => {
   it('should adapter works', () => {

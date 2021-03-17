@@ -1,4 +1,4 @@
-import { MealBuilder } from './index'
+import { MealBuilder } from './builder'
 
 describe('Test Builder', () => {
   it('should create Logger', () => {

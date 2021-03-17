@@ -1,4 +1,4 @@
-import { Singleton } from './index'
+import { Singleton } from './singleton'
 
 describe('Test Singleton', () => {
   it('should create singleton', () => {

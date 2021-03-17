@@ -1,4 +1,4 @@
-import { createProduct, ProductA, ProductB } from './index'
+import { createProduct, ProductA, ProductB } from './simple-factory'
 
 describe('Test SimpleFactory', () => {
   it('should create instance of product', () => {
