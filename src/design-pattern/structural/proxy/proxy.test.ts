@@ -1,6 +1,6 @@
 import { ConcreteSubject, SubjectProxy } from './proxy'
 
-describe('Test proxy', () => {
+describe('Test Proxy', () => {
   it('should it works', () => {
     const subject = new ConcreteSubject()
     expect(subject.request()).toBe('Send request')
