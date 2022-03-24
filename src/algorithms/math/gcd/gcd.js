@@ -1,4 +1,5 @@
 /**
+ * Greatest common divisor - 最大公约数
  * GCD(24, 60) = 12
  *
  * 24%60 -> 24
