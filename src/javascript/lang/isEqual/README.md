@@ -46,6 +46,8 @@ console.log(+0 === -0)
 
 ## 同值相等 SameValue
 
+> Object.is
+
 与严格比较的差异：
 1. 区分 +0 和 -0
 2. NaN 与 NaN 视为相等
