@@ -1,4 +1,5 @@
 import { reduceRight } from '../../array/reduceRight/reduceRight'
+import { reduce } from '../reduce/reduce'
 
 const composeOld = (...f) => {
   return (...args) => {
@@ -11,7 +12,7 @@ const composeOld = (...f) => {
   }
 }
 
-export const compose = (...fn) => {
+export const compose1 = (...fn) => {
   return (...args) => {
     return reduceRight(
       fn.slice(0, -1),
@@ -19,4 +20,17 @@ export const compose = (...fn) => {
       fn[fn.length - 1].apply(this, args)
     )
   }
+}
+
+/**
+ * compose(c, b, a)
+ * return
+ *   (...args) => c(
+ *     () => b(
+ *       a(args)
+ *     )
+ *   )
+ */
+export const compose = (...fn) => {
+  return fn.reduce((b, a) => (...args) => b(a(...args)))
 }
