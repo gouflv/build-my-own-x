@@ -8,7 +8,7 @@ describe('Test race', () => {
   })
 
   it('rejected with faster promise', async () => {
-    const p = race([taskReject(3), taskReject(2), taskReject(1)])
+    const p = race([task(3), taskReject(2), taskReject(1)])
     await expect(p).rejects.toBe(1)
   })
 })
