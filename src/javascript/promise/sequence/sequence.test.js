@@ -1,38 +1,22 @@
 import { sequence } from './sequence'
 import { taskReject, task } from '../_/utils'
 
-jest.useFakeTimers()
-
 describe('Test sequence', () => {
-  it('resolve promise in orders', done => {
-    const called = jest.fn()
-    const sequenceFn = sequence([task(3), task(1), task(2)])
-
-    expect(called).not.toBeCalled()
-
-    sequenceFn((error, data) => {
-      expect(error).toBeUndefined()
-      expect(data).toStrictEqual([3, 1, 2])
-      done()
+  it('resolve promise in orders', async () => {
+    expect.assertions(1)
+    await sequence([task(3), task(1), task(2)]).then(data => {
+      expect(data).toEqual([3, 1, 2])
     })
-
-    jest.runAllTimers()
   })
 
-  it('should catch first error', done => {
-    const sequenceFn = sequence([
-      task(1),
-      task(2),
-      taskReject(3),
-      task(4),
-      taskReject(5)
-    ])
-
-    sequenceFn((error, data) => {
-      expect(error).toBe(3)
-      expect(data).toBeUndefined()
-      done()
-    })
-    jest.runAllTimers()
+  it('should catch first error', async () => {
+    expect.assertions(1)
+    await sequence([task(1), task(2), taskReject(3), task(4), taskReject(5)])
+      .then(() => {
+        expect(1).toBe(0)
+      })
+      .catch(error => {
+        expect(error).toBe(3)
+      })
   })
 })
