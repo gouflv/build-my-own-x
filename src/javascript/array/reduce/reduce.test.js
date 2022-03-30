@@ -11,8 +11,8 @@ describe('Test reduce', () => {
   })
 
   it('get sum of array', () => {
-    const sum = reduce([1, 2, 3], (acc, val) => acc + val)
-    expect(sum).toBe(6)
+    expect(reduce([1, 2, 3], (acc, val) => acc + val)).toBe(6)
+    expect(reduce([1, 2, 3], (acc, val) => acc + val, 0)).toBe(6)
   })
 
   it('get sum of array with initialValue', () => {
