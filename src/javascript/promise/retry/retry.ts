@@ -1,16 +1,16 @@
-export function retry(fetcher: () => Promise<any>, maximumRetryCount: number) {
+export function retry(creator: () => Promise<any>, maxRetry = 0) {
   return new Promise((resolve, reject) => {
     let tryCount = 0
     const run = () => {
-      fetcher()
+      creator()
         .then(value => resolve(value))
         .catch(e => {
-          if (tryCount < maximumRetryCount) {
-            tryCount++
-            run()
-          } else {
+          if (tryCount >= maxRetry) {
             reject(e)
+            return
           }
+          tryCount++
+          run()
         })
     }
     run()
