@@ -7,7 +7,7 @@ import { isArray } from '../../lang/is/is'
  */
 export const all = promises =>
   !isArray(promises) || !promises.length
-    ? Promise.resolve([])
+    ? Promise.resolve([]) // immediately resolved
     : new Promise((resolve, reject) => {
         const result = []
 

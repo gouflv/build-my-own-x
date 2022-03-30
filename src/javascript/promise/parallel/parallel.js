@@ -1,30 +1,25 @@
+import { isArray } from '../../lang/is/is'
+
 /**
  * parallel 并联
+ * @alias allSettled
  * @param promises
  * @returns {function(error, values): void}
  */
-export const parallel = promises => {
-  return callback => {
-    const res = []
-    let error = undefined
-    let count = 0
+export const parallel = promises =>
+  !isArray(promises) || !promises.length
+    ? Promise.resolve([])
+    : new Promise(resolve => {
+        const result = []
 
-    function onResolved(value) {
-      if (error) return
-      res.push(value)
-      count++
-      if (count >= promises.length) {
-        callback(error, res)
-      }
-    }
-    function onRejected(e) {
-      if (error) return
-      error = e
-      callback(error, undefined)
-    }
+        function handler(value) {
+          result.push(value)
+          if (result.length === promises.length) {
+            resolve(result)
+          }
+        }
 
-    promises.forEach(promise => {
-      promise.then(onResolved).catch(onRejected)
-    })
-  }
-}
+        promises.forEach(promise => {
+          promise.then(handler, handler)
+        })
+      })
